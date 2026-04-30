@@ -1,0 +1,100 @@
+/* DataTrust Coin – supplemental styles (Tailwind handles the bulk) */
+
+:root {
+  --dtc-primary: #6366f1;
+  --dtc-primary-dark: #4f46e5;
+  --dtc-accent: #10b981;
+  --dtc-bg: #0f172a;
+  --dtc-card: #1e293b;
+  --dtc-text: #e2e8f0;
+  --dtc-muted: #94a3b8;
+  --dtc-border: #334155;
+}
+
+body {
+  background: var(--dtc-bg);
+  color: var(--dtc-text);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Glassmorphism card */
+.dtc-card {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--dtc-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+/* Token badge */
+.dtc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.dtc-badge-primary {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+}
+
+.dtc-badge-green {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+}
+
+/* Shimmer loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.dtc-shimmer {
+  background: linear-gradient(90deg, var(--dtc-card) 25%, #334155 50%, var(--dtc-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--dtc-border); border-radius: 3px; }
+
+/* Toast notification */
+.dtc-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: all 0.3s ease;
+}
+
+.dtc-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dtc-toast-success { background: #065f46; color: #6ee7b7; }
+.dtc-toast-error   { background: #7f1d1d; color: #fca5a5; }
+
+/* Hero gradient */
+.dtc-hero-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+}
+
+/* Stat card glow */
+.dtc-glow:hover {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+  transition: box-shadow 0.3s ease;
+}
