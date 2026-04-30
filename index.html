@@ -574,7 +574,7 @@
   /**
    * APP STATE & API CONFIG
    */
-  const API_BASE = 'https://dtc-backend.onrender.com/api';
+  const API_BASE = 'https://dtc-backend-ksm6.onrender.com/api';
   let currentUser = JSON.parse(localStorage.getItem('dtc_user')) || null;
   let walletBalance = 0.00;
 
@@ -734,39 +734,50 @@
   });
 
   // --- Registration API Connection ---
-  document.getElementById("btn-reg-submit").addEventListener("click", async () => {
-    const name = document.getElementById("reg-name").value;
-    const email = document.getElementById("reg-email").value;
-    const password = document.getElementById("reg-pass").value;
+ document.getElementById("btn-reg-submit").addEventListener("click", async () => {
+  const name = document.getElementById("reg-name").value;
+  const email = document.getElementById("reg-email").value;
+  const password = document.getElementById("reg-pass").value;
 
-    if (!name || !email || !password) {
-      showToast("All fields are required", "error");
+  const username = email.split("@")[0];
+
+  if (!name || !email || !password) {
+    showToast("All fields are required", "error");
+    return;
+  }
+
+  toggleLoader(true, "Creating account...");
+
+  try {
+    const res = await fetch(API_BASE + "/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password,
+        full_name: name,
+        is_company: false
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      showToast(data.detail || "Registration failed", "error");
       return;
     }
 
-    toggleLoader(true, "Creating account...");
+    showToast("Account created! Please login.");
+    navigate("login");
 
-    try {
-      const res = await fetch(API_BASE + "/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: name, email, password })
-      });
+  } catch (err) {
+    showToast("Server connection failed", "error");
+  } finally {
+    toggleLoader(false);
+  }
+});
 
-      const data = await res.json();
-      if (!res.ok) {
-        showToast(data.detail || "Registration failed", "error");
-        return;
-      }
-
-      showToast("Account created! Please login.");
-      navigate("login");
-    } catch (err) {
-      showToast("Server connection failed", "error");
-    } finally {
-      toggleLoader(false);
-    }
-  });
 
   async function handleLogout() {
     toggleLoader(true, "Logging out...");
