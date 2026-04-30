@@ -317,7 +317,7 @@
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
           <div class="text-center">
-            <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 transition hover:underline">Forgot Password?</button>
+            <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button>
           </div>
         </div>
         <p class="text-center text-slate-500 mt-6 text-sm">New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button></p>
@@ -374,7 +374,7 @@
         <div class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Reset Token</label>
-            <input type="text" id="reset-token-input" placeholder="Paste your token here" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+            <input type="text" id="reset-token" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">New Password</label>
@@ -536,46 +536,83 @@
   // FORGOT PASSWORD
   document.getElementById("btn-forgot-submit").addEventListener("click", async () => {
     const email = document.getElementById("forgot-email").value;
-    if (!email) return showToast("Enter email", "error");
-    toggleLoader(true, "Requesting token...");
+    if (!email) {
+      showToast("Please enter your email", "error");
+      return;
+    }
+
+    toggleLoader(true, "Generating reset token...");
+
     try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, {
+        method: "POST"
+      });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Request failed");
-      if (data.token) {
-          copyToClipboard(data.token);
-          showToast(`Token: ${data.token} (Copied)`, "success");
-          setTimeout(() => navigate('reset-password'), 1500);
-      } else {
-          showToast("Reset link sent to your email!");
+
+      if (!res.ok) {
+        showToast(data.detail || "Request failed", "error");
+        toggleLoader(false);
+        return;
       }
-    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
+
+      toggleLoader(false);
+
+      if (data.reset_token) {
+        showToast("Reset token generated!");
+        // show token to user
+        alert("Your password reset token:\n\n" + data.reset_token + "\n\nCopy this token and use it to reset your password.");
+        // redirect to reset page
+        navigate("reset-password");
+      } else {
+        showToast(data.message);
+      }
+
+    } catch (err) {
+      toggleLoader(false);
+      showToast("Server connection failed", "error");
+    }
   });
 
   // RESET PASSWORD
   document.getElementById("btn-reset-submit").addEventListener("click", async () => {
-    const manualToken = document.getElementById("reset-token-input").value;
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = manualToken || urlParams.get('token');
+    const token = document.getElementById("reset-token").value;
     const newPass = document.getElementById("reset-pass").value;
     const confirmPass = document.getElementById("reset-pass-confirm").value;
 
-    if (!token) return showToast("Token is required", "error");
-    if (newPass.length < 8) return showToast("Password too short", "error");
-    if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
+    if (!token || !newPass || !confirmPass) {
+      showToast("All fields required", "error");
+      return;
+    }
+
+    if (newPass !== confirmPass) {
+      showToast("Passwords do not match", "error");
+      return;
+    }
 
     toggleLoader(true, "Updating password...");
+
     try {
-      const url = `${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`;
-      const res = await fetch(url, { method: "POST" });
+      const res = await fetch(`${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`, {
+        method: "POST"
+      });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Reset failed");
-      
-      showToast("Password updated successfully");
-      showToast("Redirecting to login...");
-      window.history.replaceState({}, document.title, "/");
-      setTimeout(() => navigate("login"), 2000);
-    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
+
+      toggleLoader(false);
+
+      if (!res.ok) {
+        showToast(data.detail || "Reset failed", "error");
+        return;
+      }
+
+      showToast("Password updated successfully!");
+      navigate("login");
+
+    } catch (err) {
+      toggleLoader(false);
+      showToast("Server connection failed", "error");
+    }
   });
 
   document.getElementById('btn-logout').addEventListener('click', () => {
