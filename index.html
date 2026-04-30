@@ -294,31 +294,42 @@
   <!-- ─── SECTION: UPLOAD ─── -->
   <section id="section-upload" class="dtc-page hidden py-16">
     <div class="max-w-3xl mx-auto px-6">
+
       <h2 class="text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
+
       <div class="dtc-card p-8 rounded-3xl space-y-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Title</label>
-          <input type="text" id="shared-title" placeholder="e.g., Medical Research Data" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-        </div>
-        <div class="grid sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Category</label>
-              <select id="shared-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                  <option value="health">Healthcare</option>
-                  <option value="finance">Finance</option>
-                  <option value="tech">Technology</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Base Price (DTC)</label>
-              <input type="number" id="shared-price" placeholder="10.0" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-        </div>
-        <div class="p-6 border-2 border-dashed border-slate-700 rounded-2xl text-center">
-            <p class="text-slate-400 text-sm">Click the button below to select your .csv or .json file and begin the secure upload process.</p>
-        </div>
-        <button id="btn-upload-file" class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">Process & Secure Data</button>
+
+        <!-- Dataset Title -->
+        <input 
+          type="text"
+          id="dataset-title"
+          placeholder="Dataset Title (Example: Fitness Activity Dataset)"
+          class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <!-- Dataset Category -->
+        <input 
+          type="text"
+          id="dataset-category"
+          placeholder="Dataset Category (Example: Healthcare, Fitness, Finance)"
+          class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <p class="text-sm text-slate-400">
+          Click the button below to select your <strong>.csv</strong> or 
+          <strong>.json</strong> file and begin the secure upload process.
+        </p>
+
+        <!-- Upload Button -->
+        <button 
+          id="btn-upload-dataset"
+          class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition"
+        >
+          Process & Secure Data
+        </button>
+
       </div>
+
     </div>
   </section>
 
@@ -656,13 +667,12 @@
   /**
    * DATASET UPLOAD HANDLER
    */
-  document.getElementById("btn-upload-file")?.addEventListener("click", async () => {
-    const title = document.getElementById("shared-title").value;
-    const category = document.getElementById("shared-category").value;
-    const price = document.getElementById("shared-price").value;
+  document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
+    const title = document.getElementById("dataset-title").value;
+    const category = document.getElementById("dataset-category").value;
 
-    if (!title) {
-      showToast("Dataset title required", "error");
+    if (!title || !category) {
+      showToast("Enter dataset title and category", "error");
       return;
     }
 
@@ -672,19 +682,19 @@
 
     fileInput.onchange = async () => {
       const file = fileInput.files[0];
+      if (!file) return;
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("title", title);
       formData.append("category", category);
-      // Backend may require price as well
-      if(price) formData.append("price", price);
 
       toggleLoader(true, "Uploading dataset...");
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`${API_BASE}/datasets/upload`, {
           method: "POST",
-          headers: { "Authorization": `Bearer ${token}` },
+          headers: { "Authorization": "Bearer " + token },
           body: formData
         });
         const data = await res.json();
@@ -693,7 +703,7 @@
           showToast(data.detail || "Upload failed", "error");
           return;
         }
-        showToast(`Dataset uploaded! Earned ${data.token_reward || 0} DTC`, "success");
+        showToast("Dataset uploaded successfully!", "success");
         navigate("dashboard");
       } catch(err) {
         toggleLoader(false);
@@ -720,10 +730,8 @@
     
     if (urlToken) {
       navigate('reset-password');
-      document.getElementById("reset-token").value = urlToken;
-    } else if (!token && !['home', 'login', 'register', 'forgot-password'].includes(window.location.hash.replace('#',''))) {
-      // Basic security check: if no token, allow landing page but block others
-      navigate('home');
+      const tokenField = document.getElementById("reset-token");
+      if(tokenField) tokenField.value = urlToken;
     } else {
       navigate('home');
     }
