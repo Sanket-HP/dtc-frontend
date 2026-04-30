@@ -452,6 +452,10 @@
           <input type="text" id="login-user" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Login</button>
+          
+          <div class="text-center">
+            <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button>
+          </div>
         </div>
         <p class="text-center text-slate-500 mt-6 text-sm">
           New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button>
@@ -498,6 +502,47 @@
         <p class="text-center text-slate-500 mt-6 text-sm">
           Already have an account? <button data-nav="login" class="text-indigo-400 font-bold hover:underline transition">Log In</button>
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION: FORGOT PASSWORD REQUEST ─────────────────────────── -->
+  <section id="section-forgot-password" class="dtc-page hidden py-24">
+    <div class="max-w-md mx-auto px-6">
+      <div class="dtc-card p-8 rounded-3xl">
+        <h2 class="text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
+        <p class="text-slate-500 text-center mb-8">Enter your email and we'll send a reset link.</p>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Email Address</label>
+            <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          </div>
+          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Send Reset Link</button>
+          <button data-nav="login" class="w-full py-2 text-slate-500 hover:text-slate-300 transition text-sm font-medium">Back to Login</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION: SET NEW PASSWORD (TOKEN) ────────────────────────── -->
+  <section id="section-reset-password" class="dtc-page hidden py-24">
+    <div class="max-w-md mx-auto px-6">
+      <div class="dtc-card p-8 rounded-3xl">
+        <h2 class="text-3xl font-black text-white mb-2 text-center">New Password</h2>
+        <p class="text-slate-500 text-center mb-8">Secure your account with a new password.</p>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">New Password</label>
+            <input type="password" id="reset-pass" placeholder="Min 8 characters" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
+            <input type="password" id="reset-pass-confirm" placeholder="Repeat password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          </div>
+          <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Update Password</button>
+        </div>
       </div>
     </div>
   </section>
@@ -700,7 +745,7 @@
   }
 
   /**
-   * AUTHENTICATION LOGIC
+   * AUTHENTICATION & PASSWORD RESET LOGIC
    */
   function updateAuthStateUI() {
     const guestZones = [document.getElementById('nav-guest-zone'), document.getElementById('mobile-guest-zone')];
@@ -716,48 +761,31 @@
     }
   }
 
-  // --- Login API Connection ---
+  // Login
   document.getElementById("btn-login-submit").addEventListener("click", async () => {
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
-
-    if (!username || !password) {
-      showToast("Enter username and password", "error");
-      return;
-    }
+    if (!username || !password) { showToast("Enter username and password", "error"); return; }
 
     toggleLoader(true, "Authenticating...");
-
     try {
       const res = await fetch(API_BASE + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        showToast(data.detail || "Login failed", "error");
-        toggleLoader(false);
-        return;
-      }
-
+      if (!res.ok) { showToast(data.detail || "Login failed", "error"); toggleLoader(false); return; }
       localStorage.setItem("token", data.access_token);
       currentUser = { username: username, ...data.user };
       localStorage.setItem('dtc_user', JSON.stringify(currentUser));
-      
       showToast("Login successful");
       updateAuthStateUI();
       navigate("dashboard");
-    } catch (err) {
-      showToast("Server connection failed", "error");
-    } finally {
-      toggleLoader(false);
-    }
+    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
   });
 
-  // --- Registration API Connection ---
+  // Register
   document.getElementById("btn-reg-submit").addEventListener("click", async () => {
     const name = document.getElementById("reg-name").value;
     const username = document.getElementById("reg-username").value;
@@ -766,39 +794,64 @@
     const accountType = document.querySelector('input[name="accountType"]:checked').value;
     const isCompany = accountType === "company";
 
-    if (!name || !username || !email || !password) {
-      showToast("All fields are required", "error");
-      return;
-    }
-
+    if (!name || !username || !email || !password) { showToast("All fields are required", "error"); return; }
     toggleLoader(true, "Creating account...");
-
     try {
       const res = await fetch(API_BASE + "/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          username: username,
-          email: email, 
-          password: password,
-          full_name: name,
-          is_company: isCompany
-        })
+        body: JSON.stringify({ username, email, password, full_name: name, is_company: isCompany })
       });
-
       const data = await res.json();
-      if (!res.ok) {
-        showToast(data.detail || "Registration failed", "error");
-        return;
-      }
-
+      if (!res.ok) { showToast(data.detail || "Registration failed", "error"); return; }
       showToast("Account created successfully!");
       navigate("login");
-    } catch (err) {
-      showToast("Server connection failed", "error");
-    } finally {
-      toggleLoader(false);
-    }
+    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+  });
+
+  // Forgot Password Request
+  document.getElementById("btn-forgot-submit").addEventListener("click", async () => {
+    const email = document.getElementById("forgot-email").value;
+    if (!email) { showToast("Please enter your email", "error"); return; }
+
+    toggleLoader(true, "Sending reset link...");
+    try {
+      const res = await fetch(API_BASE + "/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.detail || "Request failed", "error"); return; }
+      showToast("Reset link sent to your email!");
+    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+  });
+
+  // Reset Password (New Password Submit)
+  document.getElementById("btn-reset-submit").addEventListener("click", async () => {
+    const newPass = document.getElementById("reset-pass").value;
+    const confirmPass = document.getElementById("reset-pass-confirm").value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (!newPass || !confirmPass) { showToast("All fields required", "error"); return; }
+    if (newPass !== confirmPass) { showToast("Passwords do not match", "error"); return; }
+    if (!token) { showToast("Invalid reset token", "error"); return; }
+
+    toggleLoader(true, "Updating password...");
+    try {
+      const res = await fetch(API_BASE + "/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token, new_password: newPass })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.detail || "Reset failed", "error"); return; }
+      showToast("Password updated successfully!");
+      // Remove token from URL and go to login
+      window.history.replaceState({}, document.title, "/");
+      navigate("login");
+    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
   });
 
   async function handleLogout() {
@@ -834,16 +887,12 @@
     toggleLoader(true, "Fetching dataset preview...");
     try {
       await new Promise(r => setTimeout(r, 1200));
-      
       document.getElementById('preview-modal').classList.remove('hidden');
       document.getElementById('preview-title').innerText = title;
       document.getElementById('preview-meta').innerText = meta;
-      
       const head = document.getElementById('preview-thead');
       const body = document.getElementById('preview-tbody');
-      
       head.innerHTML = `<tr><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Record Hash</th><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Anonymized Property</th><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Delta Value</th></tr>`;
-      
       let bodyHtml = '';
       for(let i=1; i<=10; i++) {
         bodyHtml += `<tr class="hover:bg-slate-900/50 transition border-b border-slate-900/50">
@@ -854,47 +903,41 @@
       }
       body.innerHTML = bodyHtml;
       toggleLoader(false);
-    } catch (err) {
-      toggleLoader(false);
-      showToast("Failed to load preview", "error");
-    }
+    } catch (err) { toggleLoader(false); showToast("Failed to load preview", "error"); }
   }
 
-  function closePreview() {
-    document.getElementById('preview-modal').classList.add('hidden');
-  }
+  function closePreview() { document.getElementById('preview-modal').classList.add('hidden'); }
 
   /**
    * UPLOAD LOGIC
    */
   const fileInput = document.getElementById('file-input');
   const fileNameDisplay = document.getElementById('file-name-display');
-
-  fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      fileNameDisplay.innerText = e.target.files[0].name;
-      fileNameDisplay.classList.add('text-indigo-400');
-    }
-  });
+  if(fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        fileNameDisplay.innerText = e.target.files[0].name;
+        fileNameDisplay.classList.add('text-indigo-400');
+      }
+    });
+  }
 
   async function processUpload(type) {
     const title = document.getElementById('shared-title').value;
     if (!title) return showToast("Dataset title is required", "error");
-
     toggleLoader(true, "Running Anonymization Protocol...");
     try {
       await new Promise(r => setTimeout(r, 2500));
       toggleLoader(false);
       showToast(`Dataset "${title}" uploaded and verified!`, "success");
       navigate('dashboard');
-    } catch (e) {
-      toggleLoader(false);
-      showToast("Upload failed. Please check your data format.", "error");
-    }
+    } catch (e) { toggleLoader(false); showToast("Upload failed. Please check your data format.", "error"); }
   }
 
-  document.getElementById('btn-upload-file').addEventListener('click', () => processUpload('file'));
-  document.getElementById('btn-upload-manual').addEventListener('click', () => processUpload('manual'));
+  const btnUploadFile = document.getElementById('btn-upload-file');
+  const btnUploadManual = document.getElementById('btn-upload-manual');
+  if(btnUploadFile) btnUploadFile.addEventListener('click', () => processUpload('file'));
+  if(btnUploadManual) btnUploadManual.addEventListener('click', () => processUpload('manual'));
 
   /**
    * TABS SYSTEM
@@ -916,8 +959,16 @@
   // Initialization
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
-    // Start at home screen by default
-    navigate('home');
+    
+    // Check if user has a token in URL (Reset flow)
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        navigate('reset-password');
+    } else {
+        navigate('home');
+    }
+    
     console.log("DTC Production Frontend 0.5.0-beta Initialized.");
   });
 
