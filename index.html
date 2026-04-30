@@ -42,29 +42,8 @@
       background: radial-gradient(circle at top center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
     }
 
-    .text-gradient {
-      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .shimmer {
-      position: relative;
-      overflow: hidden;
-    }
-    .shimmer::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-      transform: translateX(-100%);
-      animation: shimmer 2s infinite;
-    }
-    @keyframes shimmer { 100% { transform: translateX(100%); } }
-    
     .active-nav-link { color: #6366f1 !important; border-bottom: 2px solid #6366f1; }
     
-    /* Hide scrollbar but keep functionality */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
@@ -103,7 +82,6 @@
         
         <div class="h-6 w-px bg-slate-800 mx-2"></div>
 
-        <!-- Auth State: Guest -->
         <div id="nav-guest-zone" class="flex items-center gap-4">
           <button data-nav="login" class="text-slate-300 hover:text-white font-medium transition">Login</button>
           <button data-nav="register" class="px-5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition shadow-lg shadow-indigo-600/20">
@@ -111,7 +89,6 @@
           </button>
         </div>
 
-        <!-- Auth State: User -->
         <div id="nav-user-zone" class="hidden flex items-center gap-6">
           <button data-nav="dashboard" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Dashboard</button>
           <button data-nav="upload" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
@@ -130,7 +107,6 @@
         </div>
       </div>
 
-      <!-- Mobile Menu Toggle -->
       <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-400 hover:text-white transition">
         <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
         <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -138,7 +114,6 @@
     </div>
   </div>
 
-  <!-- Mobile Menu Content -->
   <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-900 px-4 py-6 space-y-4">
     <button data-nav="marketplace" class="block w-full text-left text-lg font-bold text-slate-300">Marketplace</button>
     <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300">How it Works</button>
@@ -157,7 +132,7 @@
 
 <main class="relative overflow-hidden">
   
-  <!-- ─── SECTION: HERO ────────────────────────────────────────────── -->
+  <!-- ─── SECTION: HERO ─── -->
   <section id="section-home" class="dtc-page relative pt-20 pb-32 hero-gradient">
     <div class="max-w-7xl mx-auto px-6 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest mb-8">
@@ -185,7 +160,6 @@
         </button>
       </div>
 
-      <!-- Live Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-slate-800/50">
         <div>
           <p class="text-3xl font-extrabold text-white mb-1" id="global-stat-records">1.2M+</p>
@@ -207,7 +181,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: HOW IT WORKS ────────────────────────────────────── -->
+  <!-- ─── SECTION: HOW IT WORKS ─── -->
   <section id="section-how-it-works" class="dtc-page py-24 bg-slate-900/50">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-16">
@@ -216,7 +190,6 @@
       </div>
       
       <div class="grid md:grid-cols-3 gap-12 relative">
-        <!-- Connecting Line (Desktop) -->
         <div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent -translate-y-12"></div>
         
         <div class="relative flex flex-col items-center text-center">
@@ -246,7 +219,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: MARKETPLACE ──────────────────────────────────────── -->
+  <!-- ─── SECTION: MARKETPLACE ─── -->
   <section id="section-marketplace" class="dtc-page hidden py-20 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
@@ -254,28 +227,16 @@
           <h2 class="text-4xl font-extrabold text-white mb-2">Marketplace</h2>
           <p class="text-slate-400">Premium anonymized datasets for AI & Research.</p>
         </div>
-        
-        <!-- Marketplace Search -->
         <div class="w-full md:w-96 relative">
-          <input type="text" id="mp-search" placeholder="Search datasets (e.g. 'Healthcare')..." 
-                 class="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" />
+          <input type="text" id="mp-search" placeholder="Search datasets..." 
+                 class="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 transition outline-none" />
           <svg class="w-5 h-5 text-slate-500 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
         </div>
       </div>
-
-      <!-- Categories -->
-      <div id="mp-categories" class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar">
-        <!-- JS Injection -->
-      </div>
-
-      <!-- Dataset Grid -->
-      <div id="mp-datasets" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- JS Injection -->
-      </div>
-
-      <!-- Pagination UI -->
+      <div id="mp-categories" class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar"></div>
+      <div id="mp-datasets" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
       <div id="mp-pagination" class="mt-16 flex justify-center items-center gap-4">
         <button class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition disabled:opacity-50">Previous</button>
         <span class="text-white font-bold">Page 1 of 12</span>
@@ -284,7 +245,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: DASHBOARD ────────────────────────────────────────── -->
+  <!-- ─── SECTION: DASHBOARD ─── -->
   <section id="section-dashboard" class="dtc-page hidden py-16 bg-slate-950/50">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex justify-between items-center mb-10">
@@ -292,13 +253,9 @@
           <h2 class="text-3xl font-extrabold text-white">Console</h2>
           <p class="text-slate-500 text-sm mt-1">Manage your data assets and earnings.</p>
         </div>
-        <button data-nav="upload" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition">
-          + New Upload
-        </button>
+        <button data-nav="upload" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition">+ New Upload</button>
       </div>
-
       <div class="grid lg:grid-cols-3 gap-8">
-        <!-- Main Stats Panel -->
         <div class="lg:col-span-2 space-y-8">
           <div class="grid sm:grid-cols-3 gap-6">
             <div class="dtc-card p-6 rounded-2xl">
@@ -314,225 +271,111 @@
               <h4 class="text-3xl font-black text-indigo-400" id="stat-tokens">0.00</h4>
             </div>
           </div>
-
           <div class="dtc-card rounded-2xl overflow-hidden">
             <div class="p-6 border-b border-slate-800 flex justify-between items-center">
               <h3 class="font-bold text-white">My Active Datasets</h3>
-              <button class="text-indigo-400 text-sm font-semibold hover:underline">View All</button>
             </div>
-            <div id="my-datasets-list" class="divide-y divide-slate-800">
-              <!-- JS Injection -->
-              <div class="p-12 text-center text-slate-500">
-                <p>No datasets found. Start by uploading your first record.</p>
-              </div>
-            </div>
+            <div id="my-datasets-list" class="divide-y divide-slate-800 p-12 text-center text-slate-500">No datasets found.</div>
           </div>
         </div>
-
-        <!-- Sidebar Widgets -->
         <div class="space-y-6">
           <div class="dtc-card p-6 rounded-2xl bg-gradient-to-br from-indigo-600/20 to-transparent border-indigo-500/20">
-            <h4 class="text-white font-bold mb-4 flex items-center gap-2">
-              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
-              Wallet Balance
-            </h4>
-            <div class="space-y-4">
-              <div class="flex justify-between items-end">
-                <div>
-                  <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00 <span class="text-sm font-normal text-slate-400">DTC</span></p>
-                  <p class="text-xs text-slate-500" id="dash-wallet-usd">≈ $0.00 USD</p>
-                </div>
-              </div>
-              <button class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">
-                Withdraw Tokens
-              </button>
-            </div>
-          </div>
-
-          <div class="dtc-card p-6 rounded-2xl">
-            <h4 class="text-white font-bold mb-4">Activity Log</h4>
-            <div class="space-y-4" id="activity-log">
-              <!-- Dynamically Populated -->
-              <p class="text-xs text-slate-500">No recent transactions.</p>
-            </div>
+            <h4 class="text-white font-bold mb-4 flex items-center gap-2">Wallet Balance</h4>
+            <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00 <span class="text-sm font-normal text-slate-400">DTC</span></p>
+            <button class="w-full mt-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">Withdraw Tokens</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SECTION: UPLOAD ───────────────────────────────────────────── -->
+  <!-- ─── SECTION: UPLOAD ─── -->
   <section id="section-upload" class="dtc-page hidden py-16">
     <div class="max-w-3xl mx-auto px-6">
-      <div class="mb-10">
-        <h2 class="text-3xl font-extrabold text-white">Contribute Data</h2>
-        <p class="text-slate-400 mt-2">Earn DTC tokens for every unique record processed.</p>
-      </div>
-
-      <!-- Tab Switcher -->
-      <div class="flex p-1 bg-slate-800/50 rounded-2xl mb-8">
-        <button data-tab="file" class="upload-tab-btn flex-1 py-3 rounded-xl text-sm font-bold transition bg-indigo-600 text-white shadow-lg">
-          Upload File (CSV/JSON)
-        </button>
-        <button data-tab="manual" class="upload-tab-btn flex-1 py-3 rounded-xl text-sm font-bold transition text-slate-400 hover:text-white">
-          Manual Entry
-        </button>
-      </div>
-
-      <!-- Common Metadata Fields -->
+      <h2 class="text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
       <div class="dtc-card p-8 rounded-3xl space-y-6">
-        <div>
-          <label class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Dataset Title</label>
-          <input type="text" id="shared-title" placeholder="e.g. Retail Transaction Survey 2024" 
-                 class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-slate-600 focus:ring-2 focus:ring-indigo-500 transition outline-none" />
-        </div>
-        
+        <input type="text" id="shared-title" placeholder="Dataset Title" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
         <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Category</label>
-            <select id="shared-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white appearance-none focus:ring-2 focus:ring-indigo-500 outline-none">
-              <option value="health">Healthcare</option>
-              <option value="finance">Finance</option>
-              <option value="consumer">Consumer Behavior</option>
-              <option value="tech">Technology</option>
+            <select id="shared-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="health">Healthcare</option>
+                <option value="finance">Finance</option>
             </select>
-          </div>
-          <div>
-            <label class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Base Price (DTC)</label>
-            <input type="number" id="shared-price" placeholder="1.0" step="0.1"
-                   class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          </div>
+            <input type="number" id="shared-price" placeholder="Price (DTC)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none" />
         </div>
-
-        <!-- File Upload Tab -->
-        <div id="upload-tab-file" class="upload-tab-content space-y-6">
-          <div id="drop-zone" class="border-2 border-dashed border-slate-700 rounded-3xl p-12 text-center hover:border-indigo-500/50 transition group relative cursor-pointer">
-            <input type="file" id="file-input" accept=".csv,.json" class="absolute inset-0 opacity-0 cursor-pointer" />
-            <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-width="2" stroke-linecap="round"/></svg>
-            </div>
-            <p id="file-name-display" class="text-white font-bold">Drop your CSV/JSON here</p>
-            <p class="text-sm text-slate-500 mt-1">Max file size: 25MB</p>
-          </div>
-          <button id="btn-upload-file" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-xl shadow-indigo-600/20">
-            Process & Secure Data
-          </button>
-        </div>
-
-        <!-- Manual Tab -->
-        <div id="upload-tab-manual" class="upload-tab-content hidden space-y-6">
-          <div>
-            <label class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">JSON Records Array</label>
-            <textarea id="manual-records" rows="10" placeholder='[{"age": 24, "city": "NYC", "item": "Coffee"}]' 
-                      class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white font-mono text-sm placeholder-slate-600 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
-          </div>
-          <button id="btn-upload-manual" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-xl shadow-indigo-600/20">
-            Analyze & Submit
-          </button>
-        </div>
-
-        <div class="flex items-start gap-3 p-4 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl">
-          <svg class="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Our <strong>Proof-of-Anonymity</strong> engine automatically scrubs names, emails, and specific identifiers. Only aggregate research data enters the pool.
-          </p>
-        </div>
+        <button id="btn-upload-file" class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-extrabold text-lg transition">Process & Secure Data</button>
       </div>
     </div>
   </section>
 
-  <!-- ─── SECTIONS: AUTH (LOGIN/REG) ────────────────────────────────── -->
+  <!-- ─── SECTION: LOGIN ─── -->
   <section id="section-login" class="dtc-page hidden py-24">
     <div class="max-w-md mx-auto px-6">
       <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-2 text-center">Welcome Back</h2>
-        <p class="text-slate-500 text-center mb-8">Access your DTC earnings console</p>
-        
+        <h2 class="text-3xl font-black text-white mb-6 text-center">Welcome Back</h2>
         <div class="space-y-4">
           <input type="text" id="login-user" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Login</button>
-          
+          <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
           <div class="text-center">
-            <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button>
+            <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 transition hover:underline">Forgot Password?</button>
           </div>
         </div>
-        <p class="text-center text-slate-500 mt-6 text-sm">
-          New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button>
-        </p>
+        <p class="text-center text-slate-500 mt-6 text-sm">New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button></p>
       </div>
     </div>
   </section>
 
+  <!-- ─── SECTION: REGISTER ─── -->
   <section id="section-register" class="dtc-page hidden py-24">
     <div class="max-w-md mx-auto px-6">
       <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-2 text-center">Get Started</h2>
-        <p class="text-slate-500 text-center mb-8">Join the decentralized data economy</p>
-        
+        <h2 class="text-3xl font-black text-white mb-6 text-center">Get Started</h2>
         <div class="space-y-4">
-          <input type="text" id="reg-name" placeholder="Full Name" 
-                 class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="text" id="reg-username" placeholder="Username" 
-                 class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="email" id="reg-email" placeholder="Email Address" 
-                 class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="password" id="reg-pass" placeholder="Secure Password" 
-                 class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-
-          <!-- Account Type -->
+          <input type="text" id="reg-name" placeholder="Full Name" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" id="reg-username" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="password" id="reg-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
           <div class="bg-slate-900/40 border border-slate-700 rounded-xl p-4">
             <p class="text-sm text-slate-400 mb-2 font-bold">Account Type</p>
-            <label class="flex items-center gap-3 mb-2 cursor-pointer">
-              <input type="radio" name="accountType" value="user" checked class="accent-indigo-500">
-              <span class="text-white text-sm">Individual User (Upload datasets)</span>
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer">
-              <input type="radio" name="accountType" value="company" class="accent-indigo-500">
-              <span class="text-white text-sm">Company (Buy datasets)</span>
-            </label>
+            <label class="flex items-center gap-3 mb-2 cursor-pointer"><input type="radio" name="accountType" value="user" checked class="accent-indigo-500"><span class="text-white text-sm">Individual</span></label>
+            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="company" class="accent-indigo-500"><span class="text-white text-sm">Company</span></label>
           </div>
-
-          <button id="btn-reg-submit" 
-                  class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">
-            Create Account
-          </button>
+          <button id="btn-reg-submit" class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg transition">Create Account</button>
         </div>
-        
-        <p class="text-center text-slate-500 mt-6 text-sm">
-          Already have an account? <button data-nav="login" class="text-indigo-400 font-bold hover:underline transition">Log In</button>
-        </p>
+        <p class="text-center text-slate-500 mt-6 text-sm">Already have an account? <button data-nav="login" class="text-indigo-400 font-bold hover:underline transition">Log In</button></p>
       </div>
     </div>
   </section>
 
-  <!-- ─── SECTION: FORGOT PASSWORD REQUEST ─────────────────────────── -->
+  <!-- ─── SECTION: FORGOT PASSWORD REQUEST ─── -->
   <section id="section-forgot-password" class="dtc-page hidden py-24">
     <div class="max-w-md mx-auto px-6">
       <div class="dtc-card p-8 rounded-3xl">
         <h2 class="text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
-        <p class="text-slate-500 text-center mb-8">Enter your email and we'll send a reset link.</p>
-        
+        <p class="text-slate-500 text-center mb-8">Enter your registered email address.</p>
         <div class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Email Address</label>
             <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
           </div>
-          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Send Reset Link</button>
+          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Send Reset Link</button>
           <button data-nav="login" class="w-full py-2 text-slate-500 hover:text-slate-300 transition text-sm font-medium">Back to Login</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SECTION: SET NEW PASSWORD (TOKEN) ────────────────────────── -->
+  <!-- ─── SECTION: SET NEW PASSWORD ─── -->
   <section id="section-reset-password" class="dtc-page hidden py-24">
     <div class="max-w-md mx-auto px-6">
       <div class="dtc-card p-8 rounded-3xl">
         <h2 class="text-3xl font-black text-white mb-2 text-center">New Password</h2>
-        <p class="text-slate-500 text-center mb-8">Secure your account with a new password.</p>
-        
+        <p class="text-slate-500 text-center mb-8">Enter your token and new password.</p>
         <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Reset Token</label>
+            <input type="text" id="reset-token-input" placeholder="Paste your token here" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          </div>
           <div>
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">New Password</label>
             <input type="password" id="reset-pass" placeholder="Min 8 characters" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
@@ -541,7 +384,7 @@
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
             <input type="password" id="reset-pass-confirm" placeholder="Repeat password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
           </div>
-          <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-lg shadow-indigo-600/20">Update Password</button>
+          <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Update Password</button>
         </div>
       </div>
     </div>
@@ -549,115 +392,66 @@
 
 </main>
 
-<!-- ─── FOOTER ────────────────────────────────────────────────────── -->
 <footer id="global-footer" class="bg-slate-950 pt-20 pb-10 border-t border-slate-900">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid md:grid-cols-4 gap-12 mb-16">
-      <div class="col-span-2">
-        <div class="flex items-center gap-2.5 mb-6">
-          <div class="bg-indigo-600 p-1 rounded-lg">
-            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-          </div>
-          <span class="text-xl font-extrabold text-white">DataTrust<span class="text-indigo-400">Coin</span></span>
-        </div>
-        <p class="text-slate-500 max-w-sm mb-6 leading-relaxed">
-          The world's first decentralized liquidity layer for anonymized research data. 
-          Empowering individuals while accelerating global AI progress.
-        </p>
-        <div class="flex gap-4">
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition">X</a>
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition">Discord</a>
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition">GH</a>
-        </div>
-      </div>
-      <div>
-        <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Protocol</h4>
-        <ul class="space-y-4 text-slate-500 text-sm">
-          <li><button data-nav="marketplace" class="hover:text-indigo-400 transition text-left">Marketplace</button></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Tokenomics</a></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Governance</a></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Documentation</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Resources</h4>
-        <ul class="space-y-4 text-slate-500 text-sm">
-          <li><a href="#" class="hover:text-indigo-400 transition">Whitepaper</a></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Brand Assets</a></li>
-          <li><a href="#" class="hover:text-indigo-400 transition">Support</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600 font-medium">
-      <p>© 2026 DataTrust Coin. All rights reserved.</p>
-      <div class="flex gap-6">
-        <span>Network Status: <span class="text-emerald-500">Online</span></span>
-        <span>Version: 0.5.0-beta</span>
-      </div>
+  <div class="max-w-7xl mx-auto px-6 text-center text-xs text-slate-600 font-medium">
+    <p>© 2026 DataTrust Coin. All rights reserved.</p>
+    <div class="flex justify-center gap-6 mt-2">
+      <span>Network: <span class="text-emerald-500">Online</span></span>
+      <span>v0.6.1-prod</span>
     </div>
   </div>
 </footer>
 
-<!-- ─── PREVIEW MODAL ──────────────────────────────────────────────── -->
-<div id="preview-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6">
-  <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-md" onclick="closePreview()"></div>
-  <div class="dtc-card max-w-5xl w-full max-h-[85vh] rounded-3xl overflow-hidden relative z-10 flex flex-col shadow-2xl">
-    <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
-      <div>
-        <h3 class="text-xl font-bold text-white flex items-center gap-2" id="preview-title">
-          Dataset Preview
-          <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase">Verified</span>
-        </h3>
-        <p class="text-slate-500 text-xs mt-0.5" id="preview-meta">0 records • Anonymized via DTC-Secure</p>
-      </div>
-      <button onclick="closePreview()" class="p-2 rounded-xl hover:bg-slate-800 text-slate-400 transition">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    
-    <div class="flex-1 overflow-auto p-6 bg-slate-950">
-      <div class="inline-block min-w-full align-middle">
-        <table class="min-w-full divide-y divide-slate-800 text-sm">
-          <thead id="preview-thead"></thead>
-          <tbody id="preview-tbody" class="divide-y divide-slate-900"></tbody>
-        </table>
-      </div>
-    </div>
-    
-    <div class="p-6 border-t border-slate-800 bg-slate-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div class="text-slate-400 text-xs">
-        <p><strong>Note:</strong> Showing first 10 sample records. Buy to access full CSV.</p>
-      </div>
-      <div class="flex gap-3">
-        <button onclick="closePreview()" class="px-6 py-2.5 rounded-xl text-slate-400 font-bold hover:text-white transition">Cancel</button>
-        <button class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black transition shadow-lg shadow-indigo-600/20">
-          Purchase Full Dataset
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
   /**
-   * APP STATE & API CONFIG
+   * APP CONFIG
    */
-  const API_BASE = 'http://127.0.0.1:8000/api';
+  const API_BASE = 'https://dtc-backend-ksm6.onrender.com/api';
   let currentUser = JSON.parse(localStorage.getItem('dtc_user')) || null;
-  let walletBalance = 0.00;
 
   /**
-   * NAVIGATION SYSTEM
+   * HELPERS
+   */
+  function toggleLoader(show, text = "Processing...") {
+    const loader = document.getElementById('global-loader');
+    document.getElementById('loader-text').innerText = text;
+    loader.classList.toggle('hidden', !show);
+  }
+
+  function showToast(msg, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-500/10 text-red-400' : 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400';
+    toast.className = `px-6 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-x-12 opacity-0 font-bold text-sm ${colorClass}`;
+    toast.innerText = msg;
+    container.appendChild(toast);
+    setTimeout(() => { toast.classList.remove('translate-x-12', 'opacity-0'); }, 10);
+    setTimeout(() => {
+      toast.classList.add('translate-x-12', 'opacity-0');
+      setTimeout(() => toast.remove(), 300);
+    }, 4500);
+  }
+
+  function copyToClipboard(text) {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    try {
+        document.execCommand('copy');
+        showToast("Reset token copied to clipboard");
+    } catch (err) {
+        console.error("Copy failed", err);
+    }
+    document.body.removeChild(el);
+  }
+
+  /**
+   * NAVIGATION
    */
   const sections = document.querySelectorAll('.dtc-page');
-  const navLinks = document.querySelectorAll('[data-nav]');
-
   function navigate(targetId) {
-    // Hide all designated pages first
     sections.forEach(s => s.classList.add('hidden'));
-    
-    // Logic to handle Home vs Single Section pages
     if (targetId === 'home') {
       document.getElementById('section-home').classList.remove('hidden');
       document.getElementById('section-how-it-works').classList.remove('hidden');
@@ -665,313 +459,139 @@
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
-
-    // Toggle Footer visibility based on section
     const footer = document.getElementById('global-footer');
-    if (footer) {
-      if (['dashboard', 'upload'].includes(targetId)) {
-        footer.classList.add('hidden');
-      } else {
-        footer.classList.remove('hidden');
-      }
-    }
-
+    if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    updateNavHighlight(targetId);
     toggleMobileMenu(false);
   }
 
-  function updateNavHighlight(id) {
-    document.querySelectorAll('.nav-link').forEach(l => {
-      l.classList.remove('active-nav-link');
-      if (l.getAttribute('data-nav') === id) l.classList.add('active-nav-link');
-    });
+  function toggleMobileMenu(state) {
+    const menu = document.getElementById('mobile-menu');
+    const isHidden = state !== undefined ? !state : menu.classList.contains('hidden');
+    menu.classList.toggle('hidden', isHidden);
+    document.getElementById('menu-icon-open').classList.toggle('hidden', !isHidden);
+    document.getElementById('menu-icon-close').classList.toggle('hidden', isHidden);
   }
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      const target = link.getAttribute('data-nav');
-      navigate(target);
-    });
+  document.getElementById('mobile-menu-btn').addEventListener('click', () => toggleMobileMenu());
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    link.addEventListener('click', () => navigate(link.getAttribute('data-nav')));
   });
 
   /**
-   * MOBILE MENU LOGIC
-   */
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIconOpen = document.getElementById('menu-icon-open');
-  const menuIconClose = document.getElementById('menu-icon-close');
-
-  function toggleMobileMenu(forceState) {
-    const isExpanded = forceState !== undefined ? forceState : mobileMenu.classList.contains('hidden');
-    if (isExpanded) {
-      mobileMenu.classList.remove('hidden');
-      menuIconOpen.classList.add('hidden');
-      menuIconClose.classList.remove('hidden');
-    } else {
-      mobileMenu.classList.add('hidden');
-      menuIconOpen.classList.remove('hidden');
-      menuIconClose.classList.add('hidden');
-    }
-  }
-
-  mobileBtn.addEventListener('click', () => toggleMobileMenu());
-
-  /**
-   * TOAST & LOADER SYSTEM
-   */
-  function toggleLoader(show, text = "Processing Transaction...") {
-    const loader = document.getElementById('global-loader');
-    document.getElementById('loader-text').innerText = text;
-    if (show) loader.classList.remove('hidden');
-    else loader.classList.add('hidden');
-  }
-
-  function showToast(msg, type = 'info') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-500/10 text-red-400' : 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400';
-    
-    toast.className = `px-6 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-x-12 opacity-0 font-bold text-sm ${colorClass}`;
-    toast.innerText = msg;
-    
-    container.appendChild(toast);
-    setTimeout(() => { toast.classList.remove('translate-x-12', 'opacity-0'); }, 10);
-    setTimeout(() => {
-      toast.classList.add('translate-x-12', 'opacity-0');
-      setTimeout(() => toast.remove(), 300);
-    }, 4000);
-  }
-
-  /**
-   * AUTHENTICATION & PASSWORD RESET LOGIC
+   * AUTH LOGIC
    */
   function updateAuthStateUI() {
-    const guestZones = [document.getElementById('nav-guest-zone'), document.getElementById('mobile-guest-zone')];
-    const userZones = [document.getElementById('nav-user-zone'), document.getElementById('mobile-user-zone')];
-    
-    if (currentUser) {
-      guestZones.forEach(z => z.classList.add('hidden'));
-      userZones.forEach(z => z.classList.remove('hidden'));
-      fetchWalletBalance();
-    } else {
-      guestZones.forEach(z => z.classList.remove('hidden'));
-      userZones.forEach(z => z.classList.add('hidden'));
-    }
+    const isUser = !!currentUser;
+    document.getElementById('nav-guest-zone').classList.toggle('hidden', isUser);
+    document.getElementById('nav-user-zone').classList.toggle('hidden', !isUser);
+    if (isUser) document.getElementById('nav-balance').innerText = `10.00 DTC`;
   }
 
-  // Login
+  // LOGIN
   document.getElementById("btn-login-submit").addEventListener("click", async () => {
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
-    if (!username || !password) { showToast("Enter username and password", "error"); return; }
-
+    if (!username || !password) return showToast("Enter credentials", "error");
     toggleLoader(true, "Authenticating...");
     try {
-      const res = await fetch(API_BASE + "/auth/login", {
+      const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
       const data = await res.json();
-      if (!res.ok) { showToast(data.detail || "Login failed", "error"); toggleLoader(false); return; }
+      if (!res.ok) throw new Error(data.detail || "Login failed");
       localStorage.setItem("token", data.access_token);
-      currentUser = { username: username, ...data.user };
+      currentUser = { username, ...data.user };
       localStorage.setItem('dtc_user', JSON.stringify(currentUser));
       showToast("Login successful");
       updateAuthStateUI();
       navigate("dashboard");
-    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // Register
+  // REGISTER
   document.getElementById("btn-reg-submit").addEventListener("click", async () => {
     const name = document.getElementById("reg-name").value;
     const username = document.getElementById("reg-username").value;
     const email = document.getElementById("reg-email").value;
     const password = document.getElementById("reg-pass").value;
-    const accountType = document.querySelector('input[name="accountType"]:checked').value;
-    const isCompany = accountType === "company";
-
-    if (!name || !username || !email || !password) { showToast("All fields are required", "error"); return; }
+    const isCompany = document.querySelector('input[name="accountType"]:checked').value === 'company';
+    if (!name || !username || !email || !password) return showToast("All fields required", "error");
     toggleLoader(true, "Creating account...");
     try {
-      const res = await fetch(API_BASE + "/auth/register", {
+      const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password, full_name: name, is_company: isCompany })
       });
       const data = await res.json();
-      if (!res.ok) { showToast(data.detail || "Registration failed", "error"); return; }
-      showToast("Account created successfully!");
+      if (!res.ok) throw new Error(data.detail || "Reg failed");
+      showToast("Account created! Log in now.");
       navigate("login");
-    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // Forgot Password Request
+  // FORGOT PASSWORD
   document.getElementById("btn-forgot-submit").addEventListener("click", async () => {
     const email = document.getElementById("forgot-email").value;
-    if (!email) { showToast("Please enter your email", "error"); return; }
-
-    toggleLoader(true, "Sending reset link...");
+    if (!email) return showToast("Enter email", "error");
+    toggleLoader(true, "Requesting token...");
     try {
-      const res = await fetch(API_BASE + "/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      });
+      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" });
       const data = await res.json();
-      if (!res.ok) { showToast(data.detail || "Request failed", "error"); return; }
-      showToast("Reset link sent to your email!");
-    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+      if (!res.ok) throw new Error(data.detail || "Request failed");
+      if (data.token) {
+          copyToClipboard(data.token);
+          showToast(`Token: ${data.token} (Copied)`, "success");
+          setTimeout(() => navigate('reset-password'), 1500);
+      } else {
+          showToast("Reset link sent to your email!");
+      }
+    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // Reset Password (New Password Submit)
+  // RESET PASSWORD
   document.getElementById("btn-reset-submit").addEventListener("click", async () => {
+    const manualToken = document.getElementById("reset-token-input").value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = manualToken || urlParams.get('token');
     const newPass = document.getElementById("reset-pass").value;
     const confirmPass = document.getElementById("reset-pass-confirm").value;
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
 
-    if (!newPass || !confirmPass) { showToast("All fields required", "error"); return; }
-    if (newPass !== confirmPass) { showToast("Passwords do not match", "error"); return; }
-    if (!token) { showToast("Invalid reset token", "error"); return; }
+    if (!token) return showToast("Token is required", "error");
+    if (newPass.length < 8) return showToast("Password too short", "error");
+    if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
 
     toggleLoader(true, "Updating password...");
     try {
-      const res = await fetch(API_BASE + "/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: token, new_password: newPass })
-      });
+      const url = `${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`;
+      const res = await fetch(url, { method: "POST" });
       const data = await res.json();
-      if (!res.ok) { showToast(data.detail || "Reset failed", "error"); return; }
-      showToast("Password updated successfully!");
-      // Remove token from URL and go to login
+      if (!res.ok) throw new Error(data.detail || "Reset failed");
+      
+      showToast("Password updated successfully");
+      showToast("Redirecting to login...");
       window.history.replaceState({}, document.title, "/");
-      navigate("login");
-    } catch (err) { showToast("Server connection failed", "error"); } finally { toggleLoader(false); }
+      setTimeout(() => navigate("login"), 2000);
+    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  async function handleLogout() {
-    toggleLoader(true, "Logging out...");
-    await new Promise(r => setTimeout(r, 800));
-    localStorage.removeItem('dtc_user');
-    localStorage.removeItem('token');
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.clear();
     currentUser = null;
     updateAuthStateUI();
-    toggleLoader(false);
     navigate('home');
-    showToast("Successfully logged out.");
-  }
-
-  document.getElementById('btn-logout').addEventListener('click', handleLogout);
-  document.getElementById('btn-logout-mobile').addEventListener('click', handleLogout);
-
-  /**
-   * API INTEGRATION HELPERS
-   */
-  async function fetchWalletBalance() {
-    try {
-      const balance = (Math.random() * 50 + 10).toFixed(2);
-      document.getElementById('nav-balance').innerText = `${balance} DTC`;
-      document.getElementById('dash-wallet-balance').innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
-      document.getElementById('dash-wallet-usd').innerText = `≈ $${(balance * 2.4).toFixed(2)} USD`;
-    } catch (e) {
-      showToast("Failed to fetch wallet balance", "error");
-    }
-  }
-
-  async function openPreview(datasetId, title, meta) {
-    toggleLoader(true, "Fetching dataset preview...");
-    try {
-      await new Promise(r => setTimeout(r, 1200));
-      document.getElementById('preview-modal').classList.remove('hidden');
-      document.getElementById('preview-title').innerText = title;
-      document.getElementById('preview-meta').innerText = meta;
-      const head = document.getElementById('preview-thead');
-      const body = document.getElementById('preview-tbody');
-      head.innerHTML = `<tr><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Record Hash</th><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Anonymized Property</th><th class="py-3 px-4 text-left font-bold text-slate-500 uppercase tracking-widest text-[10px]">Delta Value</th></tr>`;
-      let bodyHtml = '';
-      for(let i=1; i<=10; i++) {
-        bodyHtml += `<tr class="hover:bg-slate-900/50 transition border-b border-slate-900/50">
-          <td class="py-3 px-4 font-mono text-xs text-indigo-400">0x${Math.random().toString(16).slice(2, 10).toUpperCase()}</td>
-          <td class="py-3 px-4 text-slate-300">Property_${Math.floor(Math.random() * 100)}</td>
-          <td class="py-3 px-4 text-emerald-400 font-bold">${(Math.random() * 5).toFixed(4)}</td>
-        </tr>`;
-      }
-      body.innerHTML = bodyHtml;
-      toggleLoader(false);
-    } catch (err) { toggleLoader(false); showToast("Failed to load preview", "error"); }
-  }
-
-  function closePreview() { document.getElementById('preview-modal').classList.add('hidden'); }
-
-  /**
-   * UPLOAD LOGIC
-   */
-  const fileInput = document.getElementById('file-input');
-  const fileNameDisplay = document.getElementById('file-name-display');
-  if(fileInput) {
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        fileNameDisplay.innerText = e.target.files[0].name;
-        fileNameDisplay.classList.add('text-indigo-400');
-      }
-    });
-  }
-
-  async function processUpload(type) {
-    const title = document.getElementById('shared-title').value;
-    if (!title) return showToast("Dataset title is required", "error");
-    toggleLoader(true, "Running Anonymization Protocol...");
-    try {
-      await new Promise(r => setTimeout(r, 2500));
-      toggleLoader(false);
-      showToast(`Dataset "${title}" uploaded and verified!`, "success");
-      navigate('dashboard');
-    } catch (e) { toggleLoader(false); showToast("Upload failed. Please check your data format.", "error"); }
-  }
-
-  const btnUploadFile = document.getElementById('btn-upload-file');
-  const btnUploadManual = document.getElementById('btn-upload-manual');
-  if(btnUploadFile) btnUploadFile.addEventListener('click', () => processUpload('file'));
-  if(btnUploadManual) btnUploadManual.addEventListener('click', () => processUpload('manual'));
-
-  /**
-   * TABS SYSTEM
-   */
-  document.querySelectorAll('.upload-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.getAttribute('data-tab');
-      document.querySelectorAll('.upload-tab-btn').forEach(b => {
-        b.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg');
-        b.classList.add('text-slate-400');
-      });
-      btn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
-      btn.classList.remove('text-slate-400');
-      document.querySelectorAll('.upload-tab-content').forEach(c => c.classList.add('hidden'));
-      document.getElementById(`upload-tab-${tab}`).classList.remove('hidden');
-    });
+    showToast("Logged out");
   });
 
-  // Initialization
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
-    
-    // Check if user has a token in URL (Reset flow)
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if (token) {
-        navigate('reset-password');
-    } else {
-        navigate('home');
-    }
-    
-    console.log("DTC Production Frontend 0.5.0-beta Initialized.");
+    const token = new URLSearchParams(window.location.search).get('token');
+    if (token) navigate('reset-password');
+    else navigate('home');
   });
-
 </script>
 </body>
 </html>
