@@ -275,7 +275,9 @@
             <div class="p-6 border-b border-slate-800 flex justify-between items-center">
               <h3 class="font-bold text-white">My Active Datasets</h3>
             </div>
-            <div id="my-datasets-list" class="divide-y divide-slate-800 p-12 text-center text-slate-500">No datasets found.</div>
+            <div id="my-datasets-list" class="divide-y divide-slate-800 p-4 space-y-2">
+              <div class="p-8 text-center text-slate-500">No datasets found.</div>
+            </div>
           </div>
         </div>
         <div class="space-y-6">
@@ -294,15 +296,28 @@
     <div class="max-w-3xl mx-auto px-6">
       <h2 class="text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
       <div class="dtc-card p-8 rounded-3xl space-y-6">
-        <input type="text" id="shared-title" placeholder="Dataset Title" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-        <div class="grid sm:grid-cols-2 gap-6">
-            <select id="shared-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                <option value="health">Healthcare</option>
-                <option value="finance">Finance</option>
-            </select>
-            <input type="number" id="shared-price" placeholder="Price (DTC)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none" />
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Title</label>
+          <input type="text" id="shared-title" placeholder="e.g., Medical Research Data" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
-        <button id="btn-upload-file" class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-extrabold text-lg transition">Process & Secure Data</button>
+        <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Category</label>
+              <select id="shared-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                  <option value="health">Healthcare</option>
+                  <option value="finance">Finance</option>
+                  <option value="tech">Technology</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Base Price (DTC)</label>
+              <input type="number" id="shared-price" placeholder="10.0" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+        </div>
+        <div class="p-6 border-2 border-dashed border-slate-700 rounded-2xl text-center">
+            <p class="text-slate-400 text-sm">Click the button below to select your .csv or .json file and begin the secure upload process.</p>
+        </div>
+        <button id="btn-upload-file" class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">Process & Secure Data</button>
       </div>
     </div>
   </section>
@@ -397,7 +412,7 @@
     <p>© 2026 DataTrust Coin. All rights reserved.</p>
     <div class="flex justify-center gap-6 mt-2">
       <span>Network: <span class="text-emerald-500">Online</span></span>
-      <span>v0.6.1-prod</span>
+      <span>v0.6.2-prod</span>
     </div>
   </div>
 </footer>
@@ -421,7 +436,7 @@
   function showToast(msg, type = 'info') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-500/10 text-red-400' : 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400';
+    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-500/10 text-red-400' : (type === 'success' ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400' : 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400');
     toast.className = `px-6 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-x-12 opacity-0 font-bold text-sm ${colorClass}`;
     toast.innerText = msg;
     container.appendChild(toast);
@@ -432,18 +447,82 @@
     }, 4500);
   }
 
-  function copyToClipboard(text) {
-    const el = document.createElement('textarea');
-    el.value = text;
-    document.body.appendChild(el);
-    el.select();
+  /**
+   * DATA LOADING FUNCTIONS
+   */
+  async function loadWallet() {
+    const token = localStorage.getItem("token");
+    if(!token) return;
     try {
-        document.execCommand('copy');
-        showToast("Reset token copied to clipboard");
-    } catch (err) {
-        console.error("Copy failed", err);
-    }
-    document.body.removeChild(el);
+      const res = await fetch(`${API_BASE}/auth/me`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if(!res.ok) return;
+      const user = await res.json();
+      const balance = (user.token_balance || 0).toFixed(2);
+      document.getElementById("nav-balance").innerText = balance + " DTC";
+      document.getElementById("dash-wallet-balance").innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
+    } catch(e) { console.error("Wallet load failed", e); }
+  }
+
+  async function loadMyDatasets() {
+    const token = localStorage.getItem("token");
+    if(!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/datasets/mine`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+      const list = document.getElementById("my-datasets-list");
+      list.innerHTML = "";
+      
+      if(data.length === 0) {
+        list.innerHTML = `<div class="p-8 text-center text-slate-500">No datasets found.</div>`;
+        return;
+      }
+
+      data.forEach(d => {
+        const item = document.createElement("div");
+        item.className = "p-4 dtc-card rounded-xl flex justify-between items-center border border-slate-800/50 hover:border-indigo-500/30 transition";
+        item.innerHTML = `
+          <div class="flex flex-col">
+            <span class="text-white font-bold">${d.title}</span>
+            <span class="text-slate-500 text-xs">${d.record_count} records</span>
+          </div>
+          <span class="text-indigo-400 font-black">${d.token_reward || 0} DTC</span>
+        `;
+        list.appendChild(item);
+      });
+      
+      document.getElementById("stat-datasets").innerText = data.length;
+      document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
+    } catch(e) { console.error("Datasets load failed", e); }
+  }
+
+  async function loadMarketplace() {
+    try {
+      const res = await fetch(`${API_BASE}/marketplace/datasets`);
+      const datasets = await res.json();
+      const container = document.getElementById("mp-datasets");
+      container.innerHTML = "";
+
+      datasets.forEach(d => {
+        const card = document.createElement("div");
+        card.className = "dtc-card p-6 rounded-2xl border border-slate-800/50 hover:border-indigo-500/40 transition";
+        card.innerHTML = `
+          <div class="flex justify-between items-start mb-4">
+            <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-1">${d.title}</h3>
+          <p class="text-slate-400 text-sm mb-4">${d.record_count} anonymized records</p>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-800/50">
+            <p class="text-indigo-400 font-black text-xl">${d.price || 0} <span class="text-xs">DTC</span></p>
+            <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition">Buy Data</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    } catch(e) { console.error("Marketplace load failed", e); }
   }
 
   /**
@@ -452,6 +531,7 @@
   const sections = document.querySelectorAll('.dtc-page');
   function navigate(targetId) {
     sections.forEach(s => s.classList.add('hidden'));
+    
     if (targetId === 'home') {
       document.getElementById('section-home').classList.remove('hidden');
       document.getElementById('section-how-it-works').classList.remove('hidden');
@@ -459,6 +539,15 @@
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
+
+    if(targetId === 'dashboard') {
+      loadMyDatasets();
+      loadWallet();
+    }
+    if(targetId === 'marketplace') {
+      loadMarketplace();
+    }
+
     const footer = document.getElementById('global-footer');
     if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -468,12 +557,13 @@
   function toggleMobileMenu(state) {
     const menu = document.getElementById('mobile-menu');
     const isHidden = state !== undefined ? !state : menu.classList.contains('hidden');
+    if(!menu) return;
     menu.classList.toggle('hidden', isHidden);
     document.getElementById('menu-icon-open').classList.toggle('hidden', !isHidden);
     document.getElementById('menu-icon-close').classList.toggle('hidden', isHidden);
   }
 
-  document.getElementById('mobile-menu-btn').addEventListener('click', () => toggleMobileMenu());
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => toggleMobileMenu());
   document.querySelectorAll('[data-nav]').forEach(link => {
     link.addEventListener('click', () => navigate(link.getAttribute('data-nav')));
   });
@@ -482,14 +572,13 @@
    * AUTH LOGIC
    */
   function updateAuthStateUI() {
-    const isUser = !!currentUser;
+    const isUser = !!localStorage.getItem("token");
     document.getElementById('nav-guest-zone').classList.toggle('hidden', isUser);
     document.getElementById('nav-user-zone').classList.toggle('hidden', !isUser);
-    if (isUser) document.getElementById('nav-balance').innerText = `10.00 DTC`;
+    if (isUser) loadWallet();
   }
 
-  // LOGIN
-  document.getElementById("btn-login-submit").addEventListener("click", async () => {
+  document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
     if (!username || !password) return showToast("Enter credentials", "error");
@@ -503,21 +592,18 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Login failed");
       localStorage.setItem("token", data.access_token);
-      currentUser = { username, ...data.user };
-      localStorage.setItem('dtc_user', JSON.stringify(currentUser));
-      showToast("Login successful");
+      showToast("Login successful", "success");
       updateAuthStateUI();
       navigate("dashboard");
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // REGISTER
-  document.getElementById("btn-reg-submit").addEventListener("click", async () => {
+  document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
     const name = document.getElementById("reg-name").value;
     const username = document.getElementById("reg-username").value;
     const email = document.getElementById("reg-email").value;
     const password = document.getElementById("reg-pass").value;
-    const isCompany = document.querySelector('input[name="accountType"]:checked').value === 'company';
+    const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
     toggleLoader(true, "Creating account...");
     try {
@@ -528,106 +614,119 @@
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Reg failed");
-      showToast("Account created! Log in now.");
+      showToast("Account created! Log in now.", "success");
       navigate("login");
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // FORGOT PASSWORD
-  document.getElementById("btn-forgot-submit").addEventListener("click", async () => {
+  document.getElementById("btn-forgot-submit")?.addEventListener("click", async () => {
     const email = document.getElementById("forgot-email").value;
-    if (!email) {
-      showToast("Please enter your email", "error");
-      return;
-    }
-
+    if (!email) return showToast("Please enter your email", "error");
     toggleLoader(true, "Generating reset token...");
-
     try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, {
-        method: "POST"
-      });
-
+      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" });
       const data = await res.json();
-
-      if (!res.ok) {
-        showToast(data.detail || "Request failed", "error");
-        toggleLoader(false);
-        return;
-      }
-
       toggleLoader(false);
-
+      if (!res.ok) return showToast(data.detail || "Request failed", "error");
       if (data.reset_token) {
-        showToast("Reset token generated!");
-        // show token to user
+        showToast("Reset token generated!", "success");
         alert("Your password reset token:\n\n" + data.reset_token + "\n\nCopy this token and use it to reset your password.");
-        // redirect to reset page
         navigate("reset-password");
-      } else {
-        showToast(data.message);
-      }
-
-    } catch (err) {
-      toggleLoader(false);
-      showToast("Server connection failed", "error");
-    }
+      } else { showToast(data.message || "Request sent"); }
+    } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
-  // RESET PASSWORD
-  document.getElementById("btn-reset-submit").addEventListener("click", async () => {
+  document.getElementById("btn-reset-submit")?.addEventListener("click", async () => {
     const token = document.getElementById("reset-token").value;
     const newPass = document.getElementById("reset-pass").value;
     const confirmPass = document.getElementById("reset-pass-confirm").value;
-
-    if (!token || !newPass || !confirmPass) {
-      showToast("All fields required", "error");
-      return;
-    }
-
-    if (newPass !== confirmPass) {
-      showToast("Passwords do not match", "error");
-      return;
-    }
-
+    if (!token || !newPass || !confirmPass) return showToast("All fields required", "error");
+    if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
     toggleLoader(true, "Updating password...");
-
     try {
-      const res = await fetch(`${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`, {
-        method: "POST"
-      });
-
+      const res = await fetch(`${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`, { method: "POST" });
       const data = await res.json();
-
       toggleLoader(false);
-
-      if (!res.ok) {
-        showToast(data.detail || "Reset failed", "error");
-        return;
-      }
-
-      showToast("Password updated successfully!");
+      if (!res.ok) return showToast(data.detail || "Reset failed", "error");
+      showToast("Password updated successfully!", "success");
       navigate("login");
-
-    } catch (err) {
-      toggleLoader(false);
-      showToast("Server connection failed", "error");
-    }
+    } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
-  document.getElementById('btn-logout').addEventListener('click', () => {
+  /**
+   * DATASET UPLOAD HANDLER
+   */
+  document.getElementById("btn-upload-file")?.addEventListener("click", async () => {
+    const title = document.getElementById("shared-title").value;
+    const category = document.getElementById("shared-category").value;
+    const price = document.getElementById("shared-price").value;
+
+    if (!title) {
+      showToast("Dataset title required", "error");
+      return;
+    }
+
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".csv,.json";
+
+    fileInput.onchange = async () => {
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("title", title);
+      formData.append("category", category);
+      // Backend may require price as well
+      if(price) formData.append("price", price);
+
+      toggleLoader(true, "Uploading dataset...");
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/datasets/upload`, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        toggleLoader(false);
+        if (!res.ok) {
+          showToast(data.detail || "Upload failed", "error");
+          return;
+        }
+        showToast(`Dataset uploaded! Earned ${data.token_reward || 0} DTC`, "success");
+        navigate("dashboard");
+      } catch(err) {
+        toggleLoader(false);
+        showToast("Server connection failed", "error");
+      }
+    };
+    fileInput.click();
+  });
+
+  document.getElementById('btn-logout')?.addEventListener('click', () => {
     localStorage.clear();
-    currentUser = null;
     updateAuthStateUI();
     navigate('home');
     showToast("Logged out");
   });
 
+  /**
+   * INITIALIZATION
+   */
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
-    const token = new URLSearchParams(window.location.search).get('token');
-    if (token) navigate('reset-password');
-    else navigate('home');
+    const token = localStorage.getItem("token");
+    const urlToken = new URLSearchParams(window.location.search).get('token');
+    
+    if (urlToken) {
+      navigate('reset-password');
+      document.getElementById("reset-token").value = urlToken;
+    } else if (!token && !['home', 'login', 'register', 'forgot-password'].includes(window.location.hash.replace('#',''))) {
+      // Basic security check: if no token, allow landing page but block others
+      navigate('home');
+    } else {
+      navigate('home');
+    }
   });
 </script>
 </body>
