@@ -20,7 +20,7 @@
     .font-inter { font-family: 'Inter', sans-serif; }
     
     .glass-nav {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -35,7 +35,6 @@
     .dtc-card:hover {
       border-color: rgba(99, 102, 241, 0.4);
       transform: translateY(-2px);
-      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
     }
 
     .hero-gradient {
@@ -46,16 +45,26 @@
     
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Custom Mobile Menu Height Transition */
+    #mobile-menu {
+      transition: max-height 0.3s ease-in-out;
+      max-height: 0;
+      overflow: hidden;
+    }
+    #mobile-menu.active {
+      max-height: 500px;
+    }
   </style>
 </head>
 <body class="min-h-screen selection:bg-indigo-500/30">
 
 <!-- ─── NOTIFICATIONS (TOASTS) ────────────────────────────────────── -->
-<div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3"></div>
+<div id="toast-container" class="fixed top-20 right-4 left-4 md:left-auto md:right-6 z-[100] flex flex-col gap-3"></div>
 
 <!-- ─── LOADING OVERLAY ───────────────────────────────────────────── -->
 <div id="global-loader" class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center hidden">
-  <div class="flex flex-col items-center gap-4">
+  <div class="flex flex-col items-center gap-4 p-6 text-center">
     <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
     <p class="text-indigo-400 font-medium animate-pulse" id="loader-text">Processing Transaction...</p>
   </div>
@@ -66,17 +75,17 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <!-- Logo -->
-      <button data-nav="home" class="flex items-center gap-2.5 transition group">
-        <div class="bg-indigo-600 p-1.5 rounded-lg group-hover:rotate-12 transition-transform">
-          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button data-nav="home" class="flex items-center gap-2 transition group">
+        <div class="bg-indigo-600 p-1.5 rounded-lg">
+          <svg class="h-5 w-5 md:h-6 md:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
           </svg>
         </div>
-        <span class="text-xl font-extrabold tracking-tight text-white">DataTrust<span class="text-indigo-400">Coin</span></span>
+        <span class="text-lg md:text-xl font-extrabold tracking-tight text-white">DataTrust<span class="text-indigo-400">Coin</span></span>
       </button>
 
       <!-- Desktop Links -->
-      <div class="hidden md:flex items-center gap-8">
+      <div class="hidden md:flex items-center gap-6 lg:gap-8">
         <button data-nav="marketplace" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Marketplace</button>
         <button data-nav="how-it-works" class="text-slate-300 hover:text-white font-medium transition">How it Works</button>
         
@@ -97,35 +106,44 @@
           </button>
           <div class="flex items-center gap-3 pl-4 border-l border-slate-800">
             <div class="text-right">
-              <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Wallet</p>
+              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">Wallet</p>
               <p class="text-sm text-indigo-400 font-bold" id="nav-balance">0.00 DTC</p>
             </div>
-            <button id="btn-logout" class="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition">
+            <button id="btn-logout" class="p-2 rounded-lg text-slate-400 hover:text-red-400 transition">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
             </button>
           </div>
         </div>
       </div>
 
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-400 hover:text-white transition">
+      <!-- Mobile Toggle Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none">
         <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
         <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-900 px-4 py-6 space-y-4">
-    <button data-nav="marketplace" class="block w-full text-left text-lg font-bold text-slate-300">Marketplace</button>
-    <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300">How it Works</button>
-    <div class="h-px bg-slate-800"></div>
-    <div id="mobile-guest-zone">
-      <button data-nav="login" class="block w-full text-left text-lg font-bold text-slate-300 mb-4">Login</button>
+  <!-- Mobile Menu Container -->
+  <div id="mobile-menu" class="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-4 space-y-4">
+    <button data-nav="marketplace" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Marketplace</button>
+    <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300 p-2">How it Works</button>
+    
+    <div id="mobile-guest-zone" class="space-y-4 pt-2">
+      <div class="h-px bg-slate-800"></div>
+      <button data-nav="login" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Login</button>
       <button data-nav="register" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold text-center">Get Started</button>
     </div>
-    <div id="mobile-user-zone" class="hidden">
-      <button data-nav="dashboard" class="block w-full text-left text-lg font-bold text-slate-300 mb-4">Dashboard</button>
-      <button data-nav="upload" class="block w-full text-left text-lg font-bold text-slate-300 mb-4">Upload Data</button>
-      <button id="btn-logout-mobile" class="block w-full text-left text-lg font-bold text-red-400">Logout</button>
+
+    <div id="mobile-user-zone" class="hidden space-y-4 pt-2">
+      <div class="h-px bg-slate-800"></div>
+      <div class="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl">
+        <span class="text-slate-400 font-medium">Wallet Balance</span>
+        <span class="text-indigo-400 font-bold" id="mobile-nav-balance">0.00 DTC</span>
+      </div>
+      <button data-nav="dashboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Dashboard</button>
+      <button data-nav="upload" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Upload Data</button>
+      <button id="btn-logout-mobile" class="block w-full text-left text-lg font-bold text-red-400 p-2">Logout</button>
     </div>
   </div>
 </nav>
@@ -133,150 +151,152 @@
 <main class="relative overflow-hidden">
   
   <!-- ─── SECTION: HERO ─── -->
-  <section id="section-home" class="dtc-page relative pt-20 pb-32 hero-gradient">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest mb-8">
+  <section id="section-home" class="dtc-page relative pt-12 md:pt-20 pb-20 md:pb-32 hero-gradient">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
         </span>
         Next-Gen Data Liquidity
       </div>
-      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-8">
+      <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight text-white mb-6 md:mb-8 leading-tight">
         Your Data is <span class="text-indigo-500">Valuable.</span><br/>
         Get Paid to Share it.
       </h1>
-      <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-12 font-inter leading-relaxed">
+      <p class="text-base md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 md:mb-12 font-inter leading-relaxed">
         Join the decentralized movement. Upload anonymized research data, protect your identity, 
-        and earn <strong>DTC Tokens</strong> on every purchase. Built for AI researchers and data scientists.
+        and earn <strong>DTC Tokens</strong>.
       </p>
       
-      <div class="flex flex-col sm:flex-row justify-center gap-4 mb-20">
-        <button data-nav="register" class="px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-2xl shadow-indigo-600/40">
+      <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16 md:mb-20 px-4">
+        <button data-nav="register" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition shadow-2xl shadow-indigo-600/40">
           Start Earning Today
         </button>
-        <button data-nav="marketplace" class="px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg transition border border-slate-700">
+        <button data-nav="marketplace" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg transition border border-slate-700">
           Explore Datasets
         </button>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-slate-800/50">
-        <div>
-          <p class="text-3xl font-extrabold text-white mb-1" id="global-stat-records">1.2M+</p>
-          <p class="text-sm text-slate-500 font-bold uppercase tracking-wider">Data Records</p>
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-10 md:py-12 border-y border-slate-800/50">
+        <div class="p-2">
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">1.2M+</p>
+          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Data Records</p>
         </div>
-        <div>
-          <p class="text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">450k</p>
-          <p class="text-sm text-slate-500 font-bold uppercase tracking-wider">DTC Distributed</p>
+        <div class="p-2">
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">450k</p>
+          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">DTC Distributed</p>
         </div>
-        <div>
-          <p class="text-3xl font-extrabold text-white mb-1">12.8k</p>
-          <p class="text-sm text-slate-500 font-bold uppercase tracking-wider">Active Nodes</p>
+        <div class="p-2">
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1">12.8k</p>
+          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Active Nodes</p>
         </div>
-        <div>
-          <p class="text-3xl font-extrabold text-white mb-1">99.9%</p>
-          <p class="text-sm text-slate-500 font-bold uppercase tracking-wider">Anonymity Score</p>
+        <div class="p-2">
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1">99.9%</p>
+          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Anonymity Score</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ─── SECTION: HOW IT WORKS ─── -->
-  <section id="section-how-it-works" class="dtc-page py-24 bg-slate-900/50">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">How DataTrust Works</h2>
-        <p class="text-slate-400 max-w-xl mx-auto">A seamless pipeline from raw data to blockchain rewards.</p>
+  <section id="section-how-it-works" class="dtc-page py-16 md:py-24 bg-slate-900/50">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="text-center mb-12 md:mb-16">
+        <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">How DataTrust Works</h2>
+        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">A seamless pipeline from raw data to blockchain rewards.</p>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-12 relative">
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12 relative">
         <div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent -translate-y-12"></div>
         
-        <div class="relative flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mb-6 relative z-10">
-            <span class="text-2xl font-bold text-indigo-400">1</span>
+        <div class="relative flex flex-col items-center text-center p-4">
+          <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mb-6 relative z-10">
+            <span class="text-xl md:text-2xl font-bold text-indigo-400">1</span>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">Upload & Anonymize</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Submit your datasets. Our local-first protocol strips PII before any data leaves your browser.</p>
+          <h3 class="text-lg md:text-xl font-bold text-white mb-3">Upload & Anonymize</h3>
+          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Our protocol strips PII before any data leaves your browser.</p>
         </div>
         
-        <div class="relative flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center mb-6 relative z-10">
-            <span class="text-2xl font-bold text-emerald-400">2</span>
+        <div class="relative flex flex-col items-center text-center p-4">
+          <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center mb-6 relative z-10">
+            <span class="text-xl md:text-2xl font-bold text-emerald-400">2</span>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">Tokenize Assets</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Your data is indexed into the marketplace. Ownership is verified via smart contracts.</p>
+          <h3 class="text-lg md:text-xl font-bold text-white mb-3">Tokenize Assets</h3>
+          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Ownership is verified via smart contracts on-chain.</p>
         </div>
         
-        <div class="relative flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center mb-6 relative z-10">
-            <span class="text-2xl font-bold text-purple-400">3</span>
+        <div class="relative flex flex-col items-center text-center p-4">
+          <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center mb-6 relative z-10">
+            <span class="text-xl md:text-2xl font-bold text-purple-400">3</span>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">Earn Recurring DTC</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Every time a company licenses your dataset for research, tokens are deposited to your wallet.</p>
+          <h3 class="text-lg md:text-xl font-bold text-white mb-3">Earn DTC</h3>
+          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">License your data to researchers and earn automated rewards.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ─── SECTION: MARKETPLACE ─── -->
-  <section id="section-marketplace" class="dtc-page hidden py-20 min-h-screen">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
+  <section id="section-marketplace" class="dtc-page hidden py-12 md:py-20 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 md:mb-12">
         <div>
-          <h2 class="text-4xl font-extrabold text-white mb-2">Marketplace</h2>
-          <p class="text-slate-400">Premium anonymized datasets for AI & Research.</p>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Marketplace</h2>
+          <p class="text-slate-400 text-sm md:text-base">Premium anonymized datasets for AI & Research.</p>
         </div>
         <div class="w-full md:w-96 relative">
           <input type="text" id="mp-search" placeholder="Search datasets..." 
-                 class="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 transition outline-none" />
+                 class="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-indigo-500 transition outline-none text-sm md:text-base" />
           <svg class="w-5 h-5 text-slate-500 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
         </div>
       </div>
       <div id="mp-categories" class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar"></div>
-      <div id="mp-datasets" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-      <div id="mp-pagination" class="mt-16 flex justify-center items-center gap-4">
-        <button class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition disabled:opacity-50">Previous</button>
-        <span class="text-white font-bold">Page 1 of 12</span>
-        <button class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition">Next</button>
+      <div id="mp-datasets" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+      <div id="mp-pagination" class="mt-12 md:mt-16 flex flex-wrap justify-center items-center gap-4">
+        <button class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition disabled:opacity-50 text-sm">Previous</button>
+        <span class="text-white font-bold text-sm">Page 1 of 12</span>
+        <button class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition text-sm">Next</button>
       </div>
     </div>
   </section>
 
   <!-- ─── SECTION: DASHBOARD ─── -->
-  <section id="section-dashboard" class="dtc-page hidden py-16 bg-slate-950/50">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex justify-between items-center mb-10">
+  <section id="section-dashboard" class="dtc-page hidden py-10 md:py-16 bg-slate-950/50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
         <div>
-          <h2 class="text-3xl font-extrabold text-white">Console</h2>
-          <p class="text-slate-500 text-sm mt-1">Manage your data assets and earnings.</p>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white">Console</h2>
+          <p class="text-slate-500 text-xs md:text-sm mt-1">Manage your data assets and earnings.</p>
         </div>
-        <button data-nav="upload" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition">+ New Upload</button>
+        <button data-nav="upload" class="w-full md:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition">+ New Upload</button>
       </div>
-      <div class="grid lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-8">
-          <div class="grid sm:grid-cols-3 gap-6">
-            <div class="dtc-card p-6 rounded-2xl">
-              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">My Datasets</p>
-              <h4 class="text-3xl font-black text-white" id="stat-datasets">0</h4>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div class="lg:col-span-2 space-y-6 md:space-y-8">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+            <div class="dtc-card p-5 md:p-6 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">My Datasets</p>
+              <h4 class="text-2xl md:text-3xl font-black text-white" id="stat-datasets">0</h4>
             </div>
-            <div class="dtc-card p-6 rounded-2xl">
-              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Records</p>
-              <h4 class="text-3xl font-black text-white" id="stat-records">0</h4>
+            <div class="dtc-card p-5 md:p-6 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Total Records</p>
+              <h4 class="text-2xl md:text-3xl font-black text-white" id="stat-records">0</h4>
             </div>
-            <div class="dtc-card p-6 rounded-2xl border-l-4 border-l-indigo-500">
-              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">DTC Yield</p>
-              <h4 class="text-3xl font-black text-indigo-400" id="stat-tokens">0.00</h4>
+            <div class="dtc-card p-5 md:p-6 rounded-2xl border-l-4 border-l-indigo-500">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">DTC Yield</p>
+              <h4 class="text-2xl md:text-3xl font-black text-indigo-400" id="stat-tokens">0.00</h4>
             </div>
           </div>
           <div class="dtc-card rounded-2xl overflow-hidden">
-            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+            <div class="p-5 md:p-6 border-b border-slate-800">
               <h3 class="font-bold text-white">My Active Datasets</h3>
             </div>
             <div id="my-datasets-list" class="divide-y divide-slate-800 p-4 space-y-2">
-              <div class="p-8 text-center text-slate-500">No datasets found.</div>
+              <div class="p-8 text-center text-slate-500 text-sm">No datasets found.</div>
             </div>
           </div>
         </div>
@@ -284,7 +304,7 @@
           <div class="dtc-card p-6 rounded-2xl bg-gradient-to-br from-indigo-600/20 to-transparent border-indigo-500/20">
             <h4 class="text-white font-bold mb-4 flex items-center gap-2">Wallet Balance</h4>
             <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00 <span class="text-sm font-normal text-slate-400">DTC</span></p>
-            <button class="w-full mt-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">Withdraw Tokens</button>
+            <button class="w-full mt-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">Withdraw Tokens</button>
           </div>
         </div>
       </div>
@@ -292,98 +312,78 @@
   </section>
 
   <!-- ─── SECTION: UPLOAD ─── -->
-  <section id="section-upload" class="dtc-page hidden py-16">
-    <div class="max-w-3xl mx-auto px-6">
-
-      <h2 class="text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
-
-      <div class="dtc-card p-8 rounded-3xl space-y-6">
-
-        <!-- Dataset Title -->
-        <input 
-          type="text"
-          id="dataset-title"
-          placeholder="Dataset Title (Example: Fitness Activity Dataset)"
-          class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-
-        <!-- Dataset Category -->
-        <input 
-          type="text"
-          id="dataset-category"
-          placeholder="Dataset Category (Example: Healthcare, Fitness, Finance)"
-          class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-
-        <p class="text-sm text-slate-400">
-          Click the button below to select your <strong>.csv</strong> or 
-          <strong>.json</strong> file and begin the secure upload process.
+  <section id="section-upload" class="dtc-page hidden py-10 md:py-16 min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 md:px-6">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
+      <div class="dtc-card p-6 md:p-8 rounded-3xl space-y-6">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Title</label>
+          <input type="text" id="dataset-title" placeholder="Fitness Activity Dataset" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Category</label>
+          <input type="text" id="dataset-category" placeholder="Healthcare, Fitness, Finance" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+          Select your <strong>.csv</strong> or <strong>.json</strong> file. Our secure protocol will anonymize the data before transmission.
         </p>
-
-        <!-- Upload Button -->
-        <button 
-          id="btn-upload-dataset"
-          class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition"
-        >
+        <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">
           Process & Secure Data
         </button>
-
       </div>
-
     </div>
   </section>
 
   <!-- ─── SECTION: LOGIN ─── -->
-  <section id="section-login" class="dtc-page hidden py-24">
-    <div class="max-w-md mx-auto px-6">
-      <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-6 text-center">Welcome Back</h2>
+  <section id="section-login" class="dtc-page hidden py-16 md:py-24">
+    <div class="max-w-md mx-auto px-4 md:px-6">
+      <div class="dtc-card p-6 md:p-8 rounded-3xl">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-6 text-center">Welcome Back</h2>
         <div class="space-y-4">
-          <input type="text" id="login-user" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" id="login-user" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
           <div class="text-center">
             <button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button>
           </div>
         </div>
-        <p class="text-center text-slate-500 mt-6 text-sm">New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button></p>
+        <p class="text-center text-slate-500 mt-8 text-sm">New to DTC? <button data-nav="register" class="text-indigo-400 font-bold hover:underline transition">Create Account</button></p>
       </div>
     </div>
   </section>
 
   <!-- ─── SECTION: REGISTER ─── -->
-  <section id="section-register" class="dtc-page hidden py-24">
-    <div class="max-w-md mx-auto px-6">
-      <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-6 text-center">Get Started</h2>
+  <section id="section-register" class="dtc-page hidden py-10 md:py-24">
+    <div class="max-w-md mx-auto px-4 md:px-6">
+      <div class="dtc-card p-6 md:p-8 rounded-3xl">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-6 text-center">Get Started</h2>
         <div class="space-y-4">
-          <input type="text" id="reg-name" placeholder="Full Name" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="text" id="reg-username" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
-          <input type="password" id="reg-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" id="reg-name" placeholder="Full Name" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="text" id="reg-username" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="password" id="reg-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <div class="bg-slate-900/40 border border-slate-700 rounded-xl p-4">
-            <p class="text-sm text-slate-400 mb-2 font-bold">Account Type</p>
-            <label class="flex items-center gap-3 mb-2 cursor-pointer"><input type="radio" name="accountType" value="user" checked class="accent-indigo-500"><span class="text-white text-sm">Individual</span></label>
-            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="company" class="accent-indigo-500"><span class="text-white text-sm">Company</span></label>
+            <p class="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-wider">Account Type</p>
+            <div class="flex flex-col gap-3">
+              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="user" checked class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Individual</span></label>
+              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="company" class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Company</span></label>
+            </div>
           </div>
           <button id="btn-reg-submit" class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg transition">Create Account</button>
         </div>
-        <p class="text-center text-slate-500 mt-6 text-sm">Already have an account? <button data-nav="login" class="text-indigo-400 font-bold hover:underline transition">Log In</button></p>
+        <p class="text-center text-slate-500 mt-8 text-sm">Already have an account? <button data-nav="login" class="text-indigo-400 font-bold hover:underline transition">Log In</button></p>
       </div>
     </div>
   </section>
 
   <!-- ─── SECTION: FORGOT PASSWORD REQUEST ─── -->
-  <section id="section-forgot-password" class="dtc-page hidden py-24">
-    <div class="max-w-md mx-auto px-6">
-      <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
-        <p class="text-slate-500 text-center mb-8">Enter your registered email address.</p>
+  <section id="section-forgot-password" class="dtc-page hidden py-16 md:py-24">
+    <div class="max-w-md mx-auto px-4 md:px-6">
+      <div class="dtc-card p-6 md:p-8 rounded-3xl">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
+        <p class="text-slate-500 text-center mb-8 text-sm leading-relaxed">Enter your registered email address.</p>
         <div class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Email Address</label>
-            <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-          </div>
+          <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Send Reset Link</button>
           <button data-nav="login" class="w-full py-2 text-slate-500 hover:text-slate-300 transition text-sm font-medium">Back to Login</button>
         </div>
@@ -392,24 +392,15 @@
   </section>
 
   <!-- ─── SECTION: SET NEW PASSWORD ─── -->
-  <section id="section-reset-password" class="dtc-page hidden py-24">
-    <div class="max-w-md mx-auto px-6">
-      <div class="dtc-card p-8 rounded-3xl">
-        <h2 class="text-3xl font-black text-white mb-2 text-center">New Password</h2>
-        <p class="text-slate-500 text-center mb-8">Enter your token and new password.</p>
+  <section id="section-reset-password" class="dtc-page hidden py-16 md:py-24">
+    <div class="max-w-md mx-auto px-4 md:px-6">
+      <div class="dtc-card p-6 md:p-8 rounded-3xl">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">New Password</h2>
+        <p class="text-slate-500 text-center mb-8 text-sm">Enter your token and new password.</p>
         <div class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Reset Token</label>
-            <input type="text" id="reset-token" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">New Password</label>
-            <input type="password" id="reset-pass" placeholder="Min 8 characters" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
-            <input type="password" id="reset-pass-confirm" placeholder="Repeat password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-          </div>
+          <input type="text" id="reset-token" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
+          <input type="password" id="reset-pass" placeholder="New Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
+          <input type="password" id="reset-pass-confirm" placeholder="Confirm Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Update Password</button>
         </div>
       </div>
@@ -418,12 +409,12 @@
 
 </main>
 
-<footer id="global-footer" class="bg-slate-950 pt-20 pb-10 border-t border-slate-900">
-  <div class="max-w-7xl mx-auto px-6 text-center text-xs text-slate-600 font-medium">
+<footer id="global-footer" class="bg-slate-950 pt-16 md:pt-20 pb-10 border-t border-slate-900 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 text-center text-[10px] md:text-xs text-slate-600 font-medium">
     <p>© 2026 DataTrust Coin. All rights reserved.</p>
-    <div class="flex justify-center gap-6 mt-2">
+    <div class="flex justify-center gap-6 mt-4">
       <span>Network: <span class="text-emerald-500">Online</span></span>
-      <span>v0.6.2-prod</span>
+      <span>v0.7.0-prod</span>
     </div>
   </div>
 </footer>
@@ -433,27 +424,27 @@
    * APP CONFIG
    */
   const API_BASE = 'https://dtc-backend-ksm6.onrender.com/api';
-  let currentUser = JSON.parse(localStorage.getItem('dtc_user')) || null;
 
   /**
    * HELPERS
    */
   function toggleLoader(show, text = "Processing...") {
     const loader = document.getElementById('global-loader');
-    document.getElementById('loader-text').innerText = text;
-    loader.classList.toggle('hidden', !show);
+    const loaderText = document.getElementById('loader-text');
+    if (loaderText) loaderText.innerText = text;
+    if (loader) loader.classList.toggle('hidden', !show);
   }
 
   function showToast(msg, type = 'info') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-500/10 text-red-400' : (type === 'success' ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400' : 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400');
-    toast.className = `px-6 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-x-12 opacity-0 font-bold text-sm ${colorClass}`;
+    const colorClass = type === 'error' ? 'border-red-500/50 bg-red-950/80 text-red-400' : (type === 'success' ? 'border-emerald-500/50 bg-emerald-950/80 text-emerald-400' : 'border-indigo-500/50 bg-indigo-950/80 text-indigo-400');
+    toast.className = `px-6 py-4 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-y-4 opacity-0 font-bold text-sm ${colorClass}`;
     toast.innerText = msg;
     container.appendChild(toast);
-    setTimeout(() => { toast.classList.remove('translate-x-12', 'opacity-0'); }, 10);
+    setTimeout(() => { toast.classList.remove('translate-y-4', 'opacity-0'); }, 10);
     setTimeout(() => {
-      toast.classList.add('translate-x-12', 'opacity-0');
+      toast.classList.add('opacity-0');
       setTimeout(() => toast.remove(), 300);
     }, 4500);
   }
@@ -472,6 +463,7 @@
       const user = await res.json();
       const balance = (user.token_balance || 0).toFixed(2);
       document.getElementById("nav-balance").innerText = balance + " DTC";
+      document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
       document.getElementById("dash-wallet-balance").innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
     } catch(e) { console.error("Wallet load failed", e); }
   }
@@ -485,22 +477,23 @@
       });
       const data = await res.json();
       const list = document.getElementById("my-datasets-list");
-      list.innerHTML = "";
+      if(!list) return;
       
+      list.innerHTML = "";
       if(data.length === 0) {
-        list.innerHTML = `<div class="p-8 text-center text-slate-500">No datasets found.</div>`;
+        list.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm">No datasets found.</div>`;
         return;
       }
 
       data.forEach(d => {
         const item = document.createElement("div");
-        item.className = "p-4 dtc-card rounded-xl flex justify-between items-center border border-slate-800/50 hover:border-indigo-500/30 transition";
+        item.className = "p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-slate-800/20 transition";
         item.innerHTML = `
-          <div class="flex flex-col">
-            <span class="text-white font-bold">${d.title}</span>
-            <span class="text-slate-500 text-xs">${d.record_count} records</span>
+          <div>
+            <div class="text-white font-bold text-sm">${d.title}</div>
+            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records</div>
           </div>
-          <span class="text-indigo-400 font-black">${d.token_reward || 0} DTC</span>
+          <div class="text-indigo-400 font-black text-sm">${d.token_reward || 0} DTC</div>
         `;
         list.appendChild(item);
       });
@@ -515,20 +508,24 @@
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
       const datasets = await res.json();
       const container = document.getElementById("mp-datasets");
+      if(!container) return;
       container.innerHTML = "";
 
       datasets.forEach(d => {
         const card = document.createElement("div");
-        card.className = "dtc-card p-6 rounded-2xl border border-slate-800/50 hover:border-indigo-500/40 transition";
+        card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
         card.innerHTML = `
-          <div class="flex justify-between items-start mb-4">
+          <div class="mb-4">
             <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
           </div>
-          <h3 class="text-white font-bold text-lg mb-1">${d.title}</h3>
-          <p class="text-slate-400 text-sm mb-4">${d.record_count} anonymized records</p>
+          <h3 class="text-white font-bold text-lg mb-1 leading-snug">${d.title}</h3>
+          <p class="text-slate-400 text-sm mb-6 flex-1">${d.record_count} anonymized data points for training and research.</p>
           <div class="flex justify-between items-center pt-4 border-t border-slate-800/50">
-            <p class="text-indigo-400 font-black text-xl">${d.price || 0} <span class="text-xs">DTC</span></p>
-            <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition">Buy Data</button>
+            <div>
+              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
+              <p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p>
+            </div>
+            <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Now</button>
           </div>
         `;
         container.appendChild(card);
@@ -537,7 +534,7 @@
   }
 
   /**
-   * NAVIGATION
+   * NAVIGATION & UI SYNC
    */
   const sections = document.querySelectorAll('.dtc-page');
   function navigate(targetId) {
@@ -561,34 +558,60 @@
 
     const footer = document.getElementById('global-footer');
     if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    toggleMobileMenu(false);
+    toggleMobileMenu(false); // Always close mobile menu on navigation
   }
 
-  function toggleMobileMenu(state) {
-    const menu = document.getElementById('mobile-menu');
-    const isHidden = state !== undefined ? !state : menu.classList.contains('hidden');
-    if(!menu) return;
-    menu.classList.toggle('hidden', isHidden);
-    document.getElementById('menu-icon-open').classList.toggle('hidden', !isHidden);
-    document.getElementById('menu-icon-close').classList.toggle('hidden', isHidden);
+  // MOBILE MENU TOGGLE LOGIC
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIconOpen = document.getElementById('menu-icon-open');
+  const menuIconClose = document.getElementById('menu-icon-close');
+
+  function toggleMobileMenu(forceState) {
+    const isExpanding = forceState !== undefined ? forceState : !mobileMenu.classList.contains('active');
+    
+    if (isExpanding) {
+      mobileMenu.classList.add('active');
+      menuIconOpen.classList.add('hidden');
+      menuIconClose.classList.remove('hidden');
+    } else {
+      mobileMenu.classList.remove('active');
+      menuIconOpen.classList.remove('hidden');
+      menuIconClose.classList.add('hidden');
+    }
   }
 
-  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => toggleMobileMenu());
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMobileMenu();
+  });
+
+  // Handle all data-nav clicks (both desktop and mobile)
   document.querySelectorAll('[data-nav]').forEach(link => {
-    link.addEventListener('click', () => navigate(link.getAttribute('data-nav')));
+    link.addEventListener('click', () => {
+      navigate(link.getAttribute('data-nav'));
+    });
   });
 
   /**
-   * AUTH LOGIC
+   * AUTHENTICATION LOGIC
    */
   function updateAuthStateUI() {
     const isUser = !!localStorage.getItem("token");
+    
+    // Sync Desktop
     document.getElementById('nav-guest-zone').classList.toggle('hidden', isUser);
     document.getElementById('nav-user-zone').classList.toggle('hidden', !isUser);
+    
+    // Sync Mobile
+    document.getElementById('mobile-guest-zone').classList.toggle('hidden', isUser);
+    document.getElementById('mobile-user-zone').classList.toggle('hidden', !isUser);
+
     if (isUser) loadWallet();
   }
 
+  // API Callbacks
   document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
@@ -624,8 +647,8 @@
         body: JSON.stringify({ username, email, password, full_name: name, is_company: isCompany })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Reg failed");
-      showToast("Account created! Log in now.", "success");
+      if (!res.ok) throw new Error(data.detail || "Registration failed");
+      showToast("Account created successfully!", "success");
       navigate("login");
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
@@ -640,10 +663,9 @@
       toggleLoader(false);
       if (!res.ok) return showToast(data.detail || "Request failed", "error");
       if (data.reset_token) {
-        showToast("Reset token generated!", "success");
-        alert("Your password reset token:\n\n" + data.reset_token + "\n\nCopy this token and use it to reset your password.");
+        alert("Your password reset token:\n\n" + data.reset_token + "\n\nCopy this and enter it on the next page.");
         navigate("reset-password");
-      } else { showToast(data.message || "Request sent"); }
+      }
     } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
@@ -713,21 +735,30 @@
     fileInput.click();
   });
 
-  document.getElementById('btn-logout')?.addEventListener('click', () => {
+  const logoutAction = () => {
     localStorage.clear();
     updateAuthStateUI();
     navigate('home');
     showToast("Logged out");
-  });
+  };
+
+  document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
+  document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 
   /**
    * INITIALIZATION
    */
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
-    const token = localStorage.getItem("token");
-    const urlToken = new URLSearchParams(window.location.search).get('token');
     
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !document.getElementById('mobile-menu-btn').contains(e.target)) {
+        toggleMobileMenu(false);
+      }
+    });
+
+    const urlToken = new URLSearchParams(window.location.search).get('token');
     if (urlToken) {
       navigate('reset-password');
       const tokenField = document.getElementById("reset-token");
