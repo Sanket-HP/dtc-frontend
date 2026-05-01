@@ -46,18 +46,22 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Custom Mobile Menu Height Transition */
+    /* Improved Mobile Menu Animations */
     #mobile-menu {
-      transition: max-height 0.3s ease-in-out;
+      transform: translateY(-10px);
+      opacity: 0;
       max-height: 0;
       overflow: hidden;
+      transition: all 0.3s ease-in-out;
     }
     #mobile-menu.active {
-      max-height: 500px;
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100vh; /* Prevents cutoff on long menus */
     }
   </style>
 </head>
-<body class="min-h-screen selection:bg-indigo-500/30">
+<body class="min-h-screen flex flex-col selection:bg-indigo-500/30">
 
 <!-- ─── NOTIFICATIONS (TOASTS) ────────────────────────────────────── -->
 <div id="toast-container" class="fixed top-20 right-4 left-4 md:left-auto md:right-6 z-[100] flex flex-col gap-3"></div>
@@ -75,7 +79,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <!-- Logo -->
-      <button data-nav="home" class="flex items-center gap-2 transition group">
+      <button data-nav="home" class="flex items-center gap-2 transition group text-left">
         <div class="bg-indigo-600 p-1.5 rounded-lg">
           <svg class="h-5 w-5 md:h-6 md:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -116,8 +120,8 @@
         </div>
       </div>
 
-      <!-- Mobile Toggle Button -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none">
+      <!-- Mobile Toggle Button (Improved Touch Area) -->
+      <button id="mobile-menu-btn" class="md:hidden p-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition focus:outline-none">
         <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
         <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -138,7 +142,7 @@
     <div id="mobile-user-zone" class="hidden space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
       <div class="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl">
-        <span class="text-slate-400 font-medium">Wallet Balance</span>
+        <span class="text-slate-400 font-medium">Wallet</span>
         <span class="text-indigo-400 font-bold" id="mobile-nav-balance">0.00 DTC</span>
       </div>
       <button data-nav="dashboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Dashboard</button>
@@ -148,10 +152,10 @@
   </div>
 </nav>
 
-<main class="relative overflow-hidden">
+<main class="relative overflow-hidden flex-1">
   
   <!-- ─── SECTION: HERO ─── -->
-  <section id="section-home" class="dtc-page relative pt-12 md:pt-20 pb-20 md:pb-32 hero-gradient">
+  <section id="section-home" class="dtc-page relative pt-12 md:pt-20 pb-20 hero-gradient">
     <div class="max-w-7xl mx-auto px-4 md:px-6 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8">
         <span class="relative flex h-2 w-2">
@@ -164,9 +168,8 @@
         Your Data is <span class="text-indigo-500">Valuable.</span><br/>
         Get Paid to Share it.
       </h1>
-      <p class="text-base md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 md:mb-12 font-inter leading-relaxed">
-        Join the decentralized movement. Upload anonymized research data, protect your identity, 
-        and earn <strong>DTC Tokens</strong>.
+      <p class="text-base md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 md:mb-12 font-inter leading-relaxed text-balance">
+        Upload anonymized datasets and earn DTC tokens. Protect your identity while fueling the AI revolution.
       </p>
       
       <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16 md:mb-20 px-4">
@@ -174,18 +177,18 @@
           Start Earning Today
         </button>
         <button data-nav="marketplace" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg transition border border-slate-700">
-          Explore Datasets
+          Explore Marketplace
         </button>
       </div>
 
       <!-- Stats Grid -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-10 md:py-12 border-y border-slate-800/50">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-10 border-y border-slate-800/50">
         <div class="p-2">
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">1.2M+</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">Loading...</p>
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Data Records</p>
         </div>
         <div class="p-2">
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">450k</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">Loading...</p>
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">DTC Distributed</p>
         </div>
         <div class="p-2">
@@ -210,7 +213,6 @@
       
       <div class="grid md:grid-cols-3 gap-8 md:gap-12 relative">
         <div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent -translate-y-12"></div>
-        
         <div class="relative flex flex-col items-center text-center p-4">
           <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mb-6 relative z-10">
             <span class="text-xl md:text-2xl font-bold text-indigo-400">1</span>
@@ -218,7 +220,6 @@
           <h3 class="text-lg md:text-xl font-bold text-white mb-3">Upload & Anonymize</h3>
           <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Our protocol strips PII before any data leaves your browser.</p>
         </div>
-        
         <div class="relative flex flex-col items-center text-center p-4">
           <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center mb-6 relative z-10">
             <span class="text-xl md:text-2xl font-bold text-emerald-400">2</span>
@@ -226,13 +227,63 @@
           <h3 class="text-lg md:text-xl font-bold text-white mb-3">Tokenize Assets</h3>
           <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Ownership is verified via smart contracts on-chain.</p>
         </div>
-        
         <div class="relative flex flex-col items-center text-center p-4">
           <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center mb-6 relative z-10">
             <span class="text-xl md:text-2xl font-bold text-purple-400">3</span>
           </div>
           <h3 class="text-lg md:text-xl font-bold text-white mb-3">Earn DTC</h3>
           <p class="text-slate-400 text-xs md:text-sm leading-relaxed">License your data to researchers and earn automated rewards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION: WHERE TO GET YOUR DATA ─── -->
+  <section id="section-data-sources" class="dtc-page py-20 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Where Can You Get Your Data?</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+          Most users already own valuable datasets hidden inside their apps and devices. 
+          Exporting them takes minutes, but the tokens you earn last a lifetime.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 md:gap-10 mb-20">
+        <!-- Google Data -->
+        <div class="dtc-card p-8 rounded-3xl text-center flex flex-col">
+          <div class="w-12 h-12 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.92 3.32-2.12 4.36-1.52 1.32-3.4 2.12-5.72 2.12-4.28 0-7.72-3.48-7.72-7.76s3.44-7.76 7.72-7.76c2.44 0 4.12 1.04 5.36 2.2l2.32-2.32c-1.84-1.8-4.48-3.12-7.68-3.12-6 0-11 4.88-11 11s5 11 11 11c3.24 0 5.84-1.08 7.92-3.16 2.12-2.12 2.84-5.2 2.84-7.8 0-.52-.04-1.04-.12-1.52h-10.64z"/></svg>
+          </div>
+          <h3 class="text-white font-bold text-xl mb-3">Google Takeout</h3>
+          <p class="text-slate-400 text-sm mb-6 flex-1">
+            Export search history, YouTube activity, and location timelines.
+          </p>
+          <a href="https://takeout.google.com" target="_blank" class="text-indigo-400 text-xs font-black uppercase tracking-widest hover:underline">takeout.google.com →</a>
+        </div>
+
+        <!-- Fitness Apps -->
+        <div class="dtc-card p-8 rounded-3xl text-center flex flex-col">
+          <div class="w-12 h-12 bg-emerald-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <h3 class="text-white font-bold text-xl mb-3">Fitness & Health</h3>
+          <p class="text-slate-400 text-sm mb-6 flex-1">
+            Export biometric data from Fitbit, Strava, or Apple Health.
+          </p>
+          <p class="text-emerald-400 text-xs font-black uppercase tracking-widest leading-none">Activity Metrics</p>
+        </div>
+
+        <!-- Finance -->
+        <div class="dtc-card p-8 rounded-3xl text-center flex flex-col">
+          <div class="w-12 h-12 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-white font-bold text-xl mb-3">Finance Apps</h3>
+          <p class="text-slate-400 text-sm mb-6 flex-1">
+            Download transaction CSVs from bank apps or budgeting tools.
+          </p>
+          <p class="text-purple-400 text-xs font-black uppercase tracking-widest leading-none">CSV/JSON Export</p>
         </div>
       </div>
     </div>
@@ -278,15 +329,15 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div class="lg:col-span-2 space-y-6 md:space-y-8">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-            <div class="dtc-card p-5 md:p-6 rounded-2xl">
+            <div class="dtc-card p-5 md:p-6 rounded-2xl text-center">
               <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">My Datasets</p>
               <h4 class="text-2xl md:text-3xl font-black text-white" id="stat-datasets">0</h4>
             </div>
-            <div class="dtc-card p-5 md:p-6 rounded-2xl">
+            <div class="dtc-card p-5 md:p-6 rounded-2xl text-center">
               <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Total Records</p>
               <h4 class="text-2xl md:text-3xl font-black text-white" id="stat-records">0</h4>
             </div>
-            <div class="dtc-card p-5 md:p-6 rounded-2xl border-l-4 border-l-indigo-500">
+            <div class="dtc-card p-5 md:p-6 rounded-2xl border-l-4 border-l-indigo-500 text-center">
               <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">DTC Yield</p>
               <h4 class="text-2xl md:text-3xl font-black text-indigo-400" id="stat-tokens">0.00</h4>
             </div>
@@ -304,7 +355,9 @@
           <div class="dtc-card p-6 rounded-2xl bg-gradient-to-br from-indigo-600/20 to-transparent border-indigo-500/20">
             <h4 class="text-white font-bold mb-4 flex items-center gap-2">Wallet Balance</h4>
             <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00 <span class="text-sm font-normal text-slate-400">DTC</span></p>
-            <button class="w-full mt-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">Withdraw Tokens</button>
+            <button disabled class="w-full mt-6 py-3 rounded-xl bg-slate-800 opacity-60 cursor-not-allowed text-slate-400 text-sm font-bold transition">
+              Withdrawals coming soon
+            </button>
           </div>
         </div>
       </div>
@@ -321,12 +374,23 @@
           <input type="text" id="dataset-title" placeholder="Fitness Activity Dataset" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Category</label>
-          <input type="text" id="dataset-category" placeholder="Healthcare, Fitness, Finance" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Description</label>
+          <textarea id="dataset-description" placeholder="Describe your dataset content..." rows="4" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-          Select your <strong>.csv</strong> or <strong>.json</strong> file. Our secure protocol will anonymize the data before transmission.
-        </p>
+        
+        <!-- Visible File Selector -->
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Select Dataset File (.csv, .json)</label>
+          <div class="relative">
+            <input type="file" id="dataset-file" accept=".csv,.json" class="hidden" />
+            <label for="dataset-file" class="flex items-center justify-between w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-slate-400 cursor-pointer hover:border-indigo-500/50 transition">
+              <span id="file-name-label">No file chosen...</span>
+              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </label>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-2 ml-1 italic">Max file size: 10MB</p>
+        </div>
+
         <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">
           Process & Secure Data
         </button>
@@ -396,7 +460,7 @@
     <div class="max-w-md mx-auto px-4 md:px-6">
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">New Password</h2>
-        <p class="text-slate-500 text-center mb-8 text-sm">Enter your token and new password.</p>
+        <p class="text-slate-500 text-center mb-8 text-sm text-balance">Enter the token we provided and your new password.</p>
         <div class="space-y-4">
           <input type="text" id="reset-token" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <input type="password" id="reset-pass" placeholder="New Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
@@ -414,20 +478,14 @@
     <p>© 2026 DataTrust Coin. All rights reserved.</p>
     <div class="flex justify-center gap-6 mt-4">
       <span>Network: <span class="text-emerald-500">Online</span></span>
-      <span>v0.7.0-prod</span>
+      <span>v0.7.4-prod</span>
     </div>
   </div>
 </footer>
 
 <script>
-  /**
-   * APP CONFIG
-   */
   const API_BASE = 'https://dtc-backend-ksm6.onrender.com/api';
 
-  /**
-   * HELPERS
-   */
   function toggleLoader(show, text = "Processing...") {
     const loader = document.getElementById('global-loader');
     const loaderText = document.getElementById('loader-text');
@@ -449,9 +507,18 @@
     }, 4500);
   }
 
-  /**
-   * DATA LOADING FUNCTIONS
-   */
+  async function loadPlatformStats() {
+    try {
+      const res = await fetch(`${API_BASE}/datasets/stats`);
+      if(!res.ok) return;
+      const stats = await res.json();
+      const recElem = document.getElementById("global-stat-records");
+      const tokElem = document.getElementById("global-stat-tokens");
+      if(recElem) recElem.innerText = (stats.total_records || 0).toLocaleString() + "+";
+      if(tokElem) tokElem.innerText = (stats.total_distributed || 0).toLocaleString();
+    } catch(e) { console.error("Stats load failed", e); }
+  }
+
   async function loadWallet() {
     const token = localStorage.getItem("token");
     if(!token) return;
@@ -459,6 +526,13 @@
       const res = await fetch(`${API_BASE}/auth/me`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
+      if(res.status === 401){
+        localStorage.removeItem("token");
+        updateAuthStateUI();
+        navigate("login");
+        showToast("Session expired. Please login again.","error");
+        return;
+      }
       if(!res.ok) return;
       const user = await res.json();
       const balance = (user.token_balance || 0).toFixed(2);
@@ -478,26 +552,17 @@
       const data = await res.json();
       const list = document.getElementById("my-datasets-list");
       if(!list) return;
-      
       list.innerHTML = "";
       if(data.length === 0) {
         list.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm">No datasets found.</div>`;
         return;
       }
-
       data.forEach(d => {
         const item = document.createElement("div");
         item.className = "p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-slate-800/20 transition";
-        item.innerHTML = `
-          <div>
-            <div class="text-white font-bold text-sm">${d.title}</div>
-            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records</div>
-          </div>
-          <div class="text-indigo-400 font-black text-sm">${d.token_reward || 0} DTC</div>
-        `;
+        item.innerHTML = `<div><div class="text-white font-bold text-sm">${d.title}</div><div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records</div></div><div class="text-indigo-400 font-black text-sm">${d.token_reward || 0} DTC</div>`;
         list.appendChild(item);
       });
-      
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
     } catch(e) { console.error("Datasets load failed", e); }
@@ -509,68 +574,56 @@
       const datasets = await res.json();
       const container = document.getElementById("mp-datasets");
       if(!container) return;
+      if(datasets.length === 0){
+        container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500">No datasets available yet.</div>`;
+        return;
+      }
       container.innerHTML = "";
-
       datasets.forEach(d => {
         const card = document.createElement("div");
         card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
-        card.innerHTML = `
-          <div class="mb-4">
-            <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
-          </div>
-          <h3 class="text-white font-bold text-lg mb-1 leading-snug">${d.title}</h3>
-          <p class="text-slate-400 text-sm mb-6 flex-1">${d.record_count} anonymized data points for training and research.</p>
-          <div class="flex justify-between items-center pt-4 border-t border-slate-800/50">
-            <div>
-              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
-              <p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p>
-            </div>
-            <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Now</button>
-          </div>
-        `;
+        card.innerHTML = `<div class="mb-4"><span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span></div><h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3><p class="text-slate-400 text-sm mb-6 flex-1">${d.record_count} records • ${d.download_count || 0} downloads</p><div class="flex justify-between items-center pt-4 border-t border-slate-800/50"><div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p><p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p></div><button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Data</button></div>`;
         container.appendChild(card);
       });
     } catch(e) { console.error("Marketplace load failed", e); }
   }
 
-  /**
-   * NAVIGATION & UI SYNC
-   */
   const sections = document.querySelectorAll('.dtc-page');
   function navigate(targetId) {
+    if(targetId === "dashboard" && !localStorage.getItem("token")){
+      showToast("Please login first","error");
+      navigate("login");
+      return;
+    }
+
     sections.forEach(s => s.classList.add('hidden'));
     
     if (targetId === 'home') {
       document.getElementById('section-home').classList.remove('hidden');
       document.getElementById('section-how-it-works').classList.remove('hidden');
+      document.getElementById('section-data-sources').classList.remove('hidden');
+      loadPlatformStats();
     } else {
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
 
-    if(targetId === 'dashboard') {
-      loadMyDatasets();
-      loadWallet();
-    }
-    if(targetId === 'marketplace') {
-      loadMarketplace();
-    }
+    if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); }
+    if(targetId === 'marketplace') { loadMarketplace(); }
 
     const footer = document.getElementById('global-footer');
     if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    toggleMobileMenu(false); // Always close mobile menu on navigation
+    toggleMobileMenu(false);
   }
 
-  // MOBILE MENU TOGGLE LOGIC
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIconOpen = document.getElementById('menu-icon-open');
   const menuIconClose = document.getElementById('menu-icon-close');
 
   function toggleMobileMenu(forceState) {
     const isExpanding = forceState !== undefined ? forceState : !mobileMenu.classList.contains('active');
-    
     if (isExpanding) {
       mobileMenu.classList.add('active');
       menuIconOpen.classList.add('hidden');
@@ -582,40 +635,33 @@
     }
   }
 
-  document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMobileMenu();
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => { 
+    e.stopPropagation(); 
+    toggleMobileMenu(); 
   });
 
-  // Handle all data-nav clicks (both desktop and mobile)
-  document.querySelectorAll('[data-nav]').forEach(link => {
-    link.addEventListener('click', () => {
-      navigate(link.getAttribute('data-nav'));
-    });
+  document.querySelectorAll('[data-nav]').forEach(link => { 
+    link.addEventListener('click', () => { 
+      navigate(link.getAttribute('data-nav')); 
+      toggleMobileMenu(false); // Point 3: Auto-close after navigation click
+    }); 
   });
 
-  /**
-   * AUTHENTICATION LOGIC
-   */
   function updateAuthStateUI() {
     const isUser = !!localStorage.getItem("token");
-    
-    // Sync Desktop
     document.getElementById('nav-guest-zone').classList.toggle('hidden', isUser);
     document.getElementById('nav-user-zone').classList.toggle('hidden', !isUser);
-    
-    // Sync Mobile
     document.getElementById('mobile-guest-zone').classList.toggle('hidden', isUser);
     document.getElementById('mobile-user-zone').classList.toggle('hidden', !isUser);
-
     if (isUser) loadWallet();
   }
 
-  // API Callbacks
   document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
     if (!username || !password) return showToast("Enter credentials", "error");
+    const loginBtn = document.getElementById("btn-login-submit");
+    loginBtn.disabled = true;
     toggleLoader(true, "Authenticating...");
     try {
       const res = await fetch(`${API_BASE}/auth/login`, {
@@ -629,7 +675,8 @@
       showToast("Login successful", "success");
       updateAuthStateUI();
       navigate("dashboard");
-    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
+    } catch (err) { showToast(err.message, "error"); } 
+    finally { toggleLoader(false); loginBtn.disabled = false; }
   });
 
   document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
@@ -639,6 +686,7 @@
     const password = document.getElementById("reg-pass").value;
     const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
+    if (password.length < 8) return showToast("Password must be at least 8 characters", "error");
     toggleLoader(true, "Creating account...");
     try {
       const res = await fetch(`${API_BASE}/auth/register`, {
@@ -648,7 +696,7 @@
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Registration failed");
-      showToast("Account created successfully!", "success");
+      showToast("Account created. Please login.", "success");
       navigate("login");
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
@@ -663,7 +711,8 @@
       toggleLoader(false);
       if (!res.ok) return showToast(data.detail || "Request failed", "error");
       if (data.reset_token) {
-        alert("Your password reset token:\n\n" + data.reset_token + "\n\nCopy this and enter it on the next page.");
+        showToast("Reset token generated.", "success");
+        document.getElementById("reset-token").value = data.reset_token;
         navigate("reset-password");
       }
     } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
@@ -674,6 +723,7 @@
     const newPass = document.getElementById("reset-pass").value;
     const confirmPass = document.getElementById("reset-pass-confirm").value;
     if (!token || !newPass || !confirmPass) return showToast("All fields required", "error");
+    if (newPass.length < 8) return showToast("Password must be at least 8 characters", "error");
     if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
     toggleLoader(true, "Updating password...");
     try {
@@ -686,83 +736,90 @@
     } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
-  /**
-   * DATASET UPLOAD HANDLER
-   */
-  document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
-    const title = document.getElementById("dataset-title").value;
-    const category = document.getElementById("dataset-category").value;
+  // Handle visible file selector name display
+  document.getElementById("dataset-file")?.addEventListener("change", function(e) {
+    const fileName = e.target.files[0]?.name || "No file chosen...";
+    const label = document.getElementById("file-name-label");
+    if(label) label.innerText = fileName;
+  });
 
-    if (!title || !category) {
-      showToast("Enter dataset title and category", "error");
+  document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
+    const token = localStorage.getItem("token");
+    if(!token){ showToast("Please login first","error"); navigate("login"); return; }
+    
+    const title = document.getElementById("dataset-title").value;
+    const description = document.getElementById("dataset-description").value;
+    const fileInput = document.getElementById("dataset-file");
+    const file = fileInput?.files[0];
+
+    if (!title || !description) return showToast("Enter title and description", "error");
+    if (!file) return showToast("Please select a file first", "error");
+
+    // Point 6: Security Check - File size limit (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      showToast("Max file size allowed is 10MB", "error");
       return;
     }
 
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = ".csv,.json";
+    if(!file.name.endsWith(".csv") && !file.name.endsWith(".json")){
+      showToast("Only CSV or JSON files allowed","error");
+      return;
+    }
 
-    fileInput.onchange = async () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("title", title);
-      formData.append("category", category);
-
-      toggleLoader(true, "Uploading dataset...");
-      try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`${API_BASE}/datasets/upload`, {
-          method: "POST",
-          headers: { "Authorization": "Bearer " + token },
-          body: formData
-        });
-        const data = await res.json();
-        toggleLoader(false);
-        if (!res.ok) {
-          showToast(data.detail || "Upload failed", "error");
-          return;
-        }
-        showToast("Dataset uploaded successfully!", "success");
-        navigate("dashboard");
-      } catch(err) {
-        toggleLoader(false);
-        showToast("Server connection failed", "error");
-      }
-    };
-    fileInput.click();
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("title", title);
+    formData.append("description", description);
+    
+    toggleLoader(true, "Anonymizing & Uploading...");
+    try {
+      const res = await fetch(`${API_BASE}/datasets/upload`, {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: formData
+      });
+      const data = await res.json();
+      toggleLoader(false);
+      if (!res.ok) return showToast(data.detail || "Upload failed", "error");
+      showToast("Dataset uploaded successfully!", "success");
+      // Clear input after upload
+      document.getElementById("dataset-title").value = "";
+      document.getElementById("dataset-description").value = "";
+      document.getElementById("dataset-file").value = "";
+      document.getElementById("file-name-label").innerText = "No file chosen...";
+      navigate("dashboard");
+    } catch(err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
-  const logoutAction = () => {
-    localStorage.clear();
-    updateAuthStateUI();
-    navigate('home');
-    showToast("Logged out");
-  };
+  document.getElementById("mp-search")?.addEventListener("input", function() {
+    const query = this.value.toLowerCase();
+    document.querySelectorAll("#mp-datasets > div").forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = text.includes(query) ? "" : "none";
+    });
+  });
 
+  const logoutAction = () => { localStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out"); };
   document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
   document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 
-  /**
-   * INITIALIZATION
-   */
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
+    loadPlatformStats();
     
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !document.getElementById('mobile-menu-btn').contains(e.target)) {
+      const btn = document.getElementById('mobile-menu-btn');
+      if (mobileMenu && btn && !mobileMenu.contains(e.target) && !btn.contains(e.target)) {
         toggleMobileMenu(false);
       }
     });
 
     const urlToken = new URLSearchParams(window.location.search).get('token');
-    if (urlToken) {
-      navigate('reset-password');
+    if (urlToken) { 
+      navigate('reset-password'); 
       const tokenField = document.getElementById("reset-token");
-      if(tokenField) tokenField.value = urlToken;
+      if(tokenField) tokenField.value = urlToken; 
     } else {
       navigate('home');
     }
