@@ -88,6 +88,7 @@
 
       <div class="hidden md:flex items-center gap-6 lg:gap-8">
         <button data-nav="marketplace" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Marketplace</button>
+        <button data-nav="leaderboard" class="text-slate-300 hover:text-white font-medium transition">Leaderboard</button>
         <button data-nav="how-it-works" class="text-slate-300 hover:text-white font-medium transition">How it Works</button>
         <div class="h-6 w-px bg-slate-800 mx-2"></div>
         <div id="nav-guest-zone" class="flex items-center gap-4">
@@ -123,6 +124,7 @@
 
   <div id="mobile-menu" class="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-4 space-y-4">
     <button data-nav="marketplace" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Marketplace</button>
+    <button data-nav="leaderboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Leaderboard</button>
     <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300 p-2">How it Works</button>
     <div id="mobile-guest-zone" class="space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
@@ -282,6 +284,19 @@
       </div>
       <div id="mp-categories" class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar"></div>
       <div id="mp-datasets" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="section-leaderboard" class="dtc-page hidden py-20 min-h-screen">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="mb-12">
+        <h2 class="text-3xl font-black text-white mb-2">Top Contributors</h2>
+        <p class="text-slate-400">The heroes providing the data fuel for the next AI generation.</p>
+      </div>
+      <div id="leaderboard-list" class="space-y-4">
+        <div class="p-8 text-center text-slate-500 animate-pulse">Loading rankings...</div>
+      </div>
     </div>
   </section>
 
@@ -530,12 +545,10 @@
       const user = await res.json();
       const balance = (user.token_balance || 0).toFixed(2);
       
-      // Update UI
       document.getElementById("nav-balance").innerText = balance + " DTC";
       document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
       document.getElementById("dash-wallet-balance").innerText = balance;
 
-      // Sync status display
       if (user.updated_at) {
         const syncElem = document.getElementById("wallet-updated-at");
         if(syncElem) {
@@ -551,14 +564,10 @@
     const token = sessionStorage.getItem("token");
     if(!token) return;
     try {
-      // Assuming a /transactions/mine endpoint exists or we fetch from current user metadata
       const res = await fetch(`${API_BASE}/auth/me`, { headers: { "Authorization": `Bearer ${token}` } });
-      const user = await res.json();
       const list = document.getElementById("transactions-list");
       if(!list) return;
 
-      // Mocking transaction display based on current dataset rewards if full history isn't ready
-      // In a real app, this would be a separate list of objects from Firestore
       const datasetsRes = await fetch(`${API_BASE}/datasets/mine`, { headers: { "Authorization": `Bearer ${token}` } });
       const datasets = await datasetsRes.json();
       
@@ -615,7 +624,7 @@
                 Quality ${(d.quality_score * 100).toFixed(0)}%
               </span>
             </div>
-            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • Quality ${(d.quality_score || 0).toFixed(2)}</div>
+            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • Quality ${(d.quality_score || 0).toFixed(2)} • ⬇ ${d.download_count || 0} downloads</div>
           </div>
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">${calculatedReward} DTC</div>
@@ -685,40 +694,100 @@
     finally { toggleLoader(false); }
   }
 
+  async function rateDataset(id, rating) {
+    const token = sessionStorage.getItem("token");
+    if(!token) return showToast("Login required","error");
+    try {
+      const res = await fetch(`${API_BASE}/datasets/${id}/rate?rating=${rating}`, {
+        method: "POST",
+        headers: { "Authorization": "Bearer "+token }
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.detail);
+      showToast("Rating submitted", "success");
+      loadMarketplace();
+    } catch(e) { showToast(e.message, "error"); }
+  }
+
+  async function searchMarketplace(query) {
+    try {
+      const res = await fetch(`${API_BASE}/datasets/search?query=${query}`);
+      const data = await res.json();
+      renderMarketplace(data);
+    } catch(e) { console.error("Search failed", e); }
+  }
+
   async function loadMarketplace() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
       const datasets = await res.json();
-      const container = document.getElementById("mp-datasets");
+      renderMarketplace(datasets);
+    } catch(e) { console.error("Marketplace load failed", e); }
+  }
+
+  function renderMarketplace(datasets) {
+    const container = document.getElementById("mp-datasets");
+    if(!container) return;
+    if(datasets.length === 0) {
+      container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">No datasets found.</div>`;
+      return;
+    }
+    container.innerHTML = "";
+    datasets.forEach(d => {
+      const card = document.createElement("div");
+      card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
+      card.innerHTML = `
+        <div class="mb-4 flex justify-between items-start">
+          <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
+          <span class="px-2 py-1 text-[10px] bg-emerald-500/20 text-emerald-400 rounded font-bold">
+            ${(d.quality_score * 100).toFixed(0)}% Quality
+          </span>
+        </div>
+        <h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3>
+        <p class="text-slate-400 text-sm mb-2">${d.record_count} records</p>
+        <div class="flex items-center gap-3 text-xs text-slate-400 mb-3 font-medium">
+          <span class="flex items-center gap-1">⭐ ${(d.rating || 0).toFixed(1)}</span>
+          <span class="flex items-center gap-1">📊 Trust ${(d.trust_score || 0).toFixed(2)}</span>
+          <span class="flex items-center gap-1">⬇ ${(d.download_count || 0)}</span>
+        </div>
+        <div class="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
+          <div>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
+            <p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="rateDataset('${d.id}', 5)" class="px-2 py-1 bg-yellow-600/20 text-yellow-500 hover:bg-yellow-600/40 text-xs rounded transition">⭐</button>
+            <button onclick="buyDataset('${d.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition">Buy</button>
+          </div>
+        </div>`;
+      container.appendChild(card);
+    });
+  }
+
+  async function loadLeaderboard() {
+    try {
+      const res = await fetch(`${API_BASE}/leaderboard/contributors`);
+      const data = await res.json();
+      const container = document.getElementById("leaderboard-list");
       if(!container) return;
-      if(datasets.length === 0){
-        container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">Marketplace is currently empty.</div>`;
+      container.innerHTML = "";
+      if(data.length === 0) {
+        container.innerHTML = `<p class="text-center text-slate-500 py-12 italic">No contributors yet.</p>`;
         return;
       }
-      container.innerHTML = "";
-      datasets.forEach(d => {
-        const card = document.createElement("div");
-        card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
-        card.innerHTML = `
-          <div class="mb-4 flex justify-between items-start">
-            <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
-            <span class="px-2 py-1 text-[10px] bg-emerald-500/20 text-emerald-400 rounded font-bold">
-              ${(d.quality_score * 100).toFixed(0)}% Quality
-            </span>
+      data.forEach((u, i) => {
+        const row = document.createElement("div");
+        row.className = "dtc-card p-4 flex justify-between items-center group transition";
+        row.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="w-8 h-8 flex items-center justify-center rounded-lg ${i < 3 ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'} font-bold text-xs">#${i+1}</span>
+            <span class="text-white font-bold">${u.username}</span>
           </div>
-          <h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3>
-          <p class="text-slate-400 text-sm mb-2">${d.record_count} records</p>
-          <p class="text-xs text-indigo-400 mb-6 font-medium">Verified Quality: ${(d.quality_score || 0).toFixed(2)}</p>
-          <div class="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
-            <div>
-              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
-              <p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p>
-            </div>
-            <button onclick="buyDataset('${d.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Data</button>
-          </div>`;
-        container.appendChild(card);
+          <span class="text-indigo-400 font-black">${(u.token_balance || 0).toFixed(2)} DTC</span>
+        `;
+        container.appendChild(row);
       });
-    } catch(e) { console.error("Marketplace load failed", e); }
+    } catch(e) { console.error("Leaderboard load failed", e); }
   }
 
   const sections = document.querySelectorAll('.dtc-page');
@@ -741,6 +810,7 @@
         loadTransactions();
     }
     if(targetId === 'marketplace') loadMarketplace();
+    if(targetId === 'leaderboard') loadLeaderboard();
     if(targetId === 'dashboard' || targetId === 'upload') loadWallet();
     
     const footer = document.getElementById('global-footer');
@@ -822,16 +892,8 @@
     const file = document.getElementById("dataset-file")?.files[0];
     
     if (!title || !description || !file) return showToast("Missing fields or file", "error");
-    
-    // Step 4: Frontend file size check
-    if(file.size > 10 * 1024 * 1024){
-        return showToast("File too large (max 10MB)","error");
-    }
-
-    // Step 3: Confirmation before upload
-    if (!confirm("Your dataset will be anonymized automatically. Continue?")) {
-        return;
-    }
+    if(file.size > 10 * 1024 * 1024) return showToast("File too large (max 10MB)","error");
+    if (!confirm("Your dataset will be anonymized automatically. Continue?")) return;
 
     const formData = new FormData();
     formData.append("file", file);
@@ -846,29 +908,26 @@
         headers: { "Authorization": "Bearer " + token },
         body: formData
       });
-      
       const result = await res.json();
-      
-      if (!res.ok) {
-          // Step 2: Show specific backend error details
-          throw new Error(result.detail || "Upload failed");
-      }
-      
-      // Step 5: Show upload success with specific token reward
+      if (!res.ok) throw new Error(result.detail || "Upload failed");
       showToast(`Dataset uploaded! +${result.token_reward} DTC earned`, "success");
-      
-      // Step 5: Refresh Wallet before navigation
       await loadWallet(); 
-      
-      // Form Cleanup
       document.getElementById("dataset-title").value = "";
       document.getElementById("dataset-description").value = "";
       document.getElementById("dataset-file").value = "";
       document.getElementById("file-name-label").innerText = "No file chosen...";
-      
       navigate("dashboard");
     } catch(err) { showToast(err.message, "error"); } 
     finally { toggleLoader(false); }
+  });
+
+  document.getElementById("mp-search")?.addEventListener("input", (e) => {
+    const q = e.target.value.trim();
+    if(q.length < 2) {
+       loadMarketplace();
+       return;
+    }
+    searchMarketplace(q);
   });
 
   const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out"); };
