@@ -206,7 +206,7 @@
             <span class="text-xl md:text-2xl font-bold text-indigo-400">1</span>
           </div>
           <h3 class="text-lg md:text-xl font-bold text-white mb-3">Upload & Anonymize</h3>
-          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Our protocol strips PII before any data leaves your browser.</p>
+          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">Our platform automatically removes emails, phone numbers and personal identifiers before publishing.</p>
         </div>
         <div class="relative flex flex-col items-center text-center p-4">
           <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center mb-6 relative z-10">
@@ -380,7 +380,13 @@
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </label>
           </div>
-          <p class="text-[10px] text-slate-500 mt-2 ml-1">Max 10MB • CSV or JSON only</p>
+          <p class="text-[10px] text-slate-500 mt-2 ml-1">
+            Max 10MB • CSV or JSON only
+          </p>
+          <p class="text-[10px] text-indigo-400 mt-1 ml-1">
+            Your dataset will be automatically anonymized. 
+            Emails, phone numbers and IDs are removed before publishing.
+          </p>
         </div>
         <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">
           Process & Secure Data
@@ -789,7 +795,18 @@
     const title = document.getElementById("dataset-title").value;
     const description = document.getElementById("dataset-description").value;
     const file = document.getElementById("dataset-file")?.files[0];
+    
     if (!title || !description || !file) return showToast("Missing fields or file", "error");
+    
+    // Step 4: Frontend file size check
+    if(file.size > 10 * 1024 * 1024){
+        return showToast("File too large (max 10MB)","error");
+    }
+
+    // Step 3: Confirmation before upload
+    if (!confirm("Your dataset will be anonymized automatically. Continue?")) {
+        return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -804,9 +821,16 @@
         headers: { "Authorization": "Bearer " + token },
         body: formData
       });
-      if (!res.ok) throw new Error((await res.json()).detail || "Upload failed");
       
-      showToast("Dataset uploaded successfully!", "success");
+      const result = await res.json();
+      
+      if (!res.ok) {
+          // Step 2: Show specific backend error details
+          throw new Error(result.detail || "Upload failed");
+      }
+      
+      // Step 5: Show upload success with specific token reward
+      showToast(`Dataset uploaded! +${result.token_reward} DTC earned`, "success");
       
       // Step 5: Refresh Wallet before navigation
       await loadWallet(); 
