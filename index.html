@@ -557,6 +557,10 @@
           syncElem.classList.remove('opacity-0');
         }
       }
+      
+      // Improvement 5: Ensure sync indicator is visible
+      const walletSync = document.getElementById("wallet-updated-at");
+      if(walletSync) walletSync.classList.remove("opacity-0");
     } catch(e) { console.error("Wallet load failed", e); }
   }
 
@@ -568,7 +572,8 @@
       const list = document.getElementById("transactions-list");
       if(!list) return;
 
-      const datasetsRes = await fetch(`${API_BASE}/datasets/mine`, { headers: { "Authorization": `Bearer ${token}` } });
+      // Fix 1: Corrected API endpoint to /users/datasets
+      const datasetsRes = await fetch(`${API_BASE}/users/datasets`, { headers: { "Authorization": `Bearer ${token}` } });
       const datasets = await datasetsRes.json();
       
       if(datasets.length === 0) {
@@ -591,7 +596,8 @@
                     <p class="text-[10px] text-slate-500">${d.title}</p>
                 </div>
             </div>
-            <p class="text-xs font-black text-emerald-400">+$${reward} DTC</p>
+            <!-- Fix 2: Removed erroneous $ from DTC display -->
+            <p class="text-xs font-black text-emerald-400">+${reward} DTC</p>
         `;
         list.appendChild(item);
       });
@@ -602,7 +608,8 @@
     const token = sessionStorage.getItem("token");
     if(!token) return;
     try {
-      const res = await fetch(`${API_BASE}/datasets/mine`, { headers: { "Authorization": `Bearer ${token}` } });
+      // Fix 1: Corrected API endpoint to /users/datasets
+      const res = await fetch(`${API_BASE}/users/datasets`, { headers: { "Authorization": `Bearer ${token}` } });
       const data = await res.json();
       const list = document.getElementById("my-datasets-list");
       if(!list) return;
@@ -709,6 +716,20 @@
     } catch(e) { showToast(e.message, "error"); }
   }
 
+  // Improvement 4: Dataset Preview Logic
+  async function previewDataset(id) {
+    try {
+      const res = await fetch(`${API_BASE}/datasets/${id}/preview`);
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.detail || "Preview unavailable");
+      
+      console.log("Dataset Preview:", data);
+      showToast("Preview data loaded to console log", "info");
+    } catch (e) {
+      showToast(e.message, "error");
+    }
+  }
+
   async function searchMarketplace(query) {
     try {
       const res = await fetch(`${API_BASE}/datasets/search?query=${query}`);
@@ -755,8 +776,10 @@
             <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
             <p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p>
           </div>
-          <div class="flex gap-2">
-            <button onclick="rateDataset('${d.id}', 5)" class="px-2 py-1 bg-yellow-600/20 text-yellow-500 hover:bg-yellow-600/40 text-xs rounded transition">⭐</button>
+          <div class="flex gap-1.5">
+            <!-- Improvement 4: Preview Button -->
+            <button onclick="previewDataset('${d.id}')" class="px-3 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-700 transition">Preview</button>
+            <button onclick="rateDataset('${d.id}', 5)" class="px-2 py-2 bg-yellow-600/20 text-yellow-500 hover:bg-yellow-600/40 text-xs rounded transition">⭐</button>
             <button onclick="buyDataset('${d.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition">Buy</button>
           </div>
         </div>`;
@@ -889,9 +912,17 @@
     if(!token) return navigate("login");
     const title = document.getElementById("dataset-title").value;
     const description = document.getElementById("dataset-description").value;
-    const file = document.getElementById("dataset-file")?.files[0];
+    const fileInput = document.getElementById("dataset-file");
+    const file = fileInput?.files[0];
     
     if (!title || !description || !file) return showToast("Missing fields or file", "error");
+    
+    // Improvement 7: Security check for file extension
+    if(!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".json")){
+       showToast("Only CSV or JSON allowed","error");
+       return;
+    }
+
     if(file.size > 10 * 1024 * 1024) return showToast("File too large (max 10MB)","error");
     if (!confirm("Your dataset will be anonymized automatically. Continue?")) return;
 
@@ -901,33 +932,53 @@
     formData.append("description", description);
     formData.append("category", document.getElementById("dataset-category").value);
     
-    toggleLoader(true, "Anonymizing & Uploading...");
+    // Improvement 6: Sequenced progress messages
+    toggleLoader(true, "Uploading...");
+    
     try {
+      // Simulate real-time progress text changes
+      setTimeout(() => toggleLoader(true, "Processing dataset..."), 1500);
+      setTimeout(() => toggleLoader(true, "Quality analysis..."), 3000);
+      setTimeout(() => toggleLoader(true, "Reward calculation..."), 4500);
+
       const res = await fetch(`${API_BASE}/datasets/upload`, {
         method: "POST",
         headers: { "Authorization": "Bearer " + token },
         body: formData
       });
+      
       const result = await res.json();
-      if (!res.ok) throw new Error(result.detail || "Upload failed");
+      
+      // Fix 2: Proper error handling to ensure user sees backend messages
+      if (!res.ok) {
+          throw new Error(result.detail || "Upload failed");
+      }
+      
       showToast(`Dataset uploaded! +${result.token_reward} DTC earned`, "success");
       await loadWallet(); 
+      
       document.getElementById("dataset-title").value = "";
       document.getElementById("dataset-description").value = "";
-      document.getElementById("dataset-file").value = "";
+      fileInput.value = "";
       document.getElementById("file-name-label").innerText = "No file chosen...";
+      
       navigate("dashboard");
     } catch(err) { showToast(err.message, "error"); } 
     finally { toggleLoader(false); }
   });
 
+  // Fix 3: Debounced Marketplace Search
+  let searchTimeout;
   document.getElementById("mp-search")?.addEventListener("input", (e) => {
+    clearTimeout(searchTimeout);
     const q = e.target.value.trim();
-    if(q.length < 2) {
-       loadMarketplace();
-       return;
-    }
-    searchMarketplace(q);
+    searchTimeout = setTimeout(() => {
+      if(q.length < 2) {
+         loadMarketplace();
+         return;
+      }
+      searchMarketplace(q);
+    }, 400);
   });
 
   const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out"); };
