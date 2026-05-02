@@ -390,7 +390,8 @@
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-6 text-center">Welcome Back</h2>
         <div class="space-y-4">
-          <input type="text" id="login-user" placeholder="Username or Email" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <!-- Correction 3: Placeholder update -->
+          <input type="text" id="login-user" placeholder="Email address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
           <div class="text-center"><button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button></div>
@@ -456,16 +457,20 @@
     <p>© 2026 DataTrust Coin. All rights reserved.</p>
     <div class="flex justify-center gap-6 mt-4">
       <span>Network: <span class="text-emerald-500">Online</span></span>
-      <span>v0.8.2-prod</span>
+      <span>v0.8.3-prod</span>
     </div>
   </div>
 </footer>
 
 <script>
-  // 7: Environment Switch + Updated Backend URL
+  // Correction 7: Environment Switch + Security warning (Correction 6)
   const API_BASE = window.location.hostname === "localhost" 
     ? "http://localhost:8000/api" 
     : "https://dtc-backend-850680134439.asia-south1.run.app/api";
+
+  if (!API_BASE.includes("https://") && location.hostname !== "localhost") {
+    console.warn("Warning: API not using HTTPS");
+  }
 
   function toggleLoader(show, text = "Processing...") {
     const loader = document.getElementById('global-loader');
@@ -479,7 +484,7 @@
     const toast = document.createElement('div');
     const colorClass = type === 'error' ? 'border-red-500/50 bg-red-950/80 text-red-400' : (type === 'success' ? 'border-emerald-500/50 bg-emerald-950/80 text-emerald-400' : 'border-indigo-500/50 bg-indigo-950/80 text-indigo-400');
     
-    // Fix 2: Handle string vs object errors
+    // Correction 2: Serialized message Text
     const messageText = typeof msg === "string" ? msg : (msg?.message || JSON.stringify(msg));
     
     toast.className = `px-6 py-4 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 translate-y-4 opacity-0 font-bold text-sm ${colorClass}`;
@@ -492,7 +497,7 @@
     }, 4500);
   }
 
-  // Fix 3: Updated to aggregate from marketplace/datasets
+  // Aggregation fix for stats
   async function loadPlatformStats() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
@@ -506,7 +511,6 @@
         recElem.innerText = totalRecords.toLocaleString() + "+";
       }
       if(tokElem) {
-        // Fallback for distributed tokens if backend endpoint is missing
         tokElem.innerText = (datasets.length * 100).toLocaleString(); 
       }
     } catch(e) { console.error("Stats load failed", e); }
@@ -519,7 +523,6 @@
       const res = await fetch(`${API_BASE}/auth/me`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
-      // Fix 5: Token Expiry Handling
       if(res.status === 401){
         localStorage.removeItem("token");
         updateAuthStateUI();
@@ -554,7 +557,6 @@
       data.forEach(d => {
         const item = document.createElement("div");
         item.className = "p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-slate-800/20 transition";
-        // 3. Fix Token Reward display
         const calculatedReward = (d.record_count * 0.5).toFixed(2);
         item.innerHTML = `<div><div class="text-white font-bold text-sm text-balance">${d.title}</div><div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records</div></div><div class="text-indigo-400 font-black text-sm">${calculatedReward} DTC</div>`;
         list.appendChild(item);
@@ -578,8 +580,8 @@
       datasets.forEach(d => {
         const card = document.createElement("div");
         card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
-        // Fix 4: Uses d.fields and d.sample_records internally if needed
-        card.innerHTML = `<div class="mb-4"><span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span></div><h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3><p class="text-slate-400 text-sm mb-6 flex-1">${d.record_count} records • ${d.download_count || 0} downloads</p><div class="flex justify-between items-center pt-4 border-t border-slate-800/50"><div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p><p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p></div><button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Data</button></div>`;
+        // Correction 4: Removed download_count
+        card.innerHTML = `<div class="mb-4"><span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span></div><h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3><p class="text-slate-400 text-sm mb-6 flex-1">${d.record_count} records</p><div class="flex justify-between items-center pt-4 border-t border-slate-800/50"><div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p><p class="text-indigo-400 font-black text-lg">${d.price || 0} DTC</p></div><button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Buy Data</button></div>`;
         container.appendChild(card);
       });
     } catch(e) { console.error("Marketplace load failed", e); }
@@ -587,13 +589,11 @@
 
   const sections = document.querySelectorAll('.dtc-page');
   function navigate(targetId) {
-    // Fix 10: Protect Dashboard Route
     if(targetId === "dashboard" && !localStorage.getItem("token")){
       showToast("Please login first","error");
       navigate("login");
       return;
     }
-
     sections.forEach(s => s.classList.add('hidden'));
     if (targetId === 'home') {
       document.getElementById('section-home').classList.remove('hidden');
@@ -604,10 +604,8 @@
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
-
     if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); }
     if(targetId === 'marketplace') { loadMarketplace(); }
-
     const footer = document.getElementById('global-footer');
     if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -629,7 +627,6 @@
       menuIconClose.classList.add('hidden');
     }
   }
-
   document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(); });
   document.querySelectorAll('[data-nav]').forEach(link => { 
     link.addEventListener('click', () => { 
@@ -647,13 +644,12 @@
     if (isUser) loadWallet();
   }
 
-  // Handle Login - Fix 1: Corrected payload mapping
+  // Correction 1: Body mapping login to email
   document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const login = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
     if (!login || !password) return showToast("Enter credentials", "error");
     
-    // Fix 4: Prevent Duplicate Login Clicks
     const loginBtn = document.getElementById("btn-login-submit");
     const originalText = loginBtn.innerText;
     loginBtn.disabled = true;
@@ -664,7 +660,7 @@
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: login, password: password }) // Fix 1: mapped to email
+        body: JSON.stringify({ email: login, password: password }) 
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Login failed");
@@ -673,13 +669,11 @@
       updateAuthStateUI();
       navigate("dashboard");
     } catch (err) { 
-      // Fix 2: Serialization
       showToast(err.message || JSON.stringify(err), "error"); 
     } 
     finally { toggleLoader(false); loginBtn.disabled = false; loginBtn.innerText = originalText; }
   });
 
-  // Enter key login support
   document.getElementById("login-pass")?.addEventListener("keypress", function(e){
     if(e.key === "Enter"){
       document.getElementById("btn-login-submit")?.click();
@@ -693,9 +687,7 @@
     const password = document.getElementById("reg-pass").value;
     const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
-    
-    // Fix 3: Password Strength Validation
-    if (password.length < 8) return showToast("Password must be at least 8 characters", "error");
+    if (password.length < 8) return showToast("Password must be 8+ chars", "error");
     
     toggleLoader(true, "Creating account...");
     try {
@@ -707,34 +699,38 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Registration failed");
       
-      // Fix 9: Auto Login UX
-      showToast("Account created successfully! Please login.", "success");
-      navigate("login");
-    } catch (err) { showToast(err.message || JSON.stringify(err), "error"); } 
-    finally { toggleLoader(false); }
+      // Correction 5: Auto-login logic
+      showToast("Account created! Logging you in...", "success");
+      localStorage.setItem("token", data.access_token);
+      updateAuthStateUI();
+      navigate("dashboard");
+    } catch (err) { showToast(err.message || JSON.stringify(err), "error"); } finally { toggleLoader(false); }
   });
 
+  // Correction 1: Forgot Password API call update
   document.getElementById("btn-forgot-submit")?.addEventListener("click", async () => {
     const email = document.getElementById("forgot-email").value;
     if (!email) return showToast("Please enter your email", "error");
     
     localStorage.setItem("reset_email", email);
     
-    toggleLoader(true, "Sending OTP...");
+    toggleLoader(true, "Generating reset token...");
     try {
-      const res = await fetch(`${API_BASE}/auth/send-otp`, { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
+      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { 
+        method: "POST"
       });
       const data = await res.json();
       toggleLoader(false);
-      if (!res.ok) throw new Error(data.detail || "Request failed");
-      showToast("OTP sent to your email.", "success");
-      navigate("reset-password");
+      if (!res.ok) return showToast(data.detail || "Request failed", "error");
+      if (data.reset_token) {
+        showToast("Reset token generated.", "success");
+        document.getElementById("reset-otp").value = data.reset_token;
+        navigate("reset-password");
+      }
     } catch (err) { toggleLoader(false); showToast(err.message || JSON.stringify(err), "error"); }
   });
 
+  // Correction 2: Reset password payload match
   document.getElementById("btn-reset-submit")?.addEventListener("click", async () => {
     const otp = document.getElementById("reset-otp").value;
     const newPass = document.getElementById("reset-pass").value;
@@ -742,14 +738,12 @@
     const email = localStorage.getItem("reset_email");
 
     if (!email) {
-      showToast("Session lost. Please request OTP again.", "error");
+      showToast("Session lost. Please request reset again.", "error");
       navigate("forgot-password");
       return;
     }
     if (!otp || !newPass || !confirmPass) return showToast("All fields required", "error");
-    
-    // Fix 7: Validation
-    if (newPass.length < 8) return showToast("Password must be at least 8 characters", "error");
+    if (newPass.length < 8) return showToast("Password must be 8+ chars", "error");
     if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
 
     toggleLoader(true, "Updating password...");
@@ -758,8 +752,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            email: email,
-            otp: otp,
+            token: otp, // Maps reset token to token field
             new_password: newPass
         })
       });
@@ -788,12 +781,10 @@
     const fileInput = document.getElementById("dataset-file");
     const file = fileInput?.files[0];
 
-    // Fix 4 (Trim check)
     if (!title.trim() || !description.trim()) return showToast("Enter title and description", "error");
     if (!file) return showToast("Please select a file first", "error");
     if (file.size > 10 * 1024 * 1024) return showToast("Max file size allowed is 10MB", "error");
 
-    // Fix 6: MIME/Format Check
     const allowedTypes = ["text/csv", "application/json"];
     const fileName = file.name.toLowerCase();
     if (!allowedTypes.includes(file.type) && !fileName.endsWith(".csv") && !fileName.endsWith(".json")) {
@@ -833,7 +824,6 @@
     const query = this.value.toLowerCase();
     document.querySelectorAll("#mp-datasets > div").forEach(card => {
       const text = card.innerText.toLowerCase();
-      // Fix 8: Correct display toggle
       card.style.display = text.includes(query) ? "" : "none";
     });
   });
