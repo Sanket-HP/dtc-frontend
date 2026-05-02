@@ -351,7 +351,6 @@
           <textarea id="dataset-description" placeholder="Describe your dataset content..." rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
         </div>
 
-        <!-- 1. Category Dropdown -->
         <div>
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
             Dataset Category
@@ -391,7 +390,7 @@
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-6 text-center">Welcome Back</h2>
         <div class="space-y-4">
-          <input type="text" id="login-user" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="text" id="login-user" placeholder="Username or Email" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
           <div class="text-center"><button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button></div>
@@ -426,10 +425,10 @@
     <div class="max-w-md mx-auto px-4 md:px-6">
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
-        <p class="text-slate-500 text-center mb-8 text-sm">Enter email to generate a token.</p>
+        <p class="text-slate-500 text-center mb-8 text-sm text-balance">Enter your email to receive a verification OTP.</p>
         <div class="space-y-4">
           <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
-          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Generate Token</button>
+          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Send OTP</button>
           <button data-nav="login" class="w-full py-2 text-slate-500 hover:text-slate-300 transition text-sm font-medium">Back to Login</button>
         </div>
       </div>
@@ -441,7 +440,7 @@
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">New Password</h2>
         <div class="space-y-4">
-          <input type="text" id="reset-token" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
+          <input type="text" id="reset-otp" placeholder="Enter OTP sent to email" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <input type="password" id="reset-pass" placeholder="New Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <input type="password" id="reset-pass-confirm" placeholder="Confirm Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
           <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Update Password</button>
@@ -457,7 +456,7 @@
     <p>© 2026 DataTrust Coin. All rights reserved.</p>
     <div class="flex justify-center gap-6 mt-4">
       <span>Network: <span class="text-emerald-500">Online</span></span>
-      <span>v0.7.5-prod</span>
+      <span>v0.8.0-prod</span>
     </div>
   </div>
 </footer>
@@ -490,7 +489,7 @@
 
   async function loadPlatformStats() {
     try {
-      const res = await fetch(`${API_BASE}/datasets/stats`);
+      const res = await fetch(`${API_BASE}/marketplace/stats`);
       if(!res.ok) return;
       const stats = await res.json();
       const recElem = document.getElementById("global-stat-records");
@@ -631,9 +630,13 @@
     const username = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
     if (!username || !password) return showToast("Enter credentials", "error");
+    
     const loginBtn = document.getElementById("btn-login-submit");
+    const originalText = loginBtn.innerText;
     loginBtn.disabled = true;
+    loginBtn.innerText = "Logging in...";
     toggleLoader(true, "Authenticating...");
+    
     try {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
@@ -647,7 +650,7 @@
       updateAuthStateUI();
       navigate("dashboard");
     } catch (err) { showToast(err.message, "error"); } 
-    finally { toggleLoader(false); loginBtn.disabled = false; }
+    finally { toggleLoader(false); loginBtn.disabled = false; loginBtn.innerText = originalText; }
   });
 
   document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
@@ -667,7 +670,7 @@
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Registration failed");
-      showToast("Account created. Please login.", "success");
+      showToast("Account created successfully!", "success");
       navigate("login");
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
@@ -675,30 +678,42 @@
   document.getElementById("btn-forgot-submit")?.addEventListener("click", async () => {
     const email = document.getElementById("forgot-email").value;
     if (!email) return showToast("Please enter your email", "error");
-    toggleLoader(true, "Generating reset token...");
+    toggleLoader(true, "Sending OTP...");
     try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/auth/send-otp`, { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
       const data = await res.json();
       toggleLoader(false);
       if (!res.ok) return showToast(data.detail || "Request failed", "error");
-      if (data.reset_token) {
-        showToast("Reset token generated.", "success");
-        document.getElementById("reset-token").value = data.reset_token;
-        navigate("reset-password");
-      }
+      showToast("OTP sent to your email.", "success");
+      navigate("reset-password");
     } catch (err) { toggleLoader(false); showToast("Server connection failed", "error"); }
   });
 
   document.getElementById("btn-reset-submit")?.addEventListener("click", async () => {
-    const token = document.getElementById("reset-token").value;
+    const email = document.getElementById("forgot-email").value;
+    const otp = document.getElementById("reset-otp").value;
     const newPass = document.getElementById("reset-pass").value;
     const confirmPass = document.getElementById("reset-pass-confirm").value;
-    if (!token || !newPass || !confirmPass) return showToast("All fields required", "error");
+
+    if (!otp || !newPass || !confirmPass) return showToast("All fields required", "error");
     if (newPass.length < 8) return showToast("Password must be 8+ chars", "error");
-    if (newPass !== confirmPass) return showToast("Passwords match error", "error");
+    if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
+
     toggleLoader(true, "Updating password...");
     try {
-      const res = await fetch(`${API_BASE}/auth/reset-password?token=${encodeURIComponent(token)}&new_password=${encodeURIComponent(newPass)}`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/auth/reset-password`, { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: email,
+            otp: otp,
+            new_password: newPass
+        })
+      });
       const data = await res.json();
       toggleLoader(false);
       if (!res.ok) return showToast(data.detail || "Reset failed", "error");
@@ -716,7 +731,6 @@
     const token = localStorage.getItem("token");
     if(!token){ showToast("Please login first","error"); navigate("login"); return; }
     
-    // 2. Capture Inputs
     const title = document.getElementById("dataset-title").value;
     const description = document.getElementById("dataset-description").value;
     const category = document.getElementById("dataset-category").value; 
@@ -725,7 +739,6 @@
 
     if (!title || !description) return showToast("Enter title and description", "error");
     if (!file) return showToast("Please select a file first", "error");
-
     if (file.size > 10 * 1024 * 1024) return showToast("Max file size allowed is 10MB", "error");
 
     const allowedTypes = ["text/csv", "application/json"];
@@ -734,7 +747,6 @@
         return;
     }
 
-    // 3. Send Category to Backend
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
@@ -753,7 +765,6 @@
       if (!res.ok) return showToast(data.detail || "Upload failed", "error");
       showToast("Dataset uploaded successfully!", "success");
       
-      // 4. Clear Fields After Upload
       document.getElementById("dataset-title").value = "";
       document.getElementById("dataset-description").value = "";
       document.getElementById("dataset-category").value = "general";
@@ -783,14 +794,7 @@
       const btn = document.getElementById('mobile-menu-btn');
       if (mobileMenu && btn && !mobileMenu.contains(e.target) && !btn.contains(e.target)) toggleMobileMenu(false);
     });
-    const urlToken = new URLSearchParams(window.location.search).get('token');
-    if (urlToken) { 
-      navigate('reset-password'); 
-      const tokenField = document.getElementById("reset-token");
-      if(tokenField) tokenField.value = urlToken; 
-    } else {
-      navigate('home');
-    }
+    navigate('home');
   });
 </script>
 </body>
