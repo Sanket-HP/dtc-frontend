@@ -77,7 +77,6 @@
 <nav class="glass-nav sticky top-0 z-[60]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
-      <!-- Logo -->
       <button data-nav="home" class="flex items-center gap-2 transition group text-left">
         <div class="bg-indigo-600 p-1.5 rounded-lg">
           <svg class="h-5 w-5 md:h-6 md:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,20 +86,16 @@
         <span class="text-lg md:text-xl font-extrabold tracking-tight text-white">DataTrust<span class="text-indigo-400">Coin</span></span>
       </button>
 
-      <!-- Desktop Links -->
       <div class="hidden md:flex items-center gap-6 lg:gap-8">
         <button data-nav="marketplace" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Marketplace</button>
         <button data-nav="how-it-works" class="text-slate-300 hover:text-white font-medium transition">How it Works</button>
-        
         <div class="h-6 w-px bg-slate-800 mx-2"></div>
-
         <div id="nav-guest-zone" class="flex items-center gap-4">
           <button data-nav="login" class="text-slate-300 hover:text-white font-medium transition">Login</button>
           <button data-nav="register" class="px-5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition shadow-lg shadow-indigo-600/20">
             Get Started
           </button>
         </div>
-
         <div id="nav-user-zone" class="hidden flex items-center gap-6">
           <button data-nav="dashboard" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Dashboard</button>
           <button data-nav="upload" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
@@ -129,13 +124,11 @@
   <div id="mobile-menu" class="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-4 space-y-4">
     <button data-nav="marketplace" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Marketplace</button>
     <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300 p-2">How it Works</button>
-    
     <div id="mobile-guest-zone" class="space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
       <button data-nav="login" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Login</button>
       <button data-nav="register" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold text-center">Get Started</button>
     </div>
-
     <div id="mobile-user-zone" class="hidden space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
       <div class="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl">
@@ -151,7 +144,7 @@
 
 <main class="relative overflow-hidden flex-1">
   
-  <!-- ─── SECTION: HERO ─── -->
+  <!-- HERO SECTION -->
   <section id="section-home" class="dtc-page relative pt-12 md:pt-20 pb-20 hero-gradient">
     <div class="max-w-7xl mx-auto px-4 md:px-6 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8">
@@ -178,7 +171,6 @@
         </button>
       </div>
 
-      <!-- Stats Grid -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-10 border-y border-slate-800/50">
         <div class="p-2">
           <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">Loading...</p>
@@ -200,7 +192,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: HOW IT WORKS ─── -->
+  <!-- HOW IT WORKS -->
   <section id="section-how-it-works" class="dtc-page py-16 md:py-24 bg-slate-900/50">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="text-center mb-12 md:mb-16">
@@ -234,7 +226,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: WHERE TO GET YOUR DATA ─── -->
+  <!-- DATA SOURCES -->
   <section id="section-data-sources" class="dtc-page py-20 bg-slate-950">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-16">
@@ -272,7 +264,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: MARKETPLACE ─── -->
+  <!-- MARKETPLACE -->
   <section id="section-marketplace" class="dtc-page hidden py-12 md:py-20 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 md:mb-12">
@@ -293,7 +285,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: DASHBOARD ─── -->
+  <!-- DASHBOARD -->
   <section id="section-dashboard" class="dtc-page hidden py-10 md:py-16 bg-slate-950/50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -336,7 +328,7 @@
     </div>
   </section>
 
-  <!-- ─── SECTION: UPLOAD ─── -->
+  <!-- UPLOAD -->
   <section id="section-upload" class="dtc-page hidden py-10 md:py-16 min-h-screen">
     <div class="max-w-3xl mx-auto px-4 md:px-6">
       <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
@@ -345,18 +337,13 @@
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Title</label>
           <input type="text" id="dataset-title" placeholder="Fitness Activity Dataset" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
         </div>
-
         <div>
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Description</label>
           <textarea id="dataset-description" placeholder="Describe your dataset content..." rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
         </div>
-
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
-            Dataset Category
-          </label>
-          <select id="dataset-category"
-            class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Category</label>
+          <select id="dataset-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             <option value="general">General</option>
             <option value="health">Health</option>
             <option value="finance">Finance</option>
@@ -364,7 +351,6 @@
             <option value="ai">AI Training</option>
           </select>
         </div>
-        
         <div>
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Select Dataset File (.csv, .json)</label>
           <div class="relative">
@@ -376,7 +362,6 @@
           </div>
           <p class="text-[10px] text-slate-500 mt-2 ml-1">Max 10MB • CSV or JSON only</p>
         </div>
-
         <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">
           Process & Secure Data
         </button>
@@ -384,7 +369,7 @@
     </div>
   </section>
 
-  <!-- ─── AUTH SECTIONS ─── -->
+  <!-- AUTH SECTIONS -->
   <section id="section-login" class="dtc-page hidden py-16 md:py-24">
     <div class="max-w-md mx-auto px-4 md:px-6">
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
@@ -448,7 +433,6 @@
       </div>
     </div>
   </section>
-
 </main>
 
 <footer id="global-footer" class="bg-slate-950 pt-16 pb-10 border-t border-slate-900 mt-auto">
@@ -465,10 +449,6 @@
   const API_BASE = window.location.hostname === "localhost" 
     ? "http://localhost:8000/api" 
     : "https://dtc-backend-850680134439.asia-south1.run.app/api";
-
-  if (!API_BASE.includes("https://") && location.hostname !== "localhost") {
-    console.warn("Warning: API not using HTTPS");
-  }
 
   function toggleLoader(show, text = "Processing...") {
     const loader = document.getElementById('global-loader');
@@ -500,14 +480,8 @@
       const datasets = await res.json();
       const recElem = document.getElementById("global-stat-records");
       const tokElem = document.getElementById("global-stat-tokens");
-      
-      if(recElem) {
-        const totalRecords = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0);
-        recElem.innerText = totalRecords.toLocaleString() + "+";
-      }
-      if(tokElem) {
-        tokElem.innerText = (datasets.length * 100).toLocaleString(); 
-      }
+      if(recElem) recElem.innerText = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0).toLocaleString() + "+";
+      if(tokElem) tokElem.innerText = (datasets.length * 100).toLocaleString(); 
     } catch(e) { console.error("Stats load failed", e); }
   }
 
@@ -515,9 +489,7 @@
     const token = sessionStorage.getItem("token");
     if(!token) return;
     try {
-      const res = await fetch(`${API_BASE}/auth/me`, {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
+      const res = await fetch(`${API_BASE}/auth/me`, { headers: { "Authorization": `Bearer ${token}` } });
       if(res.status === 401){
         sessionStorage.removeItem("token");
         updateAuthStateUI();
@@ -525,27 +497,19 @@
         showToast("Session expired. Please login again.","error");
         return;
       }
-      if(!res.ok) return;
       const user = await res.json();
       const balance = (user.token_balance || 0).toFixed(2);
-      
-      const navBal = document.getElementById("nav-balance");
-      const mobBal = document.getElementById("mobile-nav-balance");
-      const dashBal = document.getElementById("dash-wallet-balance");
-      if(navBal) navBal.innerText = balance + " DTC";
-      if(mobBal) mobBal.innerText = balance + " DTC";
-      if(dashBal) dashBal.innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
+      document.getElementById("nav-balance").innerText = balance + " DTC";
+      document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
+      document.getElementById("dash-wallet-balance").innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
     } catch(e) { console.error("Wallet load failed", e); }
   }
 
-  // 1. Update loadMyDatasets with Delete/Download buttons
   async function loadMyDatasets() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
     try {
-      const res = await fetch(`${API_BASE}/datasets/mine`, {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
+      const res = await fetch(`${API_BASE}/datasets/mine`, { headers: { "Authorization": `Bearer ${token}` } });
       const data = await res.json();
       const list = document.getElementById("my-datasets-list");
       if(!list) return;
@@ -558,24 +522,18 @@
         const item = document.createElement("div");
         item.className = "p-4 hover:bg-slate-800/20 transition";
         const calculatedReward = (d.record_count * 0.5).toFixed(2);
-        
         item.innerHTML = `
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
           <div>
             <div class="text-white font-bold text-sm">${d.title}</div>
             <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records</div>
           </div>
-
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">${calculatedReward} DTC</div>
-
-            <a href="${d.file_url}" target="_blank"
-              class="px-3 py-1 rounded-lg bg-slate-700 text-white text-xs hover:bg-slate-600 transition">
+            <button onclick="downloadDataset('${d.id}')" class="px-3 py-1 rounded-lg bg-slate-700 text-white text-xs hover:bg-slate-600 transition">
               Download
-            </a>
-
-            <button onclick="deleteDataset('${d.id}')"
-              class="px-3 py-1 rounded-lg bg-red-600 text-white text-xs hover:bg-red-500 transition">
+            </button>
+            <button onclick="deleteDataset('${d.id}')" class="px-3 py-1 rounded-lg bg-red-600 text-white text-xs hover:bg-red-500 transition">
               Delete
             </button>
           </div>
@@ -588,59 +546,61 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
-  // 2. Add Delete Dataset Function
-  async function deleteDataset(id){
+  async function downloadDataset(id) {
     const token = sessionStorage.getItem("token");
-    if(!confirm("Delete this dataset? Tokens earned will be removed from your balance.")) return;
-
-    toggleLoader(true,"Deleting dataset...");
-    try{
-      const res = await fetch(`${API_BASE}/datasets/${id}`,{
-        method:"DELETE",
-        headers:{
-          "Authorization":"Bearer "+token
-        }
+    if(!token) return showToast("Authentication required", "error");
+    
+    toggleLoader(true, "Requesting secure link...");
+    try {
+      const res = await fetch(`${API_BASE}/datasets/${id}/download`, {
+        headers: { "Authorization": "Bearer " + token }
       });
-
       const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Delete failed");
-
-      showToast("Dataset deleted successfully","success");
-      loadMyDatasets();
-      loadWallet();
-    }catch(e){
-      showToast(e.message || "Delete failed","error");
+      if (!res.ok) throw new Error(data.detail || "Download failed");
+      
+      // Open signed URL in new tab
+      window.open(data.download_url, "_blank");
+    } catch (e) {
+      showToast(e.message || "Failed to fetch download link", "error");
     } finally {
       toggleLoader(false);
     }
   }
 
+  async function deleteDataset(id){
+    const token = sessionStorage.getItem("token");
+    if(!confirm("Delete this dataset? Tokens earned will be removed from your balance.")) return;
+    toggleLoader(true,"Deleting dataset...");
+    try{
+      const res = await fetch(`${API_BASE}/datasets/${id}`,{
+        method:"DELETE",
+        headers:{ "Authorization":"Bearer "+token }
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.detail || "Delete failed");
+      showToast("Dataset deleted successfully","success");
+      loadMyDatasets();
+      loadWallet();
+    }catch(e){ showToast(e.message || "Delete failed","error"); } 
+    finally { toggleLoader(false); }
+  }
+
   async function buyDataset(id){
     const token = sessionStorage.getItem("token");
-    if(!token){
-      showToast("Please login first","error");
-      navigate("login");
-      return;
-    }
+    if(!token){ showToast("Please login first","error"); navigate("login"); return; }
     toggleLoader(true, "Processing purchase...");
     try{
       const res = await fetch(`${API_BASE}/marketplace/purchase`,{
         method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer "+token
-        },
+        headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+token },
         body:JSON.stringify({dataset_id:id})
       });
       const data = await res.json();
       if(!res.ok) throw new Error(data.detail || "Purchase failed");
       showToast("Dataset purchased successfully","success");
       loadWallet();
-    }catch(e){
-      showToast(e.message || JSON.stringify(e),"error");
-    } finally {
-      toggleLoader(false);
-    }
+    }catch(e){ showToast(e.message,"error"); } 
+    finally { toggleLoader(false); }
   }
 
   async function loadMarketplace() {
@@ -666,22 +626,20 @@
   const sections = document.querySelectorAll('.dtc-page');
   function navigate(targetId) {
     if(targetId === "dashboard" && !sessionStorage.getItem("token")){
-      showToast("Please login first","error");
-      navigate("login");
-      return;
+      showToast("Please login first","error"); navigate("login"); return;
     }
     sections.forEach(s => s.classList.add('hidden'));
     if (targetId === 'home') {
-      document.getElementById('section-home').classList.remove('hidden');
-      document.getElementById('section-how-it-works').classList.remove('hidden');
-      document.getElementById('section-data-sources').classList.remove('hidden');
+      ['section-home', 'section-how-it-works', 'section-data-sources'].forEach(id => document.getElementById(id).classList.remove('hidden'));
       loadPlatformStats();
     } else {
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
-    if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); }
-    if(targetId === 'marketplace') { loadMarketplace(); }
+    if(targetId === 'dashboard') loadMyDatasets();
+    if(targetId === 'marketplace') loadMarketplace();
+    if(targetId === 'dashboard' || targetId === 'upload') loadWallet();
+    
     const footer = document.getElementById('global-footer');
     if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -689,34 +647,20 @@
   }
 
   const mobileMenu = document.getElementById('mobile-menu');
-  const menuIconOpen = document.getElementById('menu-icon-open');
-  const menuIconClose = document.getElementById('menu-icon-close');
   function toggleMobileMenu(forceState) {
     const isExpanding = forceState !== undefined ? forceState : !mobileMenu?.classList.contains('active');
-    if (isExpanding) {
-      mobileMenu?.classList.add('active');
-      menuIconOpen?.classList.add('hidden');
-      menuIconClose?.classList.remove('hidden');
-    } else {
-      mobileMenu?.classList.remove('active');
-      menuIconOpen?.classList.remove('hidden');
-      menuIconClose?.classList.add('hidden');
-    }
+    mobileMenu?.classList.toggle('active', isExpanding);
+    document.getElementById('menu-icon-open')?.classList.toggle('hidden', isExpanding);
+    document.getElementById('menu-icon-close')?.classList.toggle('hidden', !isExpanding);
   }
+  
   document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(); });
-  document.querySelectorAll('[data-nav]').forEach(link => { 
-    link.addEventListener('click', () => { 
-      navigate(link.getAttribute('data-nav')); 
-      toggleMobileMenu(false); 
-    }); 
-  });
+  document.querySelectorAll('[data-nav]').forEach(link => link.addEventListener('click', () => navigate(link.getAttribute('data-nav'))));
 
   function updateAuthStateUI() {
     const isUser = !!sessionStorage.getItem("token");
-    document.getElementById('nav-guest-zone').classList.toggle('hidden', isUser);
-    document.getElementById('nav-user-zone').classList.toggle('hidden', !isUser);
-    document.getElementById('mobile-guest-zone').classList.toggle('hidden', isUser);
-    document.getElementById('mobile-user-zone').classList.toggle('hidden', !isUser);
+    ['nav-guest-zone', 'mobile-guest-zone'].forEach(id => document.getElementById(id).classList.toggle('hidden', isUser));
+    ['nav-user-zone', 'mobile-user-zone'].forEach(id => document.getElementById(id).classList.toggle('hidden', !isUser));
     if (isUser) loadWallet();
   }
 
@@ -724,13 +668,7 @@
     const login = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
     if (!login || !password) return showToast("Enter credentials", "error");
-    
-    const loginBtn = document.getElementById("btn-login-submit");
-    const originalText = loginBtn.innerText;
-    loginBtn.disabled = true;
-    loginBtn.innerText = "Logging in...";
     toggleLoader(true, "Authenticating...");
-    
     try {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
@@ -743,16 +681,8 @@
       showToast("Login successful", "success");
       updateAuthStateUI();
       navigate("dashboard");
-    } catch (err) { 
-      showToast(err.message || JSON.stringify(err), "error"); 
-    } 
-    finally { toggleLoader(false); loginBtn.disabled = false; loginBtn.innerText = originalText; }
-  });
-
-  document.getElementById("login-pass")?.addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-      document.getElementById("btn-login-submit")?.click();
-    }
+    } catch (err) { showToast(err.message, "error"); } 
+    finally { toggleLoader(false); }
   });
 
   document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
@@ -762,8 +692,6 @@
     const password = document.getElementById("reg-pass").value;
     const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
-    if (password.length < 8) return showToast("Password must be 8+ chars", "error");
-    
     toggleLoader(true, "Creating account...");
     try {
       const res = await fetch(`${API_BASE}/auth/register`, {
@@ -771,110 +699,25 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password, full_name: name, is_company: isCompany })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Registration failed");
-      
-      showToast("Account created successfully! Please login.", "success");
+      if (!res.ok) throw new Error((await res.json()).detail || "Registration failed");
+      showToast("Account created! Please login.", "success");
       navigate("login");
-    } catch (err) { showToast(err.message || JSON.stringify(err), "error"); } finally { toggleLoader(false); }
-  });
-
-  document.getElementById("btn-forgot-submit")?.addEventListener("click", async () => {
-    const email = document.getElementById("forgot-email").value;
-    if (!email) return showToast("Please enter your email", "error");
-    
-    localStorage.setItem("reset_email", email);
-    
-    toggleLoader(true, "Generating reset token...");
-    try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { 
-        method: "POST"
-      });
-      const data = await res.json();
-      toggleLoader(false);
-      if (!res.ok) return showToast(data.detail || "Request failed", "error");
-      if (data.reset_token) {
-        showToast("Reset token generated.", "success");
-        const otpInput = document.getElementById("reset-otp");
-        if(otpInput) otpInput.value = data.reset_token;
-        navigate("reset-password");
-      }
-    } catch (err) { toggleLoader(false); showToast(err.message || JSON.stringify(err), "error"); }
-  });
-
-  document.getElementById("btn-reset-submit")?.addEventListener("click", async () => {
-    const otp = document.getElementById("reset-otp").value;
-    const newPass = document.getElementById("reset-pass").value;
-    const confirmPass = document.getElementById("reset-pass-confirm").value;
-    const email = localStorage.getItem("reset_email");
-
-    if (!email) {
-      showToast("Session lost. Please request reset again.", "error");
-      navigate("forgot-password");
-      return;
-    }
-    if (!otp || !newPass || !confirmPass) return showToast("All fields required", "error");
-    if (newPass.length < 8) return showToast("Password must be 8+ chars", "error");
-    if (newPass !== confirmPass) return showToast("Passwords do not match", "error");
-
-    toggleLoader(true, "Updating password...");
-    try {
-      const res = await fetch(`${API_BASE}/auth/reset-password`, { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            token: otp, 
-            new_password: newPass
-        })
-      });
-      const data = await res.json();
-      toggleLoader(false);
-      if (!res.ok) throw new Error(data.detail || "Reset failed");
-      
-      localStorage.removeItem("reset_email");
-      showToast("Password updated successfully!", "success");
-      navigate("login");
-    } catch (err) { toggleLoader(false); showToast(err.message || JSON.stringify(err), "error"); }
-  });
-
-  document.getElementById("dataset-file")?.addEventListener("change", function(e) {
-    const fileName = e.target.files[0]?.name || "No file chosen...";
-    const label = document.getElementById("file-name-label");
-    if(label) label.innerText = fileName;
+    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
   document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
-    if(!token){ showToast("Please login first","error"); navigate("login"); return; }
-    
+    if(!token) return navigate("login");
     const title = document.getElementById("dataset-title").value;
     const description = document.getElementById("dataset-description").value;
-    const category = document.getElementById("dataset-category").value; 
-    const fileInput = document.getElementById("dataset-file");
-    const file = fileInput?.files[0];
-
-    if (!title.trim() || !description.trim()) return showToast("Enter title and description", "error");
-    if (!file) return showToast("Please select a file first", "error");
-    if (file.size > 10 * 1024 * 1024) return showToast("Max file size allowed is 10MB", "error");
-
-    const allowedTypes = ["text/csv", "application/json"];
-    const fileName = file.name.toLowerCase();
-    if (!allowedTypes.includes(file.type) && !fileName.endsWith(".csv") && !fileName.endsWith(".json")) {
-        showToast("Invalid file format. Use CSV or JSON.", "error");
-        return;
-    }
-
-    // 4. Update button text during upload
-    const uploadBtn = document.getElementById("btn-upload-dataset");
-    const originalBtnText = uploadBtn.innerText;
-    uploadBtn.innerText = "Uploading Dataset...";
-    uploadBtn.disabled = true;
+    const file = document.getElementById("dataset-file")?.files[0];
+    if (!title || !description || !file) return showToast("Missing fields or file", "error");
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("category", category);
+    formData.append("category", document.getElementById("dataset-category").value);
     
     toggleLoader(true, "Anonymizing & Uploading...");
     try {
@@ -883,61 +726,20 @@
         headers: { "Authorization": "Bearer " + token },
         body: formData
       });
-      const data = await res.json();
-      
-      toggleLoader(false);
-      if (!res.ok) {
-        // 3. Prevent duplicate dataset upload frontend message
-        if(data.detail?.includes("already")){
-           throw new Error("You already uploaded this dataset.");
-        }
-        throw new Error(data.detail || "Upload failed");
-      }
-
+      if (!res.ok) throw new Error((await res.json()).detail || "Upload failed");
       showToast("Dataset uploaded successfully!", "success");
-      
-      document.getElementById("dataset-title").value = "";
-      document.getElementById("dataset-description").value = "";
-      document.getElementById("dataset-category").value = "general";
-      document.getElementById("dataset-file").value = "";
-      document.getElementById("file-name-label").innerText = "No file chosen...";
-      
       navigate("dashboard");
-    } catch(err) { 
-      toggleLoader(false); 
-      showToast(err.message || "Server connection failed", "error"); 
-    } finally {
-      uploadBtn.innerText = originalBtnText;
-      uploadBtn.disabled = false;
-    }
+    } catch(err) { showToast(err.message, "error"); } 
+    finally { toggleLoader(false); }
   });
 
-  document.getElementById("mp-search")?.addEventListener("input", function() {
-    const query = this.value.toLowerCase();
-    document.querySelectorAll("#mp-datasets > div").forEach(card => {
-      const text = card.innerText.toLowerCase();
-      card.style.display = text.includes(query) ? "" : "none";
-    });
-  });
-
-  const logoutAction = () => { 
-    sessionStorage.clear(); 
-    localStorage.removeItem('dtc_user');
-    localStorage.removeItem('reset_email');
-    updateAuthStateUI(); 
-    navigate('home'); 
-    showToast("Logged out"); 
-  };
+  const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out"); };
   document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
   document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
     loadPlatformStats();
-    document.addEventListener('click', (e) => {
-      const btn = document.getElementById('mobile-menu-btn');
-      if (mobileMenu && btn && !mobileMenu.contains(e.target) && !btn.contains(e.target)) toggleMobileMenu(false);
-    });
     navigate('home');
   });
 </script>
