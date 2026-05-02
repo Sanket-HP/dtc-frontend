@@ -312,15 +312,35 @@
               <h4 class="text-2xl md:text-3xl font-black text-indigo-400" id="stat-tokens">0.00</h4>
             </div>
           </div>
+          
           <div class="dtc-card rounded-2xl overflow-hidden">
             <div class="p-5 border-b border-slate-800"><h3 class="font-bold text-white text-sm uppercase tracking-wider">My Active Assets</h3></div>
             <div id="my-datasets-list" class="divide-y divide-slate-800 p-4"></div>
           </div>
+
+          <!-- Transaction History Section -->
+          <div class="dtc-card rounded-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
+                <h3 class="font-bold text-white text-sm uppercase tracking-wider">Transaction History</h3>
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Recent Activity</span>
+            </div>
+            <div id="transactions-list" class="divide-y divide-slate-800 p-4">
+                <p class="text-center text-slate-500 text-xs py-8 italic">Fetching transactions...</p>
+            </div>
+          </div>
         </div>
+
         <div class="space-y-6">
           <div class="dtc-card p-6 rounded-2xl bg-gradient-to-br from-indigo-600/20 to-transparent border-indigo-500/20">
             <h4 class="text-white font-bold mb-4">Wallet Balance</h4>
-            <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00 <span class="text-sm font-normal text-slate-400">DTC</span></p>
+            <div class="flex items-baseline gap-2">
+                <p class="text-3xl font-black text-white" id="dash-wallet-balance">0.00</p>
+                <span class="text-sm font-bold text-indigo-400">DTC</span>
+            </div>
+            <p id="wallet-updated-at" class="text-[10px] text-slate-500 mt-3 opacity-0 transition-opacity flex items-center gap-1.5 font-bold uppercase tracking-wider">
+               <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+               Last synced: Just now
+            </p>
             <button disabled class="w-full mt-6 py-3 rounded-xl bg-slate-800 opacity-60 cursor-not-allowed text-slate-400 text-sm font-bold transition">Withdrawals coming soon</button>
           </div>
         </div>
@@ -499,10 +519,64 @@
       }
       const user = await res.json();
       const balance = (user.token_balance || 0).toFixed(2);
+      
+      // Update UI
       document.getElementById("nav-balance").innerText = balance + " DTC";
       document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
-      document.getElementById("dash-wallet-balance").innerHTML = `${balance} <span class="text-sm font-normal text-slate-400">DTC</span>`;
+      document.getElementById("dash-wallet-balance").innerText = balance;
+
+      // Sync status display
+      if (user.updated_at) {
+        const syncElem = document.getElementById("wallet-updated-at");
+        if(syncElem) {
+          const date = new Date(user.updated_at);
+          syncElem.innerText = `Last synced: ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+          syncElem.classList.remove('opacity-0');
+        }
+      }
     } catch(e) { console.error("Wallet load failed", e); }
+  }
+
+  async function loadTransactions() {
+    const token = sessionStorage.getItem("token");
+    if(!token) return;
+    try {
+      // Assuming a /transactions/mine endpoint exists or we fetch from current user metadata
+      const res = await fetch(`${API_BASE}/auth/me`, { headers: { "Authorization": `Bearer ${token}` } });
+      const user = await res.json();
+      const list = document.getElementById("transactions-list");
+      if(!list) return;
+
+      // Mocking transaction display based on current dataset rewards if full history isn't ready
+      // In a real app, this would be a separate list of objects from Firestore
+      const datasetsRes = await fetch(`${API_BASE}/datasets/mine`, { headers: { "Authorization": `Bearer ${token}` } });
+      const datasets = await datasetsRes.json();
+      
+      if(datasets.length === 0) {
+        list.innerHTML = `<p class="text-center text-slate-500 text-xs py-8 italic">No recent transactions.</p>`;
+        return;
+      }
+
+      list.innerHTML = "";
+      datasets.forEach(d => {
+        const reward = (d.record_count * 0.5).toFixed(2);
+        const item = document.createElement("div");
+        item.className = "flex items-center justify-between p-3 hover:bg-slate-800/10 transition";
+        item.innerHTML = `
+            <div class="flex items-center gap-3">
+                <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2.5" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-white">Dataset Contribution</p>
+                    <p class="text-[10px] text-slate-500">${d.title}</p>
+                </div>
+            </div>
+            <p class="text-xs font-black text-emerald-400">+$${reward} DTC</p>
+        `;
+        list.appendChild(item);
+      });
+    } catch(e) { console.error("Transactions load failed", e); }
   }
 
   async function loadMyDatasets() {
@@ -543,28 +617,21 @@
       });
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
+      const totalEarned = data.reduce((acc, curr) => acc + (curr.record_count * 0.5), 0);
+      document.getElementById("stat-tokens").innerText = totalEarned.toFixed(2);
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
   async function downloadDataset(id) {
     const token = sessionStorage.getItem("token");
     if(!token) return showToast("Authentication required", "error");
-    
     toggleLoader(true, "Requesting secure link...");
     try {
-      const res = await fetch(`${API_BASE}/datasets/${id}/download`, {
-        headers: { "Authorization": "Bearer " + token }
-      });
+      const res = await fetch(`${API_BASE}/datasets/${id}/download`, { headers: { "Authorization": "Bearer " + token } });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Download failed");
-      
-      // Open signed URL in new tab
       window.open(data.download_url, "_blank");
-    } catch (e) {
-      showToast(e.message || "Failed to fetch download link", "error");
-    } finally {
-      toggleLoader(false);
-    }
+    } catch (e) { showToast(e.message, "error"); } finally { toggleLoader(false); }
   }
 
   async function deleteDataset(id){
@@ -576,11 +643,11 @@
         method:"DELETE",
         headers:{ "Authorization":"Bearer "+token }
       });
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Delete failed");
+      if(!res.ok) throw new Error((await res.json()).detail || "Delete failed");
       showToast("Dataset deleted successfully","success");
+      await loadWallet();
       loadMyDatasets();
-      loadWallet();
+      loadTransactions();
     }catch(e){ showToast(e.message || "Delete failed","error"); } 
     finally { toggleLoader(false); }
   }
@@ -595,10 +662,10 @@
         headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+token },
         body:JSON.stringify({dataset_id:id})
       });
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Purchase failed");
+      if(!res.ok) throw new Error((await res.json()).detail || "Purchase failed");
       showToast("Dataset purchased successfully","success");
-      loadWallet();
+      await loadWallet();
+      loadTransactions();
     }catch(e){ showToast(e.message,"error"); } 
     finally { toggleLoader(false); }
   }
@@ -636,7 +703,12 @@
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
-    if(targetId === 'dashboard') loadMyDatasets();
+    
+    if(targetId === 'dashboard') {
+        loadMyDatasets();
+        loadWallet();
+        loadTransactions();
+    }
     if(targetId === 'marketplace') loadMarketplace();
     if(targetId === 'dashboard' || targetId === 'upload') loadWallet();
     
@@ -705,6 +777,12 @@
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
+  document.getElementById("dataset-file")?.addEventListener("change", function(e) {
+    const fileName = e.target.files[0]?.name || "No file chosen...";
+    const label = document.getElementById("file-name-label");
+    if(label) label.innerText = fileName;
+  });
+
   document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
     if(!token) return navigate("login");
@@ -727,7 +805,18 @@
         body: formData
       });
       if (!res.ok) throw new Error((await res.json()).detail || "Upload failed");
+      
       showToast("Dataset uploaded successfully!", "success");
+      
+      // Step 5: Refresh Wallet before navigation
+      await loadWallet(); 
+      
+      // Form Cleanup
+      document.getElementById("dataset-title").value = "";
+      document.getElementById("dataset-description").value = "";
+      document.getElementById("dataset-file").value = "";
+      document.getElementById("file-name-label").innerText = "No file chosen...";
+      
       navigate("dashboard");
     } catch(err) { showToast(err.message, "error"); } 
     finally { toggleLoader(false); }
