@@ -636,7 +636,6 @@
       const recElem = document.getElementById("global-stat-records");
       const tokElem = document.getElementById("global-stat-tokens");
       if(recElem) recElem.innerText = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0).toLocaleString() + "+";
-      // Fix 4: Use dataset_value for distributed token count
       if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.dataset_value || 0), 0).toLocaleString(); 
     } catch(e) { console.error("Stats load failed", e); }
   }
@@ -648,7 +647,6 @@
       const container = document.getElementById("home-trending-list");
       if(!container) return;
       
-      // Fix 7: Sort by download count for trending
       const trending = datasets
         .sort((a,b) => (b.download_count || 0) - (a.download_count || 0))
         .slice(0, 3);
@@ -779,13 +777,11 @@
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-1">
               <div class="text-white font-bold text-sm">${d.title}</div>
-              <!-- Step 1: Show AI Score in Dashboard -->
               <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${(d.quality_score * 100).toFixed(0)}%</span>
               <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(2)}</span>
             </div>
             <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • ⬇ ${d.download_count || 0} downloads</div>
-            <!-- Step 5: Show Dataset ID -->
             <p class="text-[10px] text-slate-600">ID: ${d.id}</p>
           </div>
           <div class="flex items-center gap-4">
@@ -803,7 +799,6 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
-  // Fix 6: Improved Delete Confirmation
   async function deleteDataset(datasetId) {
     const token = sessionStorage.getItem("token");
     if(!token) return navigate("login");
@@ -883,7 +878,6 @@
     } finally { toggleLoader(false); }
   }
 
-  // Fix 2: Correct Marketplace Preview Endpoint
   async function previewDataset(id) {
     toggleLoader(true, "Generating preview...");
     try {
@@ -896,7 +890,6 @@
     finally { toggleLoader(false); }
   }
 
-  // Fix 3: Missing Buy Dataset Functionality
   async function buyDataset(datasetId) {
     const token = sessionStorage.getItem("token");
     if(!token){
@@ -979,7 +972,6 @@
       finally { toggleLoader(false); }
   }
 
-  // Fix 1: Corrected Search API Endpoint to /api/search
   async function searchMarketplace(query) {
     try {
       const res = await fetch(`${API_BASE}/search?q=` + encodeURIComponent(query));
@@ -992,7 +984,6 @@
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
       const datasets = await res.json();
-      // Step 3: Fix Marketplace Sorting (Trust Score Descending)
       datasets.sort((a,b)=> (b.trust_score || 0) - (a.trust_score || 0));
       renderMarketplace(datasets);
     } catch(e) { console.error("Marketplace load failed", e); }
@@ -1149,7 +1140,6 @@
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
-  // Fix 10: File name selection preview listener
   document.getElementById("dataset-file")?.addEventListener("change", function(e) {
     const fileName = e.target.files[0]?.name || "No file chosen...";
     const label = document.getElementById("file-name-label");
@@ -1164,10 +1154,8 @@
     const fileInput = document.getElementById("dataset-file");
     const file = fileInput?.files[0];
 
-    // Fix 5: Validation - ensure file exists
     if (!title || !file) return showToast("Missing fields: Please enter a title and select a file.", "error");
     
-    // Fix 8: File Size Limit check (10MB)
     if(file.size > 10 * 1024 * 1024) return showToast("File too large. Maximum size is 10MB.", "error");
 
     if(!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".json")) return showToast("Only CSV or JSON files are allowed.","error");
@@ -1182,7 +1170,6 @@
     
     toggleLoader(true, "Uploading...");
     try {
-      // Simulate multi-step processing UI
       setTimeout(() => toggleLoader(true, "Anonymizing records..."), 1500);
       setTimeout(() => toggleLoader(true, "Calculating AI Quality Score..."), 3000);
 
@@ -1200,7 +1187,7 @@
         throw new Error(result.detail || "Upload failed");
       }
       
-      showToast(`Dataset published! +${result.token_reward || result.dataset_value} DTC earned.`, "success");
+      showToast(`Dataset published! +${result.token_reward} DTC earned.`, "success");
       await loadWallet(); 
       navigate("dashboard");
     } catch(err) { 
@@ -1210,7 +1197,6 @@
     }
   });
 
-  // Fix 4 & 9: Smart Marketplace Search with debouncing and correct endpoint
   let searchTimeout;
   document.getElementById("mp-search")?.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
