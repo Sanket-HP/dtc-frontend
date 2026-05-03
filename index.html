@@ -852,22 +852,28 @@
           </div>
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">+${reward} DTC</div>
-            <!-- Fix 3: Updated Delete Button HTML and styling -->
             <button onclick="deleteDataset('${d.id}')" class="px-3 py-1 bg-red-600 text-white rounded text-xs">Delete</button>
           </div>
         </div>
         `;
         list.appendChild(item);
       });
+      
+      // Fix 1: Recalculate DTC Earned from backend datasets only
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
       
-      document.getElementById("stat-tokens").innerText = document.getElementById("dash-wallet-balance").innerText;
+      const totalTokens = data.reduce((acc, curr) => acc + (curr.token_reward || 0), 0);
+      document.getElementById("stat-tokens").innerText = totalTokens.toFixed(2);
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
-  // Fix 2: Updated Frontend Delete logic as requested
+  // Fix 2: Updated Frontend Delete logic with sync refresh and confirmation
   async function deleteDataset(id) {
+    if(!confirm("Delete this dataset? Tokens will be removed from your wallet.")){
+      return;
+    }
+
     const token = sessionStorage.getItem("token");
     const res = await fetch(API_BASE + "/datasets/" + id, {
       method: "DELETE",
@@ -882,8 +888,11 @@
     }
 
     showToast("Dataset deleted", "success");
-    loadMyDatasets();
-    loadWallet(); // Sync wallet after deletion rewards removal
+    
+    // Perform full refresh of dashboard data
+    await loadMyDatasets();
+    await loadWallet();
+    await loadTransactions();
   }
 
   async function loadRequests() {
@@ -1137,6 +1146,7 @@
       if (target) target.classList.remove('hidden');
     }
     
+    // Fix 3: Full refresh of dashboard data when opened
     if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); loadTransactions(); }
     if(targetId === 'marketplace') loadMarketplace();
     if(targetId === 'leaderboard') loadLeaderboard();
