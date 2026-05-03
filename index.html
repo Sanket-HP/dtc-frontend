@@ -436,6 +436,18 @@
             </p>
             <button disabled class="w-full mt-6 py-3 rounded-xl bg-slate-800 opacity-60 cursor-not-allowed text-slate-400 text-sm font-bold transition">Withdrawals coming soon</button>
           </div>
+
+          <!-- Fix 4: Invite & Earn Section in Dashboard -->
+          <div class="dtc-card p-6 rounded-2xl">
+            <h4 class="text-white font-bold mb-2">Invite & Earn</h4>
+            <p class="text-[10px] text-slate-500 mb-3 uppercase tracking-wider font-bold">Your Referral Link</p>
+            <input id="ref-link" readonly
+              class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-indigo-500 transition" />
+            <button onclick="copyReferral()"
+              class="mt-3 w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
+              Copy Referral Link
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -516,6 +528,10 @@
           <input type="text" id="reg-username" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="reg-pass" placeholder="Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          
+          <!-- Fix 1: Hidden Referral Field -->
+          <input type="hidden" id="referral-code" />
+
           <div class="bg-slate-900/40 border border-slate-700 rounded-xl p-4">
             <p class="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-wider">Account Type</p>
             <div class="flex flex-col gap-3">
@@ -669,7 +685,6 @@
           <h3 class="text-white font-bold text-lg mb-2">${d.title}</h3>
           <p class="text-xs text-slate-500 mb-6">${d.record_count} records • ${d.downloads || 0} downloads</p>
           <div class="mt-auto flex justify-between items-center border-t border-slate-800/50 pt-4">
-            <!-- Fix 1: Display dataset_value as price, fallback to price field -->
             <p class="text-indigo-400 font-black">Price: ${(d.dataset_value || d.price || 0).toFixed(2)} DTC</p>
             <button onclick="navigate('marketplace')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
           </div>
@@ -702,6 +717,31 @@
     } catch(e) { console.error("Home leaderboard failed", e); }
   }
 
+  // Fix 5: Generate Referral Link function
+  function loadReferral(user) {
+    const refInput = document.getElementById("ref-link");
+    if (!refInput) return;
+    const link = window.location.origin + "/register?ref=" + user.username;
+    refInput.value = link;
+  }
+
+  // Fix 6: Copy Button Script (with robust execCommand fallback)
+  function copyReferral() {
+    const input = document.getElementById("ref-link");
+    if (!input) return;
+    input.select();
+    input.setSelectionRange(0, 99999);
+    try {
+      document.execCommand('copy');
+      showToast("Referral link copied", "success");
+    } catch (err) {
+      // Fallback to navigator if execCommand fails
+      navigator.clipboard.writeText(input.value)
+        .then(() => showToast("Referral link copied", "success"))
+        .catch(() => showToast("Failed to copy link", "error"));
+    }
+  }
+
   async function loadWallet() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
@@ -714,6 +754,10 @@
         return;
       }
       const user = await res.json();
+
+      // Fix 7: Call referral function after loading user data
+      loadReferral(user);
+
       const balance = (user.token_balance || 0).toFixed(2);
       document.getElementById("nav-balance").innerText = balance + " DTC";
       document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
@@ -1022,7 +1066,6 @@
         <div class="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
           <div>
             <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
-            <!-- Fix 2: Display dataset_value as price, fallback to price field -->
             <p class="text-indigo-400 font-black text-lg">${(d.dataset_value || d.price || 0).toFixed(2)} DTC</p>
           </div>
           <div class="flex gap-1.5">
@@ -1123,19 +1166,29 @@
     finally { toggleLoader(false); }
   });
 
+  // Fix 3: Send Referral Code During Signup
   document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
     const name = document.getElementById("reg-name").value;
     const username = document.getElementById("reg-username").value;
     const email = document.getElementById("reg-email").value;
     const password = document.getElementById("reg-pass").value;
+    const referral = document.getElementById("referral-code").value; // Capture from hidden field
     const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
+
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
     toggleLoader(true, "Creating account...");
     try {
       const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password, full_name: name, is_company: isCompany })
+        body: JSON.stringify({ 
+          username, 
+          email, 
+          password, 
+          full_name: name, 
+          is_company: isCompany,
+          referral_code: referral || null // Send to backend
+        })
       });
       if (!res.ok) throw new Error((await res.json()).detail || "Registration failed");
       showToast("Account created! Please login.", "success");
@@ -1226,6 +1279,14 @@
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
     navigate('home');
+
+    // Fix 2: Capture Referral Code From URL on load
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if(ref) {
+      const refField = document.getElementById("referral-code");
+      if (refField) refField.value = ref;
+    }
   });
 </script>
 </body>
