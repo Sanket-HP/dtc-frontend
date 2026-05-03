@@ -650,6 +650,7 @@
     }, 4500);
   }
 
+  // Fix 1: Refined stats display for empty states
   async function loadPlatformStats() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
@@ -657,12 +658,16 @@
       const datasets = await res.json();
       const recElem = document.getElementById("global-stat-records");
       const tokElem = document.getElementById("global-stat-tokens");
-      if(recElem) recElem.innerText = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0).toLocaleString() + "+";
       
-      if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0).toFixed(0).toLocaleString(); 
+      const totalRecords = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0);
+      const totalTokens = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0);
+
+      if(recElem) recElem.innerText = totalRecords > 0 ? totalRecords.toLocaleString() + "+" : "0";
+      if(tokElem) tokElem.innerText = totalTokens.toFixed(0); 
     } catch(e) { console.error("Stats load failed", e); }
   }
 
+  // Fix 3: Improved Trending state UI
   async function loadTrending() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
@@ -675,7 +680,11 @@
         .slice(0, 3);
 
       if(trending.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-center text-slate-600 italic">No trending datasets yet.</p>`;
+        container.innerHTML = `
+          <div class="col-span-full text-center py-16 bg-slate-900/30 rounded-3xl border border-dashed border-slate-800">
+            <p class="text-slate-500 text-sm italic">No datasets available yet.</p>
+            <p class="text-slate-600 text-xs mt-2">Be the first contributor to upload a dataset.</p>
+          </div>`;
         return;
       }
 
@@ -700,6 +709,7 @@
     } catch(e) { console.error("Trending load failed", e); }
   }
 
+  // Fix 2: Refined Leaderboard "New" state
   async function loadHomeLeaderboard() {
     try {
       const res = await fetch(`${API_BASE}/leaderboard/contributors`);
@@ -716,7 +726,9 @@
             <span class="text-indigo-400 font-black text-lg">#${i+1}</span>
             <span class="text-white font-bold">${u.username}</span>
           </div>
-          <span class="text-slate-500 font-bold text-xs">${(u.token_balance || 0).toFixed(1)} DTC EARNED</span>
+          <span class="text-slate-500 font-bold text-xs uppercase tracking-tighter">
+            ${(u.token_balance || 0) > 0 ? u.token_balance.toFixed(1) + ' DTC EARNED' : 'NEW CONTRIBUTOR'}
+          </span>
         `;
         container.appendChild(row);
       });
@@ -818,6 +830,7 @@
     } catch(e) { console.error("Transactions failed", e); }
   }
 
+  // Fix 5: Empty dashboard asset state with upload button
   async function loadMyDatasets() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
@@ -827,10 +840,22 @@
       const list = document.getElementById("my-datasets-list");
       if(!list) return;
       list.innerHTML = "";
+      
       if(data.length === 0) {
-        list.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm italic">No datasets contributed yet.</div>`;
+        list.innerHTML = `
+          <div class="text-center py-12">
+            <p class="text-slate-500 text-sm mb-4">No datasets contributed yet.</p>
+            <button onclick="navigate('upload')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
+              Upload First Dataset
+            </button>
+          </div>`;
+        
+        document.getElementById("stat-datasets").innerText = "0";
+        document.getElementById("stat-records").innerText = "0";
+        document.getElementById("stat-tokens").innerText = "0.00";
         return;
       }
+
       data.forEach(d => {
         const reward = (d.token_reward || d.dataset_value || 0).toFixed(2);
         const item = document.createElement("div");
@@ -859,7 +884,6 @@
         list.appendChild(item);
       });
       
-      // Fix 1: Recalculate DTC Earned from backend datasets only
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
       
@@ -868,7 +892,6 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
-  // Fix 2: Updated Frontend Delete logic with sync refresh and confirmation
   async function deleteDataset(id) {
     if(!confirm("Delete this dataset? Tokens will be removed from your wallet.")){
       return;
@@ -889,7 +912,6 @@
 
     showToast("Dataset deleted", "success");
     
-    // Perform full refresh of dashboard data
     await loadMyDatasets();
     await loadWallet();
     await loadTransactions();
@@ -1146,7 +1168,6 @@
       if (target) target.classList.remove('hidden');
     }
     
-    // Fix 3: Full refresh of dashboard data when opened
     if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); loadTransactions(); }
     if(targetId === 'marketplace') loadMarketplace();
     if(targetId === 'leaderboard') loadLeaderboard();
