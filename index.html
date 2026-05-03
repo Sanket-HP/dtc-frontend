@@ -235,9 +235,10 @@
         <button data-nav="marketplace" class="text-indigo-400 text-xs font-bold uppercase tracking-widest hover:underline">View All →</button>
       </div>
       <div id="home-trending-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="animate-pulse bg-slate-800/50 h-64 rounded-3xl"></div>
-        <div class="animate-pulse bg-slate-800/50 h-64 rounded-3xl"></div>
-        <div class="animate-pulse bg-slate-800/50 h-64 rounded-3xl"></div>
+        <div class="animate-pulse bg-slate-900/30 rounded-3xl border border-dashed border-slate-800 py-16 text-center col-span-full">
+          <p class="text-slate-500 text-sm italic">No datasets available yet.</p>
+          <p class="text-slate-600 text-xs mt-2">Be the first contributor to upload a dataset.</p>
+        </div>
       </div>
     </div>
 
@@ -650,7 +651,6 @@
     }, 4500);
   }
 
-  // Fix 1: Refined stats display for empty states
   async function loadPlatformStats() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
@@ -662,12 +662,12 @@
       const totalRecords = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0);
       const totalTokens = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0);
 
+      // Fix 1: Professional stats formatting for empty state
       if(recElem) recElem.innerText = totalRecords > 0 ? totalRecords.toLocaleString() + "+" : "0";
       if(tokElem) tokElem.innerText = totalTokens.toFixed(0); 
     } catch(e) { console.error("Stats load failed", e); }
   }
 
-  // Fix 3: Improved Trending state UI
   async function loadTrending() {
     try {
       const res = await fetch(`${API_BASE}/marketplace/datasets`);
@@ -679,6 +679,7 @@
         .sort((a,b) => (b.downloads || 0) - (a.downloads || 0))
         .slice(0, 3);
 
+      // Fix 3: Improved Empty Trending Dataset UI
       if(trending.length === 0) {
         container.innerHTML = `
           <div class="col-span-full text-center py-16 bg-slate-900/30 rounded-3xl border border-dashed border-slate-800">
@@ -709,7 +710,6 @@
     } catch(e) { console.error("Trending load failed", e); }
   }
 
-  // Fix 2: Refined Leaderboard "New" state
   async function loadHomeLeaderboard() {
     try {
       const res = await fetch(`${API_BASE}/leaderboard/contributors`);
@@ -727,6 +727,7 @@
             <span class="text-white font-bold">${u.username}</span>
           </div>
           <span class="text-slate-500 font-bold text-xs uppercase tracking-tighter">
+            <!-- Fix 2: Cleaner leaderboard labels -->
             ${(u.token_balance || 0) > 0 ? u.token_balance.toFixed(1) + ' DTC EARNED' : 'NEW CONTRIBUTOR'}
           </span>
         `;
@@ -772,28 +773,38 @@
     }
   }
 
+  // Fix 1 (Query): Improved loadWallet with number casting and error logging
   async function loadWallet() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
+
     try {
-      const res = await fetch(`${API_BASE}/auth/me`, { headers: { "Authorization": `Bearer ${token}` } });
-      if(res.status === 401){
-        sessionStorage.removeItem("token");
-        updateAuthStateUI();
-        navigate("login");
+      const res = await fetch(`${API_BASE}/auth/me`, { 
+        headers: { "Authorization": `Bearer ${token}` } 
+      });
+
+      if(!res.ok){
+        console.error("Wallet fetch failed");
+        if(res.status === 401){
+          logoutAction();
+        }
         return;
       }
+
       const user = await res.json();
 
       loadReferral(user);
       loadReferralStats();
 
-      const balance = (user.token_balance || 0).toFixed(2);
+      const balance = Number(user.token_balance || 0).toFixed(2);
+
       document.getElementById("nav-balance").innerText = balance + " DTC";
       document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
       document.getElementById("dash-wallet-balance").innerText = balance;
       document.getElementById("wallet-updated-at")?.classList.remove('opacity-0');
-    } catch(e) { console.error("Wallet load failed", e); }
+    } catch(e) { 
+      console.error("Wallet load error", e); 
+    }
   }
 
   async function loadTransactions() {
@@ -830,7 +841,6 @@
     } catch(e) { console.error("Transactions failed", e); }
   }
 
-  // Fix 5: Empty dashboard asset state with upload button
   async function loadMyDatasets() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
@@ -841,12 +851,13 @@
       if(!list) return;
       list.innerHTML = "";
       
+      // Fix 5 (Query): Empty asset state button
       if(data.length === 0) {
         list.innerHTML = `
           <div class="text-center py-12">
             <p class="text-slate-500 text-sm mb-4">No datasets contributed yet.</p>
             <button onclick="navigate('upload')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
-              Upload First Dataset
+              Upload Your First Dataset
             </button>
           </div>`;
         
@@ -884,6 +895,7 @@
         list.appendChild(item);
       });
       
+      // Fix 1 (Query): Calculate summary from rewards
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
       
@@ -892,6 +904,7 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
+  // Fix 2 (Query): Refresh wallet, assets and transactions after deletion
   async function deleteDataset(id) {
     if(!confirm("Delete this dataset? Tokens will be removed from your wallet.")){
       return;
@@ -1153,7 +1166,8 @@
   }
 
   const sections = document.querySelectorAll('.dtc-page');
-  function navigate(targetId) {
+  // Fix 3 (Query): navigation logic ensures loads are awaited
+  async function navigate(targetId) {
     if(targetId === "dashboard" && !sessionStorage.getItem("token")){
       showToast("Please login first","error"); navigate("login"); return;
     }
@@ -1168,7 +1182,11 @@
       if (target) target.classList.remove('hidden');
     }
     
-    if(targetId === 'dashboard') { loadMyDatasets(); loadWallet(); loadTransactions(); }
+    if(targetId === 'dashboard') { 
+      await loadWallet();
+      await loadMyDatasets(); 
+      await loadTransactions(); 
+    }
     if(targetId === 'marketplace') loadMarketplace();
     if(targetId === 'leaderboard') loadLeaderboard();
     if(targetId === 'requests') loadRequests();
@@ -1197,6 +1215,7 @@
     if (isUser) loadWallet();
   }
 
+  // Fix 2 (Query): Force wallet reload after login
   document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const login = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
@@ -1212,6 +1231,8 @@
       if (!res.ok) throw new Error(data.detail || "Login failed");
       sessionStorage.setItem("token", data.access_token);
       showToast("Login successful", "success");
+      
+      await loadWallet();
       updateAuthStateUI();
       navigate("dashboard");
     } catch (err) { showToast(err.message, "error"); } 
@@ -1323,7 +1344,16 @@
     }, 400);
   });
 
-  const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out safely"); };
+  // Fix 4 (Query): Clear cached wallet on logout and reset UI text
+  const logoutAction = () => { 
+    sessionStorage.removeItem("token"); 
+    sessionStorage.clear(); 
+    document.getElementById("nav-balance").innerText = "0.00 DTC";
+    document.getElementById("mobile-nav-balance").innerText = "0.00 DTC";
+    updateAuthStateUI(); 
+    navigate('home'); 
+    showToast("Logged out safely"); 
+  };
   document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
   document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 
