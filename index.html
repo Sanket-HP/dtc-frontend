@@ -636,7 +636,8 @@
       const recElem = document.getElementById("global-stat-records");
       const tokElem = document.getElementById("global-stat-tokens");
       if(recElem) recElem.innerText = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0).toLocaleString() + "+";
-      if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.dataset_value || 0), 0).toLocaleString(); 
+      // Fix 4: Calculate global stats based on token_reward
+      if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0).toFixed(0).toLocaleString(); 
     } catch(e) { console.error("Stats load failed", e); }
   }
 
@@ -768,8 +769,8 @@
         return;
       }
       data.forEach(d => {
-        // Step 2: Fix Token Calculation (token_reward only)
-        const reward = (d.token_reward || 0).toFixed(2);
+        // Fix 3: Updated Token Reward Display logic with fallback
+        const reward = (d.token_reward || d.dataset_value || 0).toFixed(2);
         const item = document.createElement("div");
         item.className = "p-4 hover:bg-slate-800/20 transition";
         item.innerHTML = `
@@ -778,11 +779,16 @@
             <div class="flex flex-wrap items-center gap-2 mb-1">
               <div class="text-white font-bold text-sm">${d.title}</div>
               <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${(d.quality_score * 100).toFixed(0)}%</span>
-              <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || 0).toFixed(2)}</span>
+              <!-- Fix 2: AI Score fallback mapping -->
+              <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || d.ai_score || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(2)}</span>
+              <!-- Fix 6: Category badge in Dashboard -->
+              <span class="px-2 py-0.5 text-[8px] bg-slate-800 text-slate-400 rounded uppercase font-black tracking-widest">${d.category || 'general'}</span>
             </div>
             <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • ⬇ ${d.download_count || 0} downloads</div>
             <p class="text-[10px] text-slate-600">ID: ${d.id}</p>
+            <!-- Fix 7: Cryptographic fingerprint display -->
+            <p class="text-[10px] text-slate-600">Fingerprint: ${d.fingerprint || 'N/A'}</p>
           </div>
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">+${reward} DTC</div>
@@ -794,15 +800,15 @@
       });
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
-      // Step 4: Show Dataset Value in Dashboard Summary
       document.getElementById("stat-tokens").innerText = data.reduce((acc, curr) => acc + (curr.token_reward || 0), 0).toFixed(2);
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
+  // Fix 5: Improved Delete Confirmation UX
   async function deleteDataset(datasetId) {
     const token = sessionStorage.getItem("token");
     if(!token) return navigate("login");
-    if(!confirm("Delete this dataset? This will remove the dataset from the marketplace and subtract earned tokens from your balance.")) return;
+    if(!confirm("Delete this dataset permanently?\n\n• Dataset will be removed from marketplace\n• Earned tokens will be deducted from your wallet")) return;
     toggleLoader(true, "Removing asset...");
     try {
       const res = await fetch(`${API_BASE}/datasets/${datasetId}`, {
@@ -1188,6 +1194,13 @@
       }
       
       showToast(`Dataset published! +${result.token_reward} DTC earned.`, "success");
+      
+      // Fix 1: Form Reset Logic
+      document.getElementById("dataset-title").value = "";
+      document.getElementById("dataset-description").value = "";
+      document.getElementById("dataset-file").value = "";
+      document.getElementById("file-name-label").innerText = "No file chosen...";
+
       await loadWallet(); 
       navigate("dashboard");
     } catch(err) { 
