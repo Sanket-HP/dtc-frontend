@@ -249,41 +249,6 @@
         <div class="animate-pulse bg-slate-800/50 h-16 rounded-2xl"></div>
       </div>
     </div>
-
-    <!-- HOME: ROADMAP -->
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-24 border-t border-slate-900">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl font-black text-white mb-2">Platform Roadmap</h2>
-        <p class="text-slate-400">Our journey toward a fully decentralized data economy.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="relative pl-8 border-l border-indigo-500/50">
-          <div class="absolute -left-1.5 top-0 w-3 h-3 bg-indigo-500 rounded-full"></div>
-          <p class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">2026 Q2</p>
-          <h4 class="text-white font-bold mb-2">Marketplace Beta</h4>
-          <p class="text-xs text-slate-400">Launch of secure dataset upload and reward mechanism.</p>
-        </div>
-        <div class="relative pl-8 border-l border-slate-800">
-          <div class="absolute -left-1.5 top-0 w-3 h-3 bg-slate-800 rounded-full border border-slate-700"></div>
-          <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">2026 Q3</p>
-          <h4 class="text-white font-bold mb-2">AI Quality V2</h4>
-          <p class="text-xs text-slate-400">Advanced semantic analysis for training-specific datasets.</p>
-        </div>
-        <div class="relative pl-8 border-l border-slate-800">
-          <div class="absolute -left-1.5 top-0 w-3 h-3 bg-slate-800 rounded-full border border-slate-700"></div>
-          <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">2026 Q4</p>
-          <h4 class="text-white font-bold mb-2">Token Withdrawal</h4>
-          <h4 class="text-white font-bold mb-2">Fiat On-Ramp</h4>
-          <p class="text-xs text-slate-400">Direct DTC to USDC conversion and withdrawals.</p>
-        </div>
-        <div class="relative pl-8 border-l border-slate-800">
-          <div class="absolute -left-1.5 top-0 w-3 h-3 bg-slate-800 rounded-full border border-slate-700"></div>
-          <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">2027</p>
-          <h4 class="text-white font-bold mb-2">Mainnet Node</h4>
-          <p class="text-xs text-slate-400">Decentralized dataset hosting via community nodes.</p>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- HOW IT WORKS -->
@@ -503,10 +468,10 @@
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Select Dataset File (.csv, .json)</label>
           <div class="relative">
             <input type="file" id="dataset-file" accept=".csv,.json" class="hidden" />
-            <label for="dataset-file" class="flex items-center justify-between w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-slate-400 cursor-pointer hover:border-indigo-500/50 transition">
+            <button type="button" onclick="document.getElementById('dataset-file').click()" class="flex items-center justify-between w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-slate-400 cursor-pointer hover:border-indigo-500/50 transition">
               <span id="file-name-label">No file chosen...</span>
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            </label>
+            </button>
           </div>
           <p class="text-[10px] text-slate-500 mt-2 ml-1 leading-relaxed">
             Max 10MB • CSV or JSON only<br/>
@@ -671,7 +636,8 @@
       const recElem = document.getElementById("global-stat-records");
       const tokElem = document.getElementById("global-stat-tokens");
       if(recElem) recElem.innerText = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0).toLocaleString() + "+";
-      if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0).toLocaleString(); 
+      // Fix 4: Use dataset_value for distributed token count
+      if(tokElem) tokElem.innerText = datasets.reduce((sum, d) => sum + (d.dataset_value || 0), 0).toLocaleString(); 
     } catch(e) { console.error("Stats load failed", e); }
   }
 
@@ -682,7 +648,11 @@
       const container = document.getElementById("home-trending-list");
       if(!container) return;
       
-      const trending = datasets.slice(0, 3);
+      // Fix 7: Sort by download count for trending
+      const trending = datasets
+        .sort((a,b) => (b.download_count || 0) - (a.download_count || 0))
+        .slice(0, 3);
+
       if(trending.length === 0) {
         container.innerHTML = `<p class="col-span-full text-center text-slate-600 italic">No trending datasets yet.</p>`;
         return;
@@ -701,7 +671,7 @@
           <p class="text-xs text-slate-500 mb-6">${d.record_count} Verified Records</p>
           <div class="mt-auto flex justify-between items-center border-t border-slate-800/50 pt-4">
             <p class="text-indigo-400 font-black">${(d.dataset_value || d.price || 0).toFixed(2)} DTC</p>
-            <button data-nav="marketplace" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
+            <button onclick="navigate('marketplace')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
           </div>
         `;
         container.appendChild(card);
@@ -810,14 +780,12 @@
               <div class="text-white font-bold text-sm">${d.title}</div>
               <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${(d.quality_score * 100).toFixed(0)}%</span>
               <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(1)}</span>
-              <span class="px-2 py-0.5 text-[8px] bg-purple-500/10 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI Score ${(d.ai_training_score || 0).toFixed(2)}</span>
             </div>
-            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • Quality ${(d.quality_score || 0).toFixed(2)} • ⬇ ${d.download_count || 0} downloads</div>
+            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • ⬇ ${d.download_count || 0} downloads</div>
           </div>
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">${reward} DTC</div>
-            <button onclick="downloadDataset('${d.id}')" class="px-3 py-1 rounded-lg bg-slate-700 text-white text-xs hover:bg-slate-600 transition">Download</button>
-            <button onclick="deleteDataset('${d.id}')" class="px-3 py-1 rounded-lg bg-red-600 text-white text-xs hover:bg-red-500 transition">Delete</button>
+            <button onclick="deleteDataset('${d.id}')" class="px-3 py-1 rounded-lg bg-red-600/20 text-red-400 text-xs hover:bg-red-600/40 transition">Delete</button>
           </div>
         </div>
         `;
@@ -829,10 +797,11 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
+  // Fix 6: Improved Delete Confirmation
   async function deleteDataset(datasetId) {
     const token = sessionStorage.getItem("token");
     if(!token) return navigate("login");
-    if(!confirm("Delete this dataset? Tokens earned will be removed.")) return;
+    if(!confirm("Delete this dataset? This will remove the dataset from the marketplace and subtract earned tokens from your balance.")) return;
     toggleLoader(true, "Removing asset...");
     try {
       const res = await fetch(`${API_BASE}/datasets/${datasetId}`, {
@@ -908,16 +877,47 @@
     } finally { toggleLoader(false); }
   }
 
+  // Fix 2: Correct Marketplace Preview Endpoint
   async function previewDataset(id) {
     toggleLoader(true, "Generating preview...");
     try {
-      const res = await fetch(`${API_BASE}/datasets/${id}/preview`);
+      const res = await fetch(`${API_BASE}/marketplace/datasets/${id}/preview`);
       const data = await res.json();
       if(!res.ok) throw new Error(data.detail || "Preview unavailable");
       console.log("Dataset Preview Sample:", data);
-      showToast("Dataset structure loaded. Check browser console.", "info");
+      showToast("Dataset structure loaded. Check browser console for sample records.", "info");
     } catch (e) { showToast(e.message, "error"); }
     finally { toggleLoader(false); }
+  }
+
+  // Fix 3: Missing Buy Dataset Functionality
+  async function buyDataset(datasetId) {
+    const token = sessionStorage.getItem("token");
+    if(!token){
+      showToast("Login required to purchase datasets","error");
+      navigate("login");
+      return;
+    }
+    toggleLoader(true, "Processing purchase...");
+    try {
+      const res = await fetch(`${API_BASE}/marketplace/purchase`, {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ dataset_id: datasetId })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.detail || "Purchase failed");
+      showToast("Dataset purchased successfully. Access granted.", "success");
+      loadWallet();
+      loadMarketplace();
+    } catch(e) {
+      showToast(e.message, "error");
+    } finally {
+      toggleLoader(false);
+    }
   }
 
   async function rateDataset(id, rating) {
@@ -973,9 +973,10 @@
       finally { toggleLoader(false); }
   }
 
+  // Fix 1: Corrected Search API Endpoint to /api/search
   async function searchMarketplace(query) {
     try {
-      const res = await fetch(`${API_BASE}/datasets/search?q=` + query);
+      const res = await fetch(`${API_BASE}/search?q=` + encodeURIComponent(query));
       const data = await res.json();
       renderMarketplace(data);
     } catch(e) { console.error("Search failed", e); }
@@ -1140,6 +1141,7 @@
     } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
   });
 
+  // Fix 10: File name selection preview listener
   document.getElementById("dataset-file")?.addEventListener("change", function(e) {
     const fileName = e.target.files[0]?.name || "No file chosen...";
     const label = document.getElementById("file-name-label");
@@ -1149,23 +1151,33 @@
   document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
     if(!token) return navigate("login");
+    
+    const title = document.getElementById("dataset-title").value;
     const fileInput = document.getElementById("dataset-file");
     const file = fileInput?.files[0];
-    if (!document.getElementById("dataset-title").value || !file) return showToast("Missing fields", "error");
-    if(!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".json")) return showToast("Only CSV or JSON allowed","error");
-    if(file.size > 10 * 1024 * 1024) return showToast("File too large (max 10MB)","error");
-    if (!confirm("Your dataset will be anonymized automatically. Continue?")) return;
+
+    // Fix 5: Validation - ensure file exists
+    if (!title || !file) return showToast("Missing fields: Please enter a title and select a file.", "error");
+    
+    // Fix 8: File Size Limit check (10MB)
+    if(file.size > 10 * 1024 * 1024) return showToast("File too large. Maximum size is 10MB.", "error");
+
+    if(!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".json")) return showToast("Only CSV or JSON files are allowed.","error");
+    
+    if (!confirm("Your dataset will be anonymized automatically (PII removal). Continue?")) return;
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("title", document.getElementById("dataset-title").value);
+    formData.append("title", title);
     formData.append("description", document.getElementById("dataset-description").value);
     formData.append("category", document.getElementById("dataset-category").value);
     
     toggleLoader(true, "Uploading...");
     try {
-      setTimeout(() => toggleLoader(true, "Processing dataset..."), 1500);
-      setTimeout(() => toggleLoader(true, "AI Quality analysis..."), 3000);
+      // Simulate multi-step processing UI
+      setTimeout(() => toggleLoader(true, "Anonymizing records..."), 1500);
+      setTimeout(() => toggleLoader(true, "Calculating AI Quality Score..."), 3000);
+
       const res = await fetch(`${API_BASE}/datasets/upload`, {
         method: "POST",
         headers: { "Authorization": "Bearer " + token },
@@ -1173,40 +1185,38 @@
       });
       const result = await res.json();
       
-      // Fix 1: Add Dataset Duplicate Error Handling
       if (!res.ok) {
         if(result.detail && result.detail.includes("duplicate")){
-            throw new Error("Dataset already exists on platform");
+            throw new Error("Dataset collision: This exact data already exists on the platform.");
         }
         throw new Error(result.detail || "Upload failed");
       }
       
-      showToast(`Dataset uploaded! +${result.token_reward} DTC earned`, "success");
+      showToast(`Dataset published! +${result.token_reward || result.dataset_value} DTC earned.`, "success");
       await loadWallet(); 
       navigate("dashboard");
-    } catch(err) { showToast(err.message, "error"); } 
-    finally { toggleLoader(false); }
+    } catch(err) { 
+      showToast(err.message, "error"); 
+    } finally { 
+      toggleLoader(false); 
+    }
   });
 
-  // Fix 4: Smart Marketplace Search with debouncing
+  // Fix 4 & 9: Smart Marketplace Search with debouncing and correct endpoint
   let searchTimeout;
   document.getElementById("mp-search")?.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
     const q = e.target.value.trim();
     searchTimeout = setTimeout(async () => {
-      if(q.length < 2) { loadMarketplace(); return; }
-      
-      try {
-        const res = await fetch(`${API_BASE}/datasets/search?q=` + encodeURIComponent(q));
-        const data = await res.json();
-        renderMarketplace(data);
-      } catch(e) {
-        console.error("Search failed:", e);
+      if(q.length < 2) { 
+        loadMarketplace(); 
+        return; 
       }
+      searchMarketplace(q);
     }, 400);
   });
 
-  const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out"); };
+  const logoutAction = () => { sessionStorage.clear(); updateAuthStateUI(); navigate('home'); showToast("Logged out safely"); };
   document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
   document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 
