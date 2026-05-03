@@ -437,12 +437,19 @@
             <button disabled class="w-full mt-6 py-3 rounded-xl bg-slate-800 opacity-60 cursor-not-allowed text-slate-400 text-sm font-bold transition">Withdrawals coming soon</button>
           </div>
 
-          <!-- Fix 4: Invite & Earn Section in Dashboard -->
           <div class="dtc-card p-6 rounded-2xl">
             <h4 class="text-white font-bold mb-2">Invite & Earn</h4>
             <p class="text-[10px] text-slate-500 mb-3 uppercase tracking-wider font-bold">Your Referral Link</p>
             <input id="ref-link" readonly
               class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-indigo-500 transition" />
+            
+            <p class="text-xs text-slate-400 mt-3 font-medium">
+              Invited Users: <span id="ref-users" class="text-white font-bold">0</span>
+            </p>
+            <p class="text-xs text-slate-400 font-medium">
+              Referral Earnings: <span id="ref-earnings" class="text-white font-bold">0</span> DTC
+            </p>
+
             <button onclick="copyReferral()"
               class="mt-3 w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
               Copy Referral Link
@@ -529,7 +536,6 @@
           <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="reg-pass" placeholder="Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           
-          <!-- Fix 1: Hidden Referral Field -->
           <input type="hidden" id="referral-code" />
 
           <div class="bg-slate-900/40 border border-slate-700 rounded-xl p-4">
@@ -685,7 +691,8 @@
           <h3 class="text-white font-bold text-lg mb-2">${d.title}</h3>
           <p class="text-xs text-slate-500 mb-6">${d.record_count} records • ${d.downloads || 0} downloads</p>
           <div class="mt-auto flex justify-between items-center border-t border-slate-800/50 pt-4">
-            <p class="text-indigo-400 font-black">Price: ${(d.dataset_value || d.price || 0).toFixed(2)} DTC</p>
+            <!-- Fix 1: Dataset Price mapping update -->
+            <p class="text-indigo-400 font-black">Price: ${(d.price || 0).toFixed(2)} DTC</p>
             <button onclick="navigate('marketplace')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
           </div>
         `;
@@ -717,7 +724,6 @@
     } catch(e) { console.error("Home leaderboard failed", e); }
   }
 
-  // Fix 5: Generate Referral Link function
   function loadReferral(user) {
     const refInput = document.getElementById("ref-link");
     if (!refInput) return;
@@ -725,7 +731,22 @@
     refInput.value = link;
   }
 
-  // Fix 6: Copy Button Script (with robust execCommand fallback)
+  // Fix 5: Referral Stats loader
+  async function loadReferralStats() {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(API_BASE + "/users/referral-stats", {
+        headers: { Authorization: "Bearer " + token }
+      });
+      const data = await res.json();
+      const refUsers = document.getElementById("ref-users");
+      const refEarnings = document.getElementById("ref-earnings");
+      if (refUsers) refUsers.innerText = data.invited_users || 0;
+      if (refEarnings) refEarnings.innerText = (data.referral_earnings || 0).toFixed(2);
+    } catch (e) { console.error("Referral stats failed", e); }
+  }
+
   function copyReferral() {
     const input = document.getElementById("ref-link");
     if (!input) return;
@@ -735,7 +756,6 @@
       document.execCommand('copy');
       showToast("Referral link copied", "success");
     } catch (err) {
-      // Fallback to navigator if execCommand fails
       navigator.clipboard.writeText(input.value)
         .then(() => showToast("Referral link copied", "success"))
         .catch(() => showToast("Failed to copy link", "error"));
@@ -755,8 +775,9 @@
       }
       const user = await res.json();
 
-      // Fix 7: Call referral function after loading user data
       loadReferral(user);
+      // Fix 5: Load Referral Stats
+      loadReferralStats();
 
       const balance = (user.token_balance || 0).toFixed(2);
       document.getElementById("nav-balance").innerText = balance + " DTC";
@@ -825,11 +846,14 @@
               <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${(d.quality_score * 100).toFixed(0)}%</span>
               <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || d.ai_score || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(2)}</span>
+              <!-- Fix 2: Price Tag added to Dashboard -->
+              <span class="px-2 py-0.5 text-[8px] bg-yellow-500/20 text-yellow-400 rounded-full font-bold uppercase tracking-wider">Price ${(d.price || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-slate-800 text-slate-400 rounded uppercase font-black tracking-widest">${d.category || 'general'}</span>
             </div>
             <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • ⬇ ${d.downloads || 0} downloads</div>
             <p class="text-[10px] text-slate-600">ID: ${d.id}</p>
-            <p class="text-[10px] text-slate-600">Fingerprint: ${d.fingerprint || 'N/A'}</p>
+            <!-- Fix 3: Cryptographic fingerprint display update to use dataset_hash -->
+            <p class="text-[10px] text-slate-600">Fingerprint: ${d.dataset_hash || 'N/A'}</p>
           </div>
           <div class="flex items-center gap-4">
             <div class="text-indigo-400 font-black text-sm">+${reward} DTC</div>
@@ -841,7 +865,9 @@
       });
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
-      document.getElementById("stat-tokens").innerText = data.reduce((acc, curr) => acc + (curr.token_reward || 0), 0).toFixed(2);
+      
+      // Fix 4: Direct mapping to wallet balance element for total tokens stat
+      document.getElementById("stat-tokens").innerText = document.getElementById("dash-wallet-balance").innerText;
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
@@ -1066,7 +1092,8 @@
         <div class="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
           <div>
             <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
-            <p class="text-indigo-400 font-black text-lg">${(d.dataset_value || d.price || 0).toFixed(2)} DTC</p>
+            <!-- Fix 1: Correct Dataset Price display in Marketplace -->
+            <p class="text-indigo-400 font-black text-lg">${(d.price || 0).toFixed(2)} DTC</p>
           </div>
           <div class="flex gap-1.5">
             <button onclick="previewDataset('${d.id}')" class="px-3 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-700 transition">Preview</button>
@@ -1166,13 +1193,12 @@
     finally { toggleLoader(false); }
   });
 
-  // Fix 3: Send Referral Code During Signup
   document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
     const name = document.getElementById("reg-name").value;
     const username = document.getElementById("reg-username").value;
     const email = document.getElementById("reg-email").value;
     const password = document.getElementById("reg-pass").value;
-    const referral = document.getElementById("referral-code").value; // Capture from hidden field
+    const referral = document.getElementById("referral-code").value; 
     const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
 
     if (!name || !username || !email || !password) return showToast("All fields required", "error");
@@ -1187,7 +1213,7 @@
           password, 
           full_name: name, 
           is_company: isCompany,
-          referral_code: referral || null // Send to backend
+          referral_code: referral || null 
         })
       });
       if (!res.ok) throw new Error((await res.json()).detail || "Registration failed");
@@ -1280,7 +1306,6 @@
     updateAuthStateUI();
     navigate('home');
 
-    // Fix 2: Capture Referral Code From URL on load
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref");
     if(ref) {
