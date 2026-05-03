@@ -194,8 +194,9 @@
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Active Nodes</p>
         </div>
         <div class="p-2">
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1">99.9%</p>
-          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Anonymity Score</p>
+          <!-- Fix 8: Token Economy Stats Section -->
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="economy-supply">100M</p>
+          <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Total Supply</p>
         </div>
       </div>
     </div>
@@ -660,11 +661,19 @@
       const tokElem = document.getElementById("global-stat-tokens");
       
       const totalRecords = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0);
-      const totalTokens = datasets.reduce((sum, d) => sum + (d.token_reward || 0), 0);
+      // Fix 2: Calculate total tokens considering fallbacks
+      const totalTokens = datasets.reduce((sum, d) => sum + (d.token_reward || d.dataset_value || 0), 0);
 
-      // Fix 1: Professional stats formatting for empty state
       if(recElem) recElem.innerText = totalRecords > 0 ? totalRecords.toLocaleString() + "+" : "0";
       if(tokElem) tokElem.innerText = totalTokens.toFixed(0); 
+
+      // Fix 8: Token Economy Stats
+      const econRes = await fetch(`${API_BASE}/economy/stats`);
+      if (econRes.ok) {
+        const econData = await econRes.json();
+        const supplyElem = document.getElementById("economy-supply");
+        if (supplyElem) supplyElem.innerText = (econData.total_supply || 100000000).toLocaleString() + " DTC";
+      }
     } catch(e) { console.error("Stats load failed", e); }
   }
 
@@ -679,7 +688,6 @@
         .sort((a,b) => (b.downloads || 0) - (a.downloads || 0))
         .slice(0, 3);
 
-      // Fix 3: Improved Empty Trending Dataset UI
       if(trending.length === 0) {
         container.innerHTML = `
           <div class="col-span-full text-center py-16 bg-slate-900/30 rounded-3xl border border-dashed border-slate-800">
@@ -691,18 +699,21 @@
 
       container.innerHTML = "";
       trending.forEach(d => {
+        // Fix 1: Safer quality score calculation
+        const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
         const card = document.createElement("div");
         card.className = "dtc-card p-6 rounded-3xl flex flex-col";
         card.innerHTML = `
           <div class="mb-4 flex justify-between items-start">
             <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
-            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">${(d.quality_score * 100).toFixed(0)}% Quality</span>
+            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">${safeQuality}% Quality</span>
           </div>
           <h3 class="text-white font-bold text-lg mb-2">${d.title}</h3>
           <p class="text-xs text-slate-500 mb-6">${d.record_count} records • ${d.downloads || 0} downloads</p>
           <div class="mt-auto flex justify-between items-center border-t border-slate-800/50 pt-4">
             <p class="text-indigo-400 font-black">Price: ${(d.price || 0).toFixed(2)} DTC</p>
-            <button onclick="navigate('marketplace')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
+            <!-- Fix 5: Marketplace Preview Trigger -->
+            <button onclick="previewDataset('${d.id}')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
           </div>
         `;
         container.appendChild(card);
@@ -727,7 +738,6 @@
             <span class="text-white font-bold">${u.username}</span>
           </div>
           <span class="text-slate-500 font-bold text-xs uppercase tracking-tighter">
-            <!-- Fix 2: Cleaner leaderboard labels -->
             ${(u.token_balance || 0) > 0 ? u.token_balance.toFixed(1) + ' DTC EARNED' : 'NEW CONTRIBUTOR'}
           </span>
         `;
@@ -773,7 +783,6 @@
     }
   }
 
-  // Fix 1 (Query): Improved loadWallet with number casting and error logging
   async function loadWallet() {
     const token = sessionStorage.getItem("token");
     if(!token) return;
@@ -851,7 +860,6 @@
       if(!list) return;
       list.innerHTML = "";
       
-      // Fix 5 (Query): Empty asset state button
       if(data.length === 0) {
         list.innerHTML = `
           <div class="text-center py-12">
@@ -868,6 +876,8 @@
       }
 
       data.forEach(d => {
+        // Fix 1: Fallback logic for dashboard display
+        const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
         const reward = (d.token_reward || d.dataset_value || 0).toFixed(2);
         const item = document.createElement("div");
         item.className = "p-4 hover:bg-slate-800/20 transition";
@@ -876,7 +886,7 @@
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-1">
               <div class="text-white font-bold text-sm">${d.title}</div>
-              <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${(d.quality_score * 100).toFixed(0)}%</span>
+              <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${safeQuality}%</span>
               <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || d.ai_score || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(2)}</span>
               <span class="px-2 py-0.5 text-[8px] bg-yellow-500/20 text-yellow-400 rounded-full font-bold uppercase tracking-wider">Price ${(d.price || 0).toFixed(2)}</span>
@@ -895,7 +905,6 @@
         list.appendChild(item);
       });
       
-      // Fix 1 (Query): Calculate summary from rewards
       document.getElementById("stat-datasets").innerText = data.length;
       document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
       
@@ -904,7 +913,6 @@
     } catch(e) { console.error("Datasets load failed", e); }
   }
 
-  // Fix 2 (Query): Refresh wallet, assets and transactions after deletion
   async function deleteDataset(id) {
     if(!confirm("Delete this dataset? Tokens will be removed from your wallet.")){
       return;
@@ -1101,6 +1109,11 @@
   }
 
   function renderMarketplace(datasets) {
+    // Fix 6: Basic Array handling for marketplace
+    if(!Array.isArray(datasets)){
+      console.error("Marketplace data invalid");
+      return;
+    }
     const container = document.getElementById("mp-datasets");
     if(!container) return;
     if(datasets.length === 0) {
@@ -1109,13 +1122,15 @@
     }
     container.innerHTML = "";
     datasets.forEach(d => {
+      // Fix 1: Safer quality score calculation
+      const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
       const card = document.createElement("div");
       card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
       card.innerHTML = `
         <div class="mb-4 flex justify-between items-start">
           <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
           <div class="flex flex-col gap-1 items-end">
-            <span class="px-2 py-1 text-[10px] bg-emerald-500/20 text-emerald-400 rounded font-bold">${(d.quality_score * 100).toFixed(0)}% Quality</span>
+            <span class="px-2 py-1 text-[10px] bg-emerald-500/20 text-emerald-400 rounded font-bold">${safeQuality}% Quality</span>
             <span class="px-2 py-0.5 text-[8px] bg-slate-800 text-slate-400 rounded uppercase font-black tracking-widest">✔ Verified</span>
           </div>
         </div>
@@ -1166,17 +1181,26 @@
   }
 
   const sections = document.querySelectorAll('.dtc-page');
-  // Fix 3 (Query): navigation logic ensures loads are awaited
   async function navigate(targetId) {
     if(targetId === "dashboard" && !sessionStorage.getItem("token")){
       showToast("Please login first","error"); navigate("login"); return;
     }
+    
+    // Fix 10: Auth check for upload
+    if(targetId === "upload" && !sessionStorage.getItem("token")){
+      showToast("Please login first","error"); navigate("login"); return;
+    }
+
     sections.forEach(s => s.classList.add('hidden'));
     if (targetId === 'home') {
       ['section-home', 'section-how-it-works', 'section-data-sources'].forEach(id => document.getElementById(id).classList.remove('hidden'));
-      loadPlatformStats();
-      loadTrending();
-      loadHomeLeaderboard();
+      
+      // Fix 9: Optimized home load performance
+      await Promise.all([
+        loadPlatformStats(),
+        loadTrending(),
+        loadHomeLeaderboard()
+      ]);
     } else {
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
@@ -1215,7 +1239,6 @@
     if (isUser) loadWallet();
   }
 
-  // Fix 2 (Query): Force wallet reload after login
   document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
     const login = document.getElementById("login-user").value;
     const password = document.getElementById("login-pass").value;
@@ -1322,7 +1345,13 @@
       document.getElementById("dataset-file").value = "";
       document.getElementById("file-name-label").innerText = "No file chosen...";
 
-      await loadWallet(); 
+      // Fix 3: Instant wallet sync after upload
+      await Promise.all([
+        loadWallet(),
+        loadMyDatasets(),
+        loadTransactions()
+      ]);
+      
       navigate("dashboard");
     } catch(err) { 
       showToast(err.message, "error"); 
@@ -1344,7 +1373,6 @@
     }, 400);
   });
 
-  // Fix 4 (Query): Clear cached wallet on logout and reset UI text
   const logoutAction = () => { 
     sessionStorage.removeItem("token"); 
     sessionStorage.clear(); 
@@ -1361,12 +1389,20 @@
     updateAuthStateUI();
     navigate('home');
 
+    // Fix 4: Referral persistent capture
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref");
     if(ref) {
       const refField = document.getElementById("referral-code");
       if (refField) refField.value = ref;
     }
+
+    // Fix 7: Cross-tab logout protection
+    window.addEventListener("storage", () => {
+      if(!sessionStorage.getItem("token")){
+        location.reload();
+      }
+    });
   });
 </script>
 </body>
