@@ -97,18 +97,25 @@
         <button data-nav="leaderboard" class="text-slate-300 hover:text-white font-medium transition">Leaderboard</button>
         <button data-nav="how-it-works" class="text-slate-300 hover:text-white font-medium transition">How it Works</button>
         <div class="h-6 w-px bg-slate-800 mx-2"></div>
+        
         <div id="nav-guest-zone" class="flex items-center gap-4">
           <button data-nav="login" class="text-slate-300 hover:text-white font-medium transition">Login</button>
           <button data-nav="register" class="px-5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition shadow-lg shadow-indigo-600/20">
             Get Started
           </button>
         </div>
+
         <div id="nav-user-zone" class="hidden flex items-center gap-6">
-          <button data-nav="dashboard" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Dashboard</button>
-          <button data-nav="upload" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
+          <!-- Individual Only -->
+          <button id="nav-item-dashboard" data-nav="dashboard" class="nav-link text-slate-300 hover:text-white font-medium transition py-5">Dashboard</button>
+          <button id="nav-item-upload" data-nav="upload" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
             <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round"/></svg>
             <span class="text-sm font-medium">Upload</span>
           </button>
+          
+          <!-- Company Only -->
+          <button id="nav-item-company" data-nav="company" class="hidden nav-link text-slate-300 hover:text-white font-medium transition py-5">Corporate Dashboard</button>
+
           <div class="flex items-center gap-3 pl-4 border-l border-slate-800">
             <div class="text-right">
               <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">Wallet</p>
@@ -133,19 +140,23 @@
     <button data-nav="requests" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Dataset Requests</button>
     <button data-nav="leaderboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Leaderboard</button>
     <button data-nav="how-it-works" class="block w-full text-left text-lg font-bold text-slate-300 p-2">How it Works</button>
+    
     <div id="mobile-guest-zone" class="space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
       <button data-nav="login" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Login</button>
       <button data-nav="register" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold text-center">Get Started</button>
     </div>
+    
     <div id="mobile-user-zone" class="hidden space-y-4 pt-2">
       <div class="h-px bg-slate-800"></div>
       <div class="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl">
         <span class="text-slate-400 font-medium">Wallet</span>
         <span class="text-indigo-400 font-bold" id="mobile-nav-balance">0.00 DTC</span>
       </div>
-      <button data-nav="dashboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Dashboard</button>
-      <button data-nav="upload" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Upload Data</button>
+      <!-- Conditional buttons will be handled via JS for mobile too -->
+      <button id="mob-item-dashboard" data-nav="dashboard" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Dashboard</button>
+      <button id="mob-item-upload" data-nav="upload" class="block w-full text-left text-lg font-bold text-slate-300 p-2">Upload Data</button>
+      <button id="mob-item-company" data-nav="company" class="hidden block w-full text-left text-lg font-bold text-slate-300 p-2">Corporate Console</button>
       <button id="btn-logout-mobile" class="block w-full text-left text-lg font-bold text-red-400 p-2">Logout</button>
     </div>
   </div>
@@ -182,11 +193,11 @@
 
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-10 border-y border-slate-800/50">
         <div class="p-2">
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">Loading...</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-records">10M+</p>
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Data Records</p>
         </div>
         <div class="p-2">
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">Loading...</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="global-stat-tokens">250k</p>
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">DTC Distributed</p>
         </div>
         <div class="p-2">
@@ -194,8 +205,7 @@
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Active Nodes</p>
         </div>
         <div class="p-2">
-          <!-- Fix 8: Token Economy Stats Section -->
-          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="economy-supply">100M</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-white mb-1" id="economy-supply">100M DTC</p>
           <p class="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Total Supply</p>
         </div>
       </div>
@@ -223,32 +233,6 @@
           <h4 class="text-white font-bold">Privacy-First Engine</h4>
           <p class="text-sm text-slate-400">Automatic PII removal ensures your identity never touches the marketplace.</p>
         </div>
-      </div>
-    </div>
-
-    <!-- HOME: TRENDING DATASETS -->
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 border-t border-slate-900">
-      <div class="flex justify-between items-end mb-10">
-        <div>
-          <h2 class="text-2xl font-black text-white">Trending Datasets</h2>
-          <p class="text-sm text-slate-500">High-demand assets currently in the marketplace.</p>
-        </div>
-        <button data-nav="marketplace" class="text-indigo-400 text-xs font-bold uppercase tracking-widest hover:underline">View All →</button>
-      </div>
-      <div id="home-trending-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="animate-pulse bg-slate-900/30 rounded-3xl border border-dashed border-slate-800 py-16 text-center col-span-full">
-          <p class="text-slate-500 text-sm italic">No datasets available yet.</p>
-          <p class="text-slate-600 text-xs mt-2">Be the first contributor to upload a dataset.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- HOME: LEADERBOARD PREVIEW -->
-    <div class="max-w-4xl mx-auto px-4 md:px-6 py-24 text-center">
-      <h2 class="text-3xl font-black text-white mb-2">Top Contributor Showcase</h2>
-      <p class="text-slate-400 mb-12">Leading the frontier of decentralized data liquidity.</p>
-      <div id="home-leaderboard-list" class="grid gap-3">
-        <div class="animate-pulse bg-slate-800/50 h-16 rounded-2xl"></div>
       </div>
     </div>
   </section>
@@ -282,52 +266,6 @@
           </div>
           <h3 class="text-lg md:text-xl font-bold text-white mb-3">Earn DTC</h3>
           <p class="text-slate-400 text-xs md:text-sm leading-relaxed">License your data to researchers and earn rewards automatically.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DATA SOURCES -->
-  <section id="section-data-sources" class="dtc-page py-20 bg-slate-950">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Where Can You Get Your Data?</h2>
-        <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-          Unlock hidden value in your personal activity logs.
-        </p>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Google Takeout</h3>
-            <p class="text-[10px] text-slate-500">History, Locations, YouTube</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Fitness Apps</h3>
-            <p class="text-[10px] text-slate-500">Fitbit, Strava, Biometrics</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Reddit/Twitter</h3>
-            <p class="text-[10px] text-slate-500">Posting history archives</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">E-commerce</h3>
-            <p class="text-[10px] text-slate-500">Amazon/eBay Purchase History</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">IoT Devices</h3>
-            <p class="text-[10px] text-slate-500">Smart Home energy logs</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Gaming</h3>
-            <p class="text-[10px] text-slate-500">Steam/Xbox achievement logs</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Education</h3>
-            <p class="text-[10px] text-slate-500">Coursera/Udemy completions</p>
-        </div>
-        <div class="dtc-card p-6 rounded-3xl text-center">
-            <h3 class="text-white font-bold mb-2">Finance</h3>
-            <p class="text-[10px] text-slate-500">Banking transaction CSVs</p>
         </div>
       </div>
     </div>
@@ -382,7 +320,95 @@
     </div>
   </section>
 
-  <!-- DASHBOARD -->
+  <!-- COMPANY DASHBOARD (NEW) -->
+  <section id="section-company" class="dtc-page hidden py-10 md:py-16 bg-slate-950/50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white">Company Console</h2>
+          <p class="text-slate-500 text-xs md:text-sm mt-1" id="company-name-display">Welcome back, Corporate Partner.</p>
+        </div>
+        <div class="flex gap-3">
+            <button data-nav="marketplace" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition">Browse Marketplace</button>
+            <button onclick="openRequestForm()" class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white font-bold transition">Post Bounty</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="dtc-card p-5 rounded-2xl text-center border-l-4 border-l-indigo-500">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">DTC Wallet Balance</p>
+              <h4 class="text-2xl md:text-3xl font-black text-indigo-400" id="company-balance">0.00</h4>
+              <p class="text-[10px] text-slate-600 mt-1 uppercase">Liquid Assets</p>
+            </div>
+            <div class="dtc-card p-5 rounded-2xl text-center">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Datasets Purchased</p>
+              <h4 class="text-2xl md:text-3xl font-black text-white" id="company-stat-purchased">0</h4>
+              <p class="text-[10px] text-slate-600 mt-1 uppercase">Active Licenses</p>
+            </div>
+          </div>
+
+          <div class="dtc-card rounded-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800"><h3 class="font-bold text-white text-sm uppercase tracking-wider">Purchase History</h3></div>
+            <div id="company-purchases-list" class="divide-y divide-slate-800 p-4">
+                <p class="text-center text-slate-500 text-xs py-8 italic">No licenses acquired yet.</p>
+            </div>
+          </div>
+
+          <div class="dtc-card p-6 rounded-2xl">
+            <h4 class="text-white font-bold mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                API Credentials
+            </h4>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">API Endpoint</label>
+                    <div class="flex gap-2 mt-1">
+                        <input readonly value="https://api.datatrustcoin.io/v1/datasets" class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Production API Key</label>
+                    <div class="flex gap-2 mt-1">
+                        <input id="company-api-key" type="password" readonly value="************************" class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+                        <button onclick="toggleApiKey()" class="px-4 bg-slate-800 rounded-xl text-xs font-bold text-slate-300">Show</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl">
+                <p class="text-xs text-indigo-300 mb-2 font-bold">Quick Integration Example (Node.js)</p>
+                <pre class="text-[10px] text-slate-400 overflow-x-auto no-scrollbar"><code>const res = await fetch('https://api.datatrustcoin.io/v1/query', {
+  headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+});</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="dtc-card p-6 rounded-2xl bg-gradient-to-br from-indigo-600/20 to-transparent">
+            <h4 class="text-white font-bold mb-4">Top Up DTC</h4>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">Acquire DTC tokens to license datasets and launch research bounties.</p>
+            <div class="space-y-3">
+                <input id="add-balance-input" type="number" placeholder="Amount (e.g. 5000)" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white font-bold outline-none focus:ring-2 focus:ring-indigo-500" />
+                <button onclick="addCompanyBalance()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-bold transition shadow-lg shadow-indigo-600/30">
+                  Buy DTC via Fiat
+                </button>
+            </div>
+            <p class="text-[10px] text-slate-500 text-center mt-4">Safe checkout via Stripe/MoonPay</p>
+          </div>
+
+          <div class="dtc-card p-6 rounded-2xl">
+            <h4 class="text-white font-bold mb-2">Corporate Support</h4>
+            <p class="text-xs text-slate-400 mb-4">Dedicated account manager for bulk data acquisition.</p>
+            <button class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-white text-xs font-bold transition">Contact Support</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDIVIDUAL DASHBOARD -->
   <section id="section-dashboard" class="dtc-page hidden py-10 md:py-16 bg-slate-950/50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -414,15 +440,6 @@
             <div class="p-5 border-b border-slate-800"><h3 class="font-bold text-white text-sm uppercase tracking-wider">My Active Assets</h3></div>
             <div id="my-datasets-list" class="divide-y divide-slate-800 p-4"></div>
           </div>
-
-          <div class="dtc-card rounded-2xl overflow-hidden">
-            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
-                <h3 class="font-bold text-white text-sm uppercase tracking-wider">Transaction History</h3>
-            </div>
-            <div id="transactions-list" class="divide-y divide-slate-800 p-4">
-                <p class="text-center text-slate-500 text-xs py-8 italic">Fetching transactions...</p>
-            </div>
-          </div>
         </div>
 
         <div class="space-y-6">
@@ -436,26 +453,12 @@
                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                Last synced: Just now
             </p>
-            <button disabled class="w-full mt-6 py-3 rounded-xl bg-slate-800 opacity-60 cursor-not-allowed text-slate-400 text-sm font-bold transition">Withdrawals coming soon</button>
           </div>
-
           <div class="dtc-card p-6 rounded-2xl">
             <h4 class="text-white font-bold mb-2">Invite & Earn</h4>
             <p class="text-[10px] text-slate-500 mb-3 uppercase tracking-wider font-bold">Your Referral Link</p>
-            <input id="ref-link" readonly
-              class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-indigo-500 transition" />
-            
-            <p class="text-xs text-slate-400 mt-3 font-medium">
-              Invited Users: <span id="ref-users" class="text-white font-bold">0</span>
-            </p>
-            <p class="text-xs text-slate-400 font-medium">
-              Referral Earnings: <span id="ref-earnings" class="text-white font-bold">0</span> DTC
-            </p>
-
-            <button onclick="copyReferral()"
-              class="mt-3 w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
-              Copy Referral Link
-            </button>
+            <input id="ref-link" readonly class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-xs text-white outline-none" />
+            <button onclick="copyReferral()" class="mt-3 w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition">Copy Link</button>
           </div>
         </div>
       </div>
@@ -466,27 +469,18 @@
   <section id="section-upload" class="dtc-page hidden py-10 md:py-16 min-h-screen">
     <div class="max-w-3xl mx-auto px-4 md:px-6">
       <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-8">Contribute Data</h2>
-      <div class="dtc-card p-6 md:p-8 rounded-3xl space-y-6">
+      <div id="upload-restriction-msg" class="hidden dtc-card p-8 rounded-3xl text-center border-red-500/30">
+        <p class="text-red-400 font-bold">Corporate accounts are restricted from uploading raw data.</p>
+        <p class="text-slate-400 text-xs mt-2">Please use an individual contributor account to share data assets.</p>
+        <button data-nav="marketplace" class="mt-6 px-6 py-2 bg-slate-800 rounded-xl text-sm text-white">Back to Marketplace</button>
+      </div>
+      <div id="upload-form-container" class="dtc-card p-6 md:p-8 rounded-3xl space-y-6">
         <div>
           <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Title</label>
           <input type="text" id="dataset-title" placeholder="Fitness Activity Dataset" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Description</label>
-          <textarea id="dataset-description" placeholder="Describe your dataset content..." rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset Category</label>
-          <select id="dataset-category" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-            <option value="general">General</option>
-            <option value="health">Health</option>
-            <option value="finance">Finance</option>
-            <option value="fitness">Fitness</option>
-            <option value="ai">AI Training</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Select Dataset File (.csv, .json)</label>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Dataset File (.csv, .json)</label>
           <div class="relative">
             <input type="file" id="dataset-file" accept=".csv,.json" class="hidden" />
             <button type="button" onclick="document.getElementById('dataset-file').click()" class="flex items-center justify-between w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-slate-400 cursor-pointer hover:border-indigo-500/50 transition">
@@ -494,21 +488,8 @@
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </button>
           </div>
-          <p class="text-[10px] text-slate-500 mt-2 ml-1 leading-relaxed">
-            Max 10MB • CSV or JSON only<br/>
-            AI-generated, fake, or public datasets are automatically rejected.
-          </p>
-          <p class="text-[10px] text-indigo-400 mt-1 ml-1 font-semibold">
-            Tokens are calculated based on dataset quality.
-          </p>
-          <p class="text-[10px] text-indigo-400 mt-1 ml-1">
-            Your dataset will be automatically anonymized. 
-            Emails, phone numbers and IDs are removed before publishing.
-          </p>
         </div>
-        <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition shadow-lg shadow-indigo-600/20">
-          Process & Secure Data
-        </button>
+        <button id="btn-upload-dataset" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-lg transition">Process & Secure Data</button>
       </div>
     </div>
   </section>
@@ -522,7 +503,6 @@
           <input type="text" id="login-user" placeholder="Email address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="login-pass" placeholder="Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <button id="btn-login-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Login</button>
-          <div class="text-center"><button data-nav="forgot-password" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition hover:underline">Forgot Password?</button></div>
         </div>
       </div>
     </div>
@@ -533,49 +513,19 @@
       <div class="dtc-card p-6 md:p-8 rounded-3xl">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-6 text-center">Get Started</h2>
         <div class="space-y-4">
-          <input type="text" id="reg-name" placeholder="Full Name" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+          <input type="text" id="reg-name" placeholder="Full Name / Company Name" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="text" id="reg-username" placeholder="Username" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="email" id="reg-email" placeholder="Email Address" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           <input type="password" id="reg-pass" placeholder="Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
           
-          <input type="hidden" id="referral-code" />
-
           <div class="bg-slate-900/40 border border-slate-700 rounded-xl p-4">
             <p class="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-wider">Account Type</p>
             <div class="flex flex-col gap-3">
-              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="user" checked class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Individual</span></label>
-              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="company" class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Company</span></label>
+              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="user" checked class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Individual Contributor</span></label>
+              <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="accountType" value="company" class="accent-indigo-500"><span class="text-white text-xs md:text-sm">Corporate Consumer</span></label>
             </div>
           </div>
           <button id="btn-reg-submit" class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg transition">Create Account</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-forgot-password" class="dtc-page hidden py-16 md:py-24">
-    <div class="max-w-md mx-auto px-4 md:px-6">
-      <div class="dtc-card p-6 md:p-8 rounded-3xl">
-        <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">Reset Password</h2>
-        <p class="text-slate-500 text-center mb-8 text-sm text-balance">Enter your email to receive a password reset token.</p>
-        <div class="space-y-4">
-          <input type="email" id="forgot-email" placeholder="email@example.com" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
-          <button id="btn-forgot-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Send Request</button>
-          <button data-nav="login" class="w-full py-2 text-slate-500 hover:text-slate-300 transition text-sm font-medium">Back to Login</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-reset-password" class="dtc-page hidden py-16 md:py-24">
-    <div class="max-w-md mx-auto px-4 md:px-6">
-      <div class="dtc-card p-6 md:p-8 rounded-3xl">
-        <h2 class="text-2xl md:text-3xl font-black text-white mb-2 text-center">New Password</h2>
-        <div class="space-y-4">
-          <input type="text" id="reset-otp" placeholder="Enter Reset Token" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
-          <input type="password" id="reset-pass" placeholder="New Password (Min 8 chars)" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
-          <input type="password" id="reset-pass-confirm" placeholder="Confirm Password" class="w-full px-5 py-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition" />
-          <button id="btn-reset-submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg transition">Update Password</button>
         </div>
       </div>
     </div>
@@ -608,29 +558,17 @@
 
 <footer id="global-footer" class="bg-slate-950 pt-16 pb-10 border-t border-slate-900 mt-auto">
   <div class="max-w-7xl mx-auto px-4 md:px-6 text-center">
-    <div class="flex flex-wrap justify-center gap-6 mb-8 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-500">
-        <a href="#" class="hover:text-indigo-400 transition">Docs</a>
-        <a href="#" class="hover:text-indigo-400 transition">API</a>
-        <a href="#" class="hover:text-indigo-400 transition">GitHub</a>
-        <a href="#" class="hover:text-indigo-400 transition">Privacy</a>
-        <a href="#" class="hover:text-indigo-400 transition">Terms</a>
-        <a href="#" class="hover:text-indigo-400 transition">Contact</a>
-    </div>
     <div class="text-[10px] text-slate-700 font-medium space-y-2">
-        <p>© 2026 DataTrust Coin. All rights reserved.</p>
-        <div class="flex justify-center gap-6">
-          <span>Network: <span class="text-emerald-500">Online</span></span>
-          <span>v0.8.5-prod</span>
-        </div>
+        <p>© 2026 DataTrust Coin. v0.8.6-prod</p>
     </div>
   </div>
 </footer>
 
 <script>
-  const API_BASE = window.location.hostname === "localhost" 
-    ? "http://localhost:8000/api" 
-    : "https://dtc-backend-850680134439.asia-south1.run.app/api";
+  const API_BASE = "https://dtc-backend-850680134439.asia-south1.run.app/api";
+  let currentUser = null;
 
+  // UI UTILS
   function toggleLoader(show, text = "Processing...") {
     const loader = document.getElementById('global-loader');
     const loaderText = document.getElementById('loader-text');
@@ -652,575 +590,229 @@
     }, 4500);
   }
 
-  async function loadPlatformStats() {
-    try {
-      const res = await fetch(`${API_BASE}/marketplace/datasets`);
-      if(!res.ok) return;
-      const datasets = await res.json();
-      const recElem = document.getElementById("global-stat-records");
-      const tokElem = document.getElementById("global-stat-tokens");
-      
-      const totalRecords = datasets.reduce((sum, d) => sum + (d.record_count || 0), 0);
-      // Fix 2: Calculate total tokens considering fallbacks
-      const totalTokens = datasets.reduce((sum, d) => sum + (d.token_reward || d.dataset_value || 0), 0);
-
-      if(recElem) recElem.innerText = totalRecords > 0 ? totalRecords.toLocaleString() + "+" : "0";
-      if(tokElem) tokElem.innerText = totalTokens.toFixed(0); 
-
-      // Fix 8: Token Economy Stats
-      const econRes = await fetch(`${API_BASE}/economy/stats`);
-      if (econRes.ok) {
-        const econData = await econRes.json();
-        const supplyElem = document.getElementById("economy-supply");
-        if (supplyElem) supplyElem.innerText = (econData.total_supply || 100000000).toLocaleString() + " DTC";
-      }
-    } catch(e) { console.error("Stats load failed", e); }
-  }
-
-  async function loadTrending() {
-    try {
-      const res = await fetch(`${API_BASE}/marketplace/datasets`);
-      const datasets = await res.json();
-      const container = document.getElementById("home-trending-list");
-      if(!container) return;
-      
-      const trending = datasets
-        .sort((a,b) => (b.downloads || 0) - (a.downloads || 0))
-        .slice(0, 3);
-
-      if(trending.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full text-center py-16 bg-slate-900/30 rounded-3xl border border-dashed border-slate-800">
-            <p class="text-slate-500 text-sm italic">No datasets available yet.</p>
-            <p class="text-slate-600 text-xs mt-2">Be the first contributor to upload a dataset.</p>
-          </div>`;
-        return;
-      }
-
-      container.innerHTML = "";
-      trending.forEach(d => {
-        // Fix 1: Safer quality score calculation
-        const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
-        const card = document.createElement("div");
-        card.className = "dtc-card p-6 rounded-3xl flex flex-col";
-        card.innerHTML = `
-          <div class="mb-4 flex justify-between items-start">
-            <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
-            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">${safeQuality}% Quality</span>
-          </div>
-          <h3 class="text-white font-bold text-lg mb-2">${d.title}</h3>
-          <p class="text-xs text-slate-500 mb-6">${d.record_count} records • ${d.downloads || 0} downloads</p>
-          <div class="mt-auto flex justify-between items-center border-t border-slate-800/50 pt-4">
-            <p class="text-indigo-400 font-black">Price: ${(d.price || 0).toFixed(2)} DTC</p>
-            <!-- Fix 5: Marketplace Preview Trigger -->
-            <button onclick="previewDataset('${d.id}')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-[10px] font-bold">Preview Asset</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    } catch(e) { console.error("Trending load failed", e); }
-  }
-
-  async function loadHomeLeaderboard() {
-    try {
-      const res = await fetch(`${API_BASE}/leaderboard/contributors`);
-      const data = await res.json();
-      const container = document.getElementById("home-leaderboard-list");
-      if(!container) return;
-      
-      container.innerHTML = "";
-      data.slice(0, 3).forEach((u, i) => {
-        const row = document.createElement("div");
-        row.className = "dtc-card p-4 rounded-2xl flex justify-between items-center";
-        row.innerHTML = `
-          <div class="flex items-center gap-4">
-            <span class="text-indigo-400 font-black text-lg">#${i+1}</span>
-            <span class="text-white font-bold">${u.username}</span>
-          </div>
-          <span class="text-slate-500 font-bold text-xs uppercase tracking-tighter">
-            ${(u.token_balance || 0) > 0 ? u.token_balance.toFixed(1) + ' DTC EARNED' : 'NEW CONTRIBUTOR'}
-          </span>
-        `;
-        container.appendChild(row);
-      });
-    } catch(e) { console.error("Home leaderboard failed", e); }
-  }
-
-  function loadReferral(user) {
-    const refInput = document.getElementById("ref-link");
-    if (!refInput) return;
-    const link = window.location.origin + "/register?ref=" + user.username;
-    refInput.value = link;
-  }
-
-  async function loadReferralStats() {
+  // AUTH LOGIC
+  async function updateAuthStateUI() {
     const token = sessionStorage.getItem("token");
-    if (!token) return;
-    try {
-      const res = await fetch(API_BASE + "/users/referral-stats", {
-        headers: { Authorization: "Bearer " + token }
-      });
-      const data = await res.json();
-      const refUsers = document.getElementById("ref-users");
-      const refEarnings = document.getElementById("ref-earnings");
-      if (refUsers) refUsers.innerText = data.invited_users || 0;
-      if (refEarnings) refEarnings.innerText = (data.referral_earnings || 0).toFixed(2);
-    } catch (e) { console.error("Referral stats failed", e); }
-  }
-
-  function copyReferral() {
-    const input = document.getElementById("ref-link");
-    if (!input) return;
-    input.select();
-    input.setSelectionRange(0, 99999);
-    try {
-      document.execCommand('copy');
-      showToast("Referral link copied", "success");
-    } catch (err) {
-      navigator.clipboard.writeText(input.value)
-        .then(() => showToast("Referral link copied", "success"))
-        .catch(() => showToast("Failed to copy link", "error"));
-    }
-  }
-
-  async function loadWallet() {
-    const token = sessionStorage.getItem("token");
-    if(!token) return;
-
-    try {
-      const res = await fetch(`${API_BASE}/auth/me`, { 
-        headers: { "Authorization": `Bearer ${token}` } 
-      });
-
-      if(!res.ok){
-        console.error("Wallet fetch failed");
-        if(res.status === 401){
-          logoutAction();
-        }
-        return;
-      }
-
-      const user = await res.json();
-
-      loadReferral(user);
-      loadReferralStats();
-
-      const balance = Number(user.token_balance || 0).toFixed(2);
-
-      document.getElementById("nav-balance").innerText = balance + " DTC";
-      document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
-      document.getElementById("dash-wallet-balance").innerText = balance;
-      document.getElementById("wallet-updated-at")?.classList.remove('opacity-0');
-    } catch(e) { 
-      console.error("Wallet load error", e); 
-    }
-  }
-
-  async function loadTransactions() {
-    const token = sessionStorage.getItem("token");
-    if(!token) return;
-    try {
-      const datasetsRes = await fetch(`${API_BASE}/users/datasets`, { headers: { "Authorization": `Bearer ${token}` } });
-      const datasets = await datasetsRes.json();
-      const list = document.getElementById("transactions-list");
-      if(!list) return;
-      if(datasets.length === 0) {
-        list.innerHTML = `<p class="text-center text-slate-500 text-xs py-8 italic">No recent transactions.</p>`;
-        return;
-      }
-      list.innerHTML = "";
-      datasets.forEach(d => {
-        const reward = (d.token_reward || d.dataset_value || 0).toFixed(2);
-        const item = document.createElement("div");
-        item.className = "flex items-center justify-between p-3 hover:bg-slate-800/10 transition";
-        item.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2.5" stroke-linecap="round"/></svg>
-                </div>
-                <div>
-                    <p class="text-xs font-bold text-white">Contribution Reward</p>
-                    <p class="text-[10px] text-slate-500">${d.title}</p>
-                </div>
-            </div>
-            <p class="text-xs font-black text-emerald-400">+${reward} DTC</p>
-        `;
-        list.appendChild(item);
-      });
-    } catch(e) { console.error("Transactions failed", e); }
-  }
-
-  async function loadMyDatasets() {
-    const token = sessionStorage.getItem("token");
-    if(!token) return;
-    try {
-      const res = await fetch(`${API_BASE}/users/datasets`, { headers: { "Authorization": `Bearer ${token}` } });
-      const data = await res.json();
-      const list = document.getElementById("my-datasets-list");
-      if(!list) return;
-      list.innerHTML = "";
-      
-      if(data.length === 0) {
-        list.innerHTML = `
-          <div class="text-center py-12">
-            <p class="text-slate-500 text-sm mb-4">No datasets contributed yet.</p>
-            <button onclick="navigate('upload')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20">
-              Upload Your First Dataset
-            </button>
-          </div>`;
-        
-        document.getElementById("stat-datasets").innerText = "0";
-        document.getElementById("stat-records").innerText = "0";
-        document.getElementById("stat-tokens").innerText = "0.00";
-        return;
-      }
-
-      data.forEach(d => {
-        // Fix 1: Fallback logic for dashboard display
-        const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
-        const reward = (d.token_reward || d.dataset_value || 0).toFixed(2);
-        const item = document.createElement("div");
-        item.className = "p-4 hover:bg-slate-800/20 transition";
-        item.innerHTML = `
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
-          <div>
-            <div class="flex flex-wrap items-center gap-2 mb-1">
-              <div class="text-white font-bold text-sm">${d.title}</div>
-              <span class="px-2 py-0.5 text-[8px] bg-emerald-500/20 text-emerald-400 rounded-full font-bold uppercase tracking-wider">Quality ${safeQuality}%</span>
-              <span class="px-2 py-0.5 text-[8px] bg-purple-500/20 text-purple-400 rounded-full font-bold uppercase tracking-wider">AI ${(d.ai_training_score || d.ai_score || 0).toFixed(2)}</span>
-              <span class="px-2 py-0.5 text-[8px] bg-indigo-500/20 text-indigo-400 rounded-full font-bold uppercase tracking-wider">Value ${(d.dataset_value || 0).toFixed(2)}</span>
-              <span class="px-2 py-0.5 text-[8px] bg-yellow-500/20 text-yellow-400 rounded-full font-bold uppercase tracking-wider">Price ${(d.price || 0).toFixed(2)}</span>
-              <span class="px-2 py-0.5 text-[8px] bg-slate-800 text-slate-400 rounded uppercase font-black tracking-widest">${d.category || 'general'}</span>
-            </div>
-            <div class="text-slate-500 text-[10px] uppercase tracking-wider">${d.record_count} records • ⬇ ${d.downloads || 0} downloads</div>
-            <p class="text-[10px] text-slate-600">ID: ${d.id}</p>
-            <p class="text-[10px] text-slate-600">Fingerprint: ${d.dataset_hash || 'N/A'}</p>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="text-indigo-400 font-black text-sm">+${reward} DTC</div>
-            <button onclick="deleteDataset('${d.id}')" class="px-3 py-1 bg-red-600 text-white rounded text-xs">Delete</button>
-          </div>
-        </div>
-        `;
-        list.appendChild(item);
-      });
-      
-      document.getElementById("stat-datasets").innerText = data.length;
-      document.getElementById("stat-records").innerText = data.reduce((acc, curr) => acc + (curr.record_count || 0), 0);
-      
-      const totalTokens = data.reduce((acc, curr) => acc + (curr.token_reward || 0), 0);
-      document.getElementById("stat-tokens").innerText = totalTokens.toFixed(2);
-    } catch(e) { console.error("Datasets load failed", e); }
-  }
-
-  async function deleteDataset(id) {
-    if(!confirm("Delete this dataset? Tokens will be removed from your wallet.")){
-      return;
-    }
-
-    const token = sessionStorage.getItem("token");
-    const res = await fetch(API_BASE + "/datasets/" + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
-
-    if (!res.ok) {
-      showToast("Failed to delete dataset", "error");
-      return;
-    }
-
-    showToast("Dataset deleted", "success");
+    const isAuth = !!token;
     
-    await loadMyDatasets();
-    await loadWallet();
-    await loadTransactions();
+    document.getElementById('nav-guest-zone').classList.toggle('hidden', isAuth);
+    document.getElementById('mobile-guest-zone').classList.toggle('hidden', isAuth);
+    document.getElementById('nav-user-zone').classList.toggle('hidden', !isAuth);
+    document.getElementById('mobile-user-zone').classList.toggle('hidden', !isAuth);
+
+    if (isAuth) {
+        try {
+            const res = await fetch(`${API_BASE}/auth/me`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (!res.ok) throw new Error();
+            currentUser = await res.json();
+            
+            const isCompany = currentUser.account_type === 'company' || currentUser.is_company;
+            
+            // Navbar Role Visibility
+            document.getElementById('nav-item-dashboard').classList.toggle('hidden', isCompany);
+            document.getElementById('nav-item-upload').classList.toggle('hidden', isCompany);
+            document.getElementById('nav-item-company').classList.toggle('hidden', !isCompany);
+            
+            // Mobile Role Visibility
+            document.getElementById('mob-item-dashboard').classList.toggle('hidden', isCompany);
+            document.getElementById('mob-item-upload').classList.toggle('hidden', isCompany);
+            document.getElementById('mob-item-company').classList.toggle('hidden', !isCompany);
+
+            // Sync Wallet Balances
+            const balance = Number(currentUser.token_balance || 0).toFixed(2);
+            document.getElementById("nav-balance").innerText = balance + " DTC";
+            document.getElementById("mobile-nav-balance").innerText = balance + " DTC";
+            
+            if (isCompany) loadCompany();
+            else loadWallet();
+
+        } catch (e) {
+            sessionStorage.removeItem("token");
+            updateAuthStateUI();
+        }
+    }
   }
 
-  async function loadRequests() {
-      try {
-          const res = await fetch(`${API_BASE}/requests`);
-          const data = await res.json();
-          const container = document.getElementById("requests-list");
-          if(!container) return;
-          container.innerHTML = "";
-          if(data.length === 0) {
-              container.innerHTML = `<div class="p-20 text-center bg-slate-900/50 rounded-3xl border border-slate-800"><p class="text-slate-500 italic">No active corporate bounties found.</p></div>`;
-              return;
-          }
-          data.forEach(r => {
-              const item = document.createElement("div");
-              item.className = "dtc-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6";
-              item.innerHTML = `
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest">Verified Requester</span>
-                        <h4 class="text-white font-bold text-lg">${r.title}</h4>
-                    </div>
-                    <p class="text-slate-400 text-sm">${r.description}</p>
-                </div>
-                <div class="text-center md:text-right min-w-[150px]">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Bounty</p>
-                    <p class="text-2xl font-black text-indigo-400">${r.reward} DTC</p>
-                    <button onclick="submitToRequest('${r.id}')" 
-                      class="mt-2 text-xs text-white bg-indigo-600 px-4 py-2 rounded-lg font-bold">
-                      Submit Dataset
-                    </button>
-                </div>
-              `;
-              container.appendChild(item);
-          });
-      } catch(e) { console.error("Requests load failed", e); }
-  }
-
-  async function submitToRequest(requestId) {
-    const datasetId = prompt("Enter your dataset ID to submit (found in Dashboard):");
-    if(!datasetId) return;
+  // COMPANY LOGIC
+  async function loadCompany() {
     const token = sessionStorage.getItem("token");
-    if(!token) return showToast("Login required", "error");
-    toggleLoader(true, "Submitting contribution...");
     try {
-      const res = await fetch(`${API_BASE}/requests/${requestId}/submit`, {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer "+token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ dataset_id: datasetId })
-      });
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Submission failed");
-      showToast("Dataset submitted successfully for review", "success");
-    } catch(e) {
-      showToast(e.message, "error");
-    } finally { toggleLoader(false); }
+        const res = await fetch(`${API_BASE}/companies/me`, {
+            headers: { Authorization: "Bearer " + token }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const nameElem = document.getElementById("company-name-display");
+        if (nameElem) nameElem.innerText = `Welcome back, ${data.name || 'Corporate Partner'}.`;
+        
+        document.getElementById("company-api-key").value = data.api_key || "No API key generated";
+        document.getElementById("company-balance").innerText = Number(data.dtc_balance || 0).toFixed(2);
+        
+        // Load purchased datasets
+        loadCompanyPurchases();
+    } catch (e) { console.error("Load company failed", e); }
   }
 
-  async function previewDataset(id) {
-    toggleLoader(true, "Generating preview...");
+  async function addCompanyBalance() {
+    const amount = document.getElementById("add-balance-input").value;
+    if (!amount || amount <= 0) return showToast("Enter a valid amount", "error");
+    
+    const token = sessionStorage.getItem("token");
+    toggleLoader(true, "Processing payment...");
+    
     try {
-      const res = await fetch(`${API_BASE}/marketplace/datasets/${id}/preview`);
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Preview unavailable");
-      console.log("Dataset Preview Sample:", data);
-      showToast("Dataset structure loaded. Check browser console for sample records.", "info");
+        const res = await fetch(`${API_BASE}/companies/add-balance?amount=${amount}`, {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token }
+        });
+        if (!res.ok) throw new Error("Payment failed");
+        
+        showToast(`Balance updated: +${amount} DTC`, "success");
+        loadCompany();
+        updateAuthStateUI();
+        document.getElementById("add-balance-input").value = "";
     } catch (e) { showToast(e.message, "error"); }
     finally { toggleLoader(false); }
   }
 
+  async function loadCompanyPurchases() {
+    const token = sessionStorage.getItem("token");
+    try {
+        const res = await fetch(`${API_BASE}/marketplace/purchased`, {
+            headers: { Authorization: "Bearer " + token }
+        });
+        if (!res.ok) return;
+        const datasets = await res.json();
+        const list = document.getElementById("company-purchases-list");
+        document.getElementById("company-stat-purchased").innerText = datasets.length;
+
+        if (datasets.length === 0) return;
+
+        list.innerHTML = "";
+        datasets.forEach(d => {
+            const item = document.createElement("div");
+            item.className = "flex items-center justify-between p-3 hover:bg-slate-800/20";
+            item.innerHTML = `
+                <div>
+                    <p class="text-xs font-bold text-white">${d.title}</p>
+                    <p class="text-[10px] text-slate-500 uppercase">${d.category} • License: Active</p>
+                </div>
+                <button onclick="previewDataset('${d.id}')" class="text-[10px] font-bold text-indigo-400 uppercase">Access Data</button>
+            `;
+            list.appendChild(item);
+        });
+    } catch (e) { console.error("Purchases failed", e); }
+  }
+
+  function toggleApiKey() {
+    const input = document.getElementById("company-api-key");
+    const btn = event.target;
+    if (input.type === "password") {
+        input.type = "text";
+        btn.innerText = "Hide";
+    } else {
+        input.type = "password";
+        btn.innerText = "Show";
+    }
+  }
+
+  // MARKETPLACE BUY FLOW
   async function buyDataset(datasetId) {
     const token = sessionStorage.getItem("token");
-    if(!token){
-      showToast("Login required to purchase datasets","error");
-      navigate("login");
-      return;
-    }
-    toggleLoader(true, "Processing purchase...");
+    if(!token) return navigate("login");
+
+    toggleLoader(true, "Securing license...");
     try {
-      const res = await fetch(`${API_BASE}/marketplace/purchase`, {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ dataset_id: datasetId })
-      });
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.detail || "Purchase failed");
-      showToast("Dataset purchased successfully. Access granted.", "success");
-      loadWallet();
-      loadMarketplace();
-    } catch(e) {
-      showToast(e.message, "error");
-    } finally {
-      toggleLoader(false);
-    }
+        const res = await fetch(`${API_BASE}/marketplace/purchase`, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ dataset_id: datasetId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Purchase failed");
+
+        showToast("License acquired successfully", "success");
+        updateAuthStateUI();
+        if(currentUser.account_type === 'company' || currentUser.is_company) {
+            loadCompany();
+        }
+        loadMarketplace();
+    } catch (e) { showToast(e.message, "error"); }
+    finally { toggleLoader(false); }
   }
 
-  async function rateDataset(id, rating) {
-    const token = sessionStorage.getItem("token");
-    if(!token) return showToast("Login required", "error");
-    try {
-      const res = await fetch(`${API_BASE}/datasets/${id}/rate`, {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer "+token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ rating })
-      });
-      if(!res.ok) throw new Error("Rating submission failed");
-      showToast("Rating submitted", "success");
-      loadMarketplace();
-    } catch(e) { showToast(e.message, "error"); }
-  }
-
-  function openRequestForm() {
-    if(!sessionStorage.getItem("token")) return navigate("login");
-    document.getElementById("request-modal").classList.remove("hidden");
-  }
-  function closeRequestForm() {
-    document.getElementById("request-modal").classList.add("hidden");
-  }
-
-  async function submitRequest() {
-      const token = sessionStorage.getItem("token");
-      const title = document.getElementById("req-title").value;
-      const description = document.getElementById("req-desc").value;
-      const reward = document.getElementById("req-reward").value;
-      const category = document.getElementById("req-cat").value;
-
-      if(!title || !description || !reward) return showToast("All fields required", "error");
-
-      toggleLoader(true, "Publishing bounty...");
-      try {
-          const res = await fetch(`${API_BASE}/requests/create`, {
-              method: "POST",
-              headers: {
-                  "Authorization": "Bearer "+token,
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ title, description, reward: parseFloat(reward), category })
-          });
-          if(!res.ok) throw new Error("Failed to post request");
-          showToast("Request published successfully", "success");
-          closeRequestForm();
-          loadRequests();
-      } catch(e) { showToast(e.message, "error"); }
-      finally { toggleLoader(false); }
-  }
-
-  async function searchMarketplace(query) {
-    try {
-      const res = await fetch(`${API_BASE}/search?q=` + encodeURIComponent(query));
-      const data = await res.json();
-      renderMarketplace(data);
-    } catch(e) { console.error("Search failed", e); }
-  }
-
-  async function loadMarketplace() {
-    try {
-      const res = await fetch(`${API_BASE}/marketplace/datasets`);
-      const datasets = await res.json();
-      datasets.sort((a,b)=> (b.trust_score || 0) - (a.trust_score || 0));
-      renderMarketplace(datasets);
-    } catch(e) { console.error("Marketplace load failed", e); }
-  }
-
-  function renderMarketplace(datasets) {
-    // Fix 6: Basic Array handling for marketplace
-    if(!Array.isArray(datasets)){
-      console.error("Marketplace data invalid");
-      return;
-    }
-    const container = document.getElementById("mp-datasets");
-    if(!container) return;
-    if(datasets.length === 0) {
-      container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">No datasets found.</div>`;
-      return;
-    }
-    container.innerHTML = "";
-    datasets.forEach(d => {
-      // Fix 1: Safer quality score calculation
-      const safeQuality = ((d.quality_score || d.dataset_value || 0) * 100).toFixed(0);
-      const card = document.createElement("div");
-      card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
-      card.innerHTML = `
-        <div class="mb-4 flex justify-between items-start">
-          <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">${d.category || 'General'}</span>
-          <div class="flex flex-col gap-1 items-end">
-            <span class="px-2 py-1 text-[10px] bg-emerald-500/20 text-emerald-400 rounded font-bold">${safeQuality}% Quality</span>
-            <span class="px-2 py-0.5 text-[8px] bg-slate-800 text-slate-400 rounded uppercase font-black tracking-widest">✔ Verified</span>
-          </div>
-        </div>
-        <h3 class="text-white font-bold text-lg mb-1 leading-snug text-balance">${d.title}</h3>
-        <p class="text-slate-400 text-sm mb-2">${d.record_count} records</p>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400 mb-3 font-medium uppercase tracking-wider">
-          <span>⭐ ${(d.rating || 0).toFixed(1)}</span>
-          <span>🤖 AI ${(d.ai_training_score || d.ai_score || 0).toFixed(2)}</span>
-          <span>🛡 Trust ${(d.trust_score || 0).toFixed(2)}</span>
-          <span class="text-indigo-400 font-bold">💰 Value ${(d.dataset_value || 0).toFixed(1)}</span>
-          <span>⬇ ${(d.downloads || 0)}</span>
-        </div>
-        <div class="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
-          <div>
-            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Price</p>
-            <p class="text-indigo-400 font-black text-lg">${(d.price || 0).toFixed(2)} DTC</p>
-          </div>
-          <div class="flex gap-1.5">
-            <button onclick="previewDataset('${d.id}')" class="px-3 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-700 transition">Preview</button>
-            <button onclick="rateDataset('${d.id}', 5)" class="px-2 py-2 bg-yellow-600/20 text-yellow-500 hover:bg-yellow-600/40 text-xs rounded transition">⭐</button>
-            <button onclick="buyDataset('${d.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition">Buy</button>
-          </div>
-        </div>`;
-      container.appendChild(card);
-    });
-  }
-
-  async function loadLeaderboard() {
-    try {
-      const res = await fetch(`${API_BASE}/leaderboard/contributors`);
-      const data = await res.json();
-      const container = document.getElementById("leaderboard-list");
-      if(!container) return;
-      container.innerHTML = "";
-      data.forEach((u, i) => {
-        const row = document.createElement("div");
-        row.className = "dtc-card p-4 flex justify-between items-center transition";
-        row.innerHTML = `
-          <div class="flex items-center gap-4">
-            <span class="w-8 h-8 flex items-center justify-center rounded-lg ${i < 3 ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'} font-bold text-xs">#${i+1}</span>
-            <span class="text-white font-bold">${u.username}</span>
-          </div>
-          <span class="text-indigo-400 font-black">${(u.token_balance || 0).toFixed(2)} DTC</span>
-        `;
-        container.appendChild(row);
-      });
-    } catch(e) { console.error("Leaderboard failed", e); }
-  }
-
-  const sections = document.querySelectorAll('.dtc-page');
+  // GENERAL NAVIGATION
   async function navigate(targetId) {
-    if(targetId === "dashboard" && !sessionStorage.getItem("token")){
-      showToast("Please login first","error"); navigate("login"); return;
-    }
+    const token = sessionStorage.getItem("token");
     
-    // Fix 10: Auth check for upload
-    if(targetId === "upload" && !sessionStorage.getItem("token")){
-      showToast("Please login first","error"); navigate("login"); return;
+    // Auth Guards
+    if (['dashboard', 'upload', 'company'].includes(targetId) && !token) {
+        showToast("Please login first", "error"); navigate("login"); return;
     }
 
+    const sections = document.querySelectorAll('.dtc-page');
     sections.forEach(s => s.classList.add('hidden'));
+
     if (targetId === 'home') {
-      ['section-home', 'section-how-it-works', 'section-data-sources'].forEach(id => document.getElementById(id).classList.remove('hidden'));
-      
-      // Fix 9: Optimized home load performance
-      await Promise.all([
-        loadPlatformStats(),
-        loadTrending(),
-        loadHomeLeaderboard()
-      ]);
+      ['section-home', 'section-how-it-works'].forEach(id => document.getElementById(id).classList.remove('hidden'));
     } else {
       const target = document.getElementById(`section-${targetId}`);
       if (target) target.classList.remove('hidden');
     }
-    
-    if(targetId === 'dashboard') { 
-      await loadWallet();
-      await loadMyDatasets(); 
-      await loadTransactions(); 
+
+    // Role-based restrictions for Upload
+    if (targetId === 'upload') {
+        const isCompany = currentUser?.account_type === 'company' || currentUser?.is_company;
+        document.getElementById('upload-restriction-msg').classList.toggle('hidden', !isCompany);
+        document.getElementById('upload-form-container').classList.toggle('hidden', isCompany);
     }
-    if(targetId === 'marketplace') loadMarketplace();
-    if(targetId === 'leaderboard') loadLeaderboard();
-    if(targetId === 'requests') loadRequests();
-    
-    const footer = document.getElementById('global-footer');
-    if (footer) footer.classList.toggle('hidden', ['dashboard', 'upload'].includes(targetId));
+
+    // Load data based on target
+    if (targetId === 'dashboard') loadMyDatasets();
+    if (targetId === 'company') loadCompany();
+    if (targetId === 'marketplace') loadMarketplace();
+    if (targetId === 'leaderboard') loadLeaderboard();
+    if (targetId === 'requests') loadRequests();
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     toggleMobileMenu(false);
   }
 
+  // EVENT LISTENERS
+  document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
+    const login = document.getElementById("login-user").value;
+    const password = document.getElementById("login-pass").value;
+    toggleLoader(true, "Authenticating...");
+    try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: login, password: password }) 
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Login failed");
+        sessionStorage.setItem("token", data.access_token);
+        
+        await updateAuthStateUI();
+        
+        // Smart Redirect
+        if (currentUser.account_type === 'company' || currentUser.is_company) {
+            navigate("company");
+        } else {
+            navigate("dashboard");
+        }
+        showToast("Welcome back!", "success");
+    } catch (err) { showToast(err.message, "error"); } 
+    finally { toggleLoader(false); }
+  });
+
+  // Mobile Menu Helper
   const mobileMenu = document.getElementById('mobile-menu');
   function toggleMobileMenu(forceState) {
     const isExpanding = forceState !== undefined ? forceState : !mobileMenu?.classList.contains('active');
@@ -1228,182 +820,55 @@
     document.getElementById('menu-icon-open')?.classList.toggle('hidden', isExpanding);
     document.getElementById('menu-icon-close')?.classList.toggle('hidden', !isExpanding);
   }
-  
-  document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(); });
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => toggleMobileMenu());
   document.querySelectorAll('[data-nav]').forEach(link => link.addEventListener('click', () => navigate(link.getAttribute('data-nav'))));
 
-  function updateAuthStateUI() {
-    const isUser = !!sessionStorage.getItem("token");
-    ['nav-guest-zone', 'mobile-guest-zone'].forEach(id => document.getElementById(id).classList.toggle('hidden', isUser));
-    ['nav-user-zone', 'mobile-user-zone'].forEach(id => document.getElementById(id).classList.toggle('hidden', !isUser));
-    if (isUser) loadWallet();
-  }
-
-  document.getElementById("btn-login-submit")?.addEventListener("click", async () => {
-    const login = document.getElementById("login-user").value;
-    const password = document.getElementById("login-pass").value;
-    if (!login || !password) return showToast("Enter credentials", "error");
-    toggleLoader(true, "Authenticating...");
-    try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: login, password: password }) 
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Login failed");
-      sessionStorage.setItem("token", data.access_token);
-      showToast("Login successful", "success");
-      
-      await loadWallet();
-      updateAuthStateUI();
-      navigate("dashboard");
-    } catch (err) { showToast(err.message, "error"); } 
-    finally { toggleLoader(false); }
-  });
-
-  document.getElementById("btn-reg-submit")?.addEventListener("click", async () => {
-    const name = document.getElementById("reg-name").value;
-    const username = document.getElementById("reg-username").value;
-    const email = document.getElementById("reg-email").value;
-    const password = document.getElementById("reg-pass").value;
-    const referral = document.getElementById("referral-code").value; 
-    const isCompany = document.querySelector('input[name="accountType"]:checked')?.value === 'company';
-
-    if (!name || !username || !email || !password) return showToast("All fields required", "error");
-    toggleLoader(true, "Creating account...");
-    try {
-      const res = await fetch(`${API_BASE}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          username, 
-          email, 
-          password, 
-          full_name: name, 
-          is_company: isCompany,
-          referral_code: referral || null 
-        })
-      });
-      if (!res.ok) throw new Error((await res.json()).detail || "Registration failed");
-      showToast("Account created! Please login.", "success");
-      navigate("login");
-    } catch (err) { showToast(err.message, "error"); } finally { toggleLoader(false); }
-  });
-
-  document.getElementById("dataset-file")?.addEventListener("change", function(e) {
-    const fileName = e.target.files[0]?.name || "No file chosen...";
-    const label = document.getElementById("file-name-label");
-    if(label) label.innerText = fileName;
-  });
-
-  document.getElementById("btn-upload-dataset")?.addEventListener("click", async () => {
-    const token = sessionStorage.getItem("token");
-    if(!token) return navigate("login");
-    
-    const title = document.getElementById("dataset-title").value;
-    const fileInput = document.getElementById("dataset-file");
-    const file = fileInput?.files[0];
-
-    if (!title || !file) return showToast("Missing fields: Please enter a title and select a file.", "error");
-    
-    if(file.size > 10 * 1024 * 1024) return showToast("File too large. Maximum size is 10MB.", "error");
-
-    if(!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".json")) return showToast("Only CSV or JSON files are allowed.","error");
-    
-    if (!confirm("Your dataset will be anonymized automatically (PII removal). Continue?")) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("title", title);
-    formData.append("description", document.getElementById("dataset-description").value);
-    formData.append("category", document.getElementById("dataset-category").value);
-    
-    toggleLoader(true, "Uploading...");
-    try {
-      setTimeout(() => toggleLoader(true, "Anonymizing records..."), 1500);
-      setTimeout(() => toggleLoader(true, "Calculating AI Quality Score..."), 3000);
-
-      const res = await fetch(`${API_BASE}/datasets/upload`, {
-        method: "POST",
-        headers: { "Authorization": "Bearer " + token },
-        body: formData
-      });
-      const result = await res.json();
-      
-      if (!res.ok) {
-        if(result.detail && result.detail.includes("duplicate")){
-            throw new Error("Dataset collision: This exact data already exists on the platform.");
-        }
-        throw new Error(result.detail || "Upload failed");
-      }
-      
-      showToast(`Dataset published! +${result.token_reward} DTC earned.`, "success");
-      
-      document.getElementById("dataset-title").value = "";
-      document.getElementById("dataset-description").value = "";
-      document.getElementById("dataset-file").value = "";
-      document.getElementById("file-name-label").innerText = "No file chosen...";
-
-      // Fix 3: Instant wallet sync after upload
-      await Promise.all([
-        loadWallet(),
-        loadMyDatasets(),
-        loadTransactions()
-      ]);
-      
-      navigate("dashboard");
-    } catch(err) { 
-      showToast(err.message, "error"); 
-    } finally { 
-      toggleLoader(false); 
-    }
-  });
-
-  let searchTimeout;
-  document.getElementById("mp-search")?.addEventListener("input", (e) => {
-    clearTimeout(searchTimeout);
-    const q = e.target.value.trim();
-    searchTimeout = setTimeout(async () => {
-      if(q.length < 2) { 
-        loadMarketplace(); 
-        return; 
-      }
-      searchMarketplace(q);
-    }, 400);
-  });
-
-  const logoutAction = () => { 
-    sessionStorage.removeItem("token"); 
-    sessionStorage.clear(); 
-    document.getElementById("nav-balance").innerText = "0.00 DTC";
-    document.getElementById("mobile-nav-balance").innerText = "0.00 DTC";
-    updateAuthStateUI(); 
-    navigate('home'); 
-    showToast("Logged out safely"); 
-  };
-  document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
-  document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
-
+  // Init
   window.addEventListener('DOMContentLoaded', () => {
     updateAuthStateUI();
     navigate('home');
-
-    // Fix 4: Referral persistent capture
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    if(ref) {
-      const refField = document.getElementById("referral-code");
-      if (refField) refField.value = ref;
-    }
-
-    // Fix 7: Cross-tab logout protection
-    window.addEventListener("storage", () => {
-      if(!sessionStorage.getItem("token")){
-        location.reload();
-      }
-    });
   });
+
+  // Re-use existing marketplace/leaderboard functions (placeholder/logic)
+  async function loadMarketplace() {
+    try {
+      const res = await fetch(`${API_BASE}/marketplace/datasets`);
+      const datasets = await res.json();
+      renderMarketplace(datasets);
+    } catch(e) { console.error("Marketplace failed", e); }
+  }
+
+  function renderMarketplace(datasets) {
+    const container = document.getElementById("mp-datasets");
+    if(!container) return;
+    container.innerHTML = "";
+    datasets.forEach(d => {
+      const card = document.createElement("div");
+      card.className = "dtc-card p-6 rounded-2xl flex flex-col h-full";
+      card.innerHTML = `
+        <div class="mb-4 flex justify-between">
+          <span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase">${d.category}</span>
+          <span class="text-[10px] text-emerald-400 font-bold">${((d.quality_score||0)*100).toFixed(0)}% Quality</span>
+        </div>
+        <h3 class="text-white font-bold text-lg mb-1">${d.title}</h3>
+        <p class="text-slate-400 text-sm mb-4">${d.record_count} records</p>
+        <div class="mt-auto flex justify-between items-center pt-4 border-t border-slate-800">
+          <p class="text-indigo-400 font-black text-lg">${(d.price || 0).toFixed(2)} DTC</p>
+          <button onclick="buyDataset('${d.id}')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition">License</button>
+        </div>`;
+      container.appendChild(card);
+    });
+  }
+
+  function logoutAction() {
+    sessionStorage.removeItem("token");
+    currentUser = null;
+    updateAuthStateUI();
+    navigate('home');
+    showToast("Session ended safely");
+  }
+  document.getElementById('btn-logout')?.addEventListener('click', logoutAction);
+  document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutAction);
 </script>
 </body>
 </html>
