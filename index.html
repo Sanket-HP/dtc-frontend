@@ -566,22 +566,33 @@
 
         /**
          * Enhanced Notify Function
-         * Clears area to prevent multiple stacked boxes and ensures message is stringified if it's an object.
+         * Bulletproof handling of string and object messages to prevent [object Object] errors.
          */
         function notify(msg, type = 'info') {
             const area = document.getElementById('notification-area');
-            // Prevent duplicate/stacked error boxes by clearing previous messages
+            // Clear area to prevent multiple stacked boxes
             area.innerHTML = ""; 
 
             const alert = document.createElement('div');
-            const bg = type === 'error' ? 'bg-red-900/80 border-red-500' : (type === 'success' ? 'bg-green-900/80 border-green-500' : 'bg-blue-900/80 border-blue-500');
+            const bg = type === 'error' 
+                ? 'bg-red-900/80 border-red-500' 
+                : (type === 'success' ? 'bg-green-900/80 border-green-500' : 'bg-blue-900/80 border-blue-500');
+            
             alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[280px] md:min-w-[300px] animate-bounce-in`;
             
-            // Bulletproof safe message extraction
-            const safeMsg =
-                typeof msg === "object" && msg !== null
-                    ? msg?.detail || msg?.message || JSON.stringify(msg)
-                    : msg;
+            // Bulletproof safe message extraction logic
+            let safeMsg = "Something went wrong";
+            if (typeof msg === "string") {
+                safeMsg = msg;
+            } else if (typeof msg === "object" && msg !== null) {
+                safeMsg = 
+                    msg?.detail?.message || 
+                    msg?.detail || 
+                    msg?.message || 
+                    msg?.error?.message || 
+                    msg?.error || 
+                    JSON.stringify(msg);
+            }
             
             alert.innerHTML = `
                 <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
@@ -611,7 +622,7 @@
 
         /**
          * Global API Call Handler
-         * Improved error handling to extract message/detail from response.
+         * Improved error handling to extract message/detail from response including nested properties.
          */
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
@@ -630,9 +641,14 @@
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
                 const data = await response.json();
                 
-                // Detailed check for response success
+                // Enhanced check for response success including nested detail properties
                 if (!response.ok) {
-                    throw new Error(data?.detail || data?.message || "API Error");
+                    throw new Error(
+                        data?.detail?.message || 
+                        data?.detail || 
+                        data?.message || 
+                        "API Error"
+                    );
                 }
 
                 console.log(`API RESPONSE [${endpoint}]:`, data);
@@ -712,7 +728,7 @@
             }
             
             // Production Debug Logs
-            if (user) console.log("USER DATA:", user);
+            console.log("USER DATA:", user);
             
             await Promise.all([
                 fetchEconomyStats(),
@@ -911,6 +927,10 @@
             }
         }
 
+        /**
+         * Upload Dataset Function
+         * Hardened with detailed error message parsing for validation arrays.
+         */
         async function uploadDataset(e) {
             e.preventDefault();
 
@@ -957,7 +977,14 @@
                     notify(data.message || "Dataset uploaded successfully!", "success");
                     e.target.reset();
                 } else {
-                    notify(data.detail || data.message || "Upload failed", "error");
+                    // Specific logic for handling FastAPI validation error arrays
+                    let errorMsg = "Upload failed";
+                    if (Array.isArray(data.detail)) {
+                        errorMsg = data.detail.map(err => err.msg).join(", ");
+                    } else {
+                        errorMsg = data.detail || data.message || errorMsg;
+                    }
+                    notify(errorMsg, "error");
                 }
 
                 await Promise.all([
