@@ -564,14 +564,22 @@
         function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+        /**
+         * Enhanced Notify Function
+         * Clears area to prevent multiple stacked boxes and ensures message is stringified if it's an object.
+         */
         function notify(msg, type = 'info') {
             const area = document.getElementById('notification-area');
+            // Prevent duplicate/stacked error boxes by clearing previous messages
+            area.innerHTML = ""; 
+
             const alert = document.createElement('div');
             const bg = type === 'error' ? 'bg-red-900/80 border-red-500' : (type === 'success' ? 'bg-green-900/80 border-green-500' : 'bg-blue-900/80 border-blue-500');
             alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[280px] md:min-w-[300px] animate-bounce-in`;
             
+            // Bulletproof safe message extraction
             const safeMsg =
-                typeof msg === "object"
+                typeof msg === "object" && msg !== null
                     ? msg?.detail || msg?.message || JSON.stringify(msg)
                     : msg;
             
@@ -580,7 +588,9 @@
                 <span class="flex-1">${safeMsg}</span>
             `;
             area.appendChild(alert);
-            setTimeout(() => alert.remove(), 4000);
+            setTimeout(() => {
+                if (alert.parentNode === area) alert.remove();
+            }, 4000);
         }
 
         async function copyReferral() {
@@ -599,6 +609,10 @@
             }
         }
 
+        /**
+         * Global API Call Handler
+         * Improved error handling to extract message/detail from response.
+         */
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
             const headers = {};
@@ -615,11 +629,17 @@
             try {
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
                 const data = await response.json();
+                
+                // Detailed check for response success
+                if (!response.ok) {
+                    throw new Error(data?.detail || data?.message || "API Error");
+                }
+
                 console.log(`API RESPONSE [${endpoint}]:`, data);
-                if (!response.ok) throw new Error(data.detail || data.message || 'API Error');
                 return data;
             } catch (err) {
                 console.error(`API Error [${endpoint}]:`, err);
+                // Extract error message properly for toast notification
                 notify(err.message || "Something went wrong", "error");
                 return null;
             }
@@ -636,8 +656,6 @@
                 hideModal('login-modal');
                 await initApp();
                 notify('Authenticated successfully!', 'success');
-            } else {
-                notify('Authentication failed. Check credentials.', 'error');
             }
         }
 
@@ -693,14 +711,15 @@
                 }
             }
             
-            // Production Debugging
-            console.log("USER DATA:", user);
-            console.log("ECONOMY STATS:", await apiCall('/economy/stats'));
-            console.log("MARKETPLACE DATA:", await apiCall('/marketplace/datasets'));
-
-            await fetchEconomyStats();
-            await fetchMarketplace();
-            await fetchLeaderboards();
+            // Production Debug Logs
+            if (user) console.log("USER DATA:", user);
+            
+            await Promise.all([
+                fetchEconomyStats(),
+                fetchMarketplace(),
+                fetchLeaderboards()
+            ]);
+            
             if(user) await fetchDashboardData();
         }
 
@@ -737,8 +756,6 @@
                 list = datasets;
             } else if (datasets?.datasets && Array.isArray(datasets.datasets)) {
                 list = datasets.datasets;
-            } else {
-                console.warn("Invalid marketplace data format:", datasets);
             }
 
             if (list && list.length > 0) {
@@ -881,8 +898,6 @@
                     fetchEconomyStats(),
                     fetchLeaderboards()
                 ]);
-            } else {
-                notify('Purchase failed. Check balance.', 'error');
             }
         }
 
@@ -904,6 +919,9 @@
             const category = document.getElementById("up-category").value;
             const file = document.getElementById("up-file").files[0];
 
+            console.log("Uploading:", { title, description, category, file });
+
+            // STRICT VALIDATION
             if (!title || !description.trim() || !category || !file) {
                 notify("Description and all fields are required!", "error");
                 return;
@@ -934,18 +952,21 @@
                     body: formData
                 });
                 const data = await res.json();
+                
                 if (res.ok) {
-                    alert("✅ " + (data.message || "Dataset uploaded successfully!"));
+                    notify(data.message || "Dataset uploaded successfully!", "success");
                     e.target.reset();
                 } else {
-                    alert("❌ " + (data.detail || data.message || "Upload failed"));
+                    notify(data.detail || data.message || "Upload failed", "error");
                 }
+
                 await Promise.all([
                     fetchDashboardData(),
                     fetchMarketplace(),
                     fetchEconomyStats(),
                     fetchLeaderboards()
                 ]);
+
             } catch (err) {
                 console.error(err);
                 notify("Upload error occurred", "error");
@@ -964,6 +985,7 @@
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await res.json();
+                
                 if (res.ok) {
                     notify(data.message || "Dataset deleted successfully", "success");
                     await Promise.all([
