@@ -125,6 +125,15 @@
             background-color: #1e3a8a;
             color: white;
         }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -135,14 +144,15 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4">
+    <nav class="sticky top-0 z-50 glass border-b border-white/5 px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
-                <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center font-bold text-blue-900 text-xl shadow-lg">D</div>
-                <span class="text-2xl font-bold tracking-tight">DataTrust<span class="text-yellow-400">Coin</span></span>
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center font-bold text-blue-900 text-lg md:text-xl shadow-lg">D</div>
+                <span class="text-xl md:text-2xl font-bold tracking-tight">DataTrust<span class="text-yellow-400">Coin</span></span>
             </div>
             
-            <div class="hidden md:flex space-x-8 items-center">
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex space-x-8 items-center">
                 <button onclick="showPage('home')" class="nav-link font-medium">Home</button>
                 <button onclick="showPage('marketplace')" class="nav-link font-medium">Marketplace</button>
                 <button onclick="showPage('leaderboard')" class="nav-link font-medium">Leaderboard</button>
@@ -154,27 +164,61 @@
                     <button onclick="showPage('dashboard')" class="nav-link font-medium">Dashboard</button>
                     <div class="flex items-center space-x-2 bg-white/5 p-1 pr-4 rounded-full">
                         <div id="user-avatar" class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center font-bold">U</div>
-                        <span id="nav-username" class="text-sm font-semibold">User</span>
+                        <span id="nav-username" class="text-sm font-semibold truncate max-w-[100px]">User</span>
                         <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 ml-2">Logout</button>
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Hamburger -->
+            <button onclick="toggleMobileMenu(true)" class="lg:hidden text-2xl text-yellow-400">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
+    <!-- Mobile Menu Sidebar -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 z-[100] w-full max-w-sm glass border-l border-white/10 p-6 flex flex-col shadow-2xl">
+        <div class="flex justify-between items-center mb-10">
+            <span class="text-xl font-bold">Menu</span>
+            <button onclick="toggleMobileMenu(false)" class="text-2xl text-blue-200/60"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <button onclick="showPage('home')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Home</button>
+            <button onclick="showPage('marketplace')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Marketplace</button>
+            <button onclick="showPage('leaderboard')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Leaderboard</button>
+            
+            <div id="mobile-auth-section" class="flex flex-col space-y-4 pt-4">
+                <button onclick="showModal('login-modal'); toggleMobileMenu(false);" class="text-yellow-400 font-bold text-lg">Login</button>
+                <button onclick="showModal('register-modal'); toggleMobileMenu(false);" class="btn-gold px-6 py-3 rounded-xl text-center">Join Ecosystem</button>
+            </div>
+            
+            <div id="mobile-user-section" class="hidden flex flex-col space-y-6 pt-4">
+                <button onclick="showPage('dashboard')" class="text-left text-lg font-medium border-b border-white/5 pb-2">User Dashboard</button>
+                <div class="bg-white/5 p-4 rounded-xl space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div id="mobile-avatar" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center font-bold">U</div>
+                        <span id="mobile-username" class="font-bold">User</span>
+                    </div>
+                    <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 rounded-lg font-bold">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-12">
         
         <!-- Page: Home -->
-        <section id="page-home" class="tab-content active space-y-24">
+        <section id="page-home" class="tab-content active space-y-16 md:space-y-24">
             <!-- Hero -->
-            <div class="text-center space-y-8 pt-10">
-                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">
+            <div class="text-center space-y-6 md:space-y-8 pt-6 md:pt-10">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
                     Next-Gen <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Data Liquidity</span>
                 </h1>
-                <p class="text-xl text-blue-100/70 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-lg md:text-xl text-blue-100/70 max-w-2xl mx-auto leading-relaxed">
                     Turn your daily digital footprint into DTC tokens. Power the next generation of AI with ethical, verified data streams.
                 </p>
-                <div class="flex flex-col md:flex-row justify-center gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4 px-4 sm:px-0">
                     <button onclick="showModal('register-modal')" class="btn-gold px-10 py-4 rounded-2xl text-lg font-bold flex items-center justify-center">
                         <i class="fas fa-coins mr-2"></i> Start Earning
                     </button>
@@ -185,47 +229,47 @@
             </div>
 
             <!-- Stats -->
-            <div id="economy-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass p-8 text-center gold-glow">
+            <div id="economy-stats" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                <div class="glass p-6 md:p-8 text-center gold-glow">
                     <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Total Datasets</p>
-                    <h3 id="stat-datasets" class="text-4xl font-bold">0</h3>
+                    <h3 id="stat-datasets" class="text-3xl md:text-4xl font-bold">0</h3>
                 </div>
-                <div class="glass p-8 text-center gold-glow">
+                <div class="glass p-6 md:p-8 text-center gold-glow">
                     <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Tokens Distributed</p>
-                    <h3 id="stat-tokens" class="text-4xl font-bold text-yellow-400">0</h3>
+                    <h3 id="stat-tokens" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
                 </div>
-                <div class="glass p-8 text-center gold-glow">
+                <div class="glass p-6 md:p-8 text-center gold-glow sm:col-span-2 md:col-span-1">
                     <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Active Users</p>
-                    <h3 id="stat-users" class="text-4xl font-bold">0</h3>
+                    <h3 id="stat-users" class="text-3xl md:text-4xl font-bold">0</h3>
                 </div>
             </div>
 
             <!-- Data Sources -->
             <div class="space-y-12">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold">Where Can You Get Your Data?</h2>
+                    <h2 class="text-3xl font-bold px-4">Where Can You Get Your Data?</h2>
                     <p class="text-blue-200/60">Export and upload to earn instantly</p>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
                         <i class="fab fa-google text-3xl mb-4 group-hover:text-yellow-400"></i>
-                        <p class="font-bold">Google Takeout</p>
+                        <p class="font-bold text-sm">Google Takeout</p>
                     </div>
                     <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
                         <i class="fas fa-heartbeat text-3xl mb-4 group-hover:text-yellow-400"></i>
-                        <p class="font-bold">Fitness Apps</p>
+                        <p class="font-bold text-sm">Fitness Apps</p>
                     </div>
                     <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
                         <i class="fas fa-shopping-cart text-3xl mb-4 group-hover:text-yellow-400"></i>
-                        <p class="font-bold">E-commerce</p>
+                        <p class="font-bold text-sm">E-commerce</p>
                     </div>
                     <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
                         <i class="fab fa-twitter text-3xl mb-4 group-hover:text-yellow-400"></i>
-                        <p class="font-bold">Social Media</p>
+                        <p class="font-bold text-sm">Social Media</p>
                     </div>
                     <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
                         <i class="fas fa-university text-3xl mb-4 group-hover:text-yellow-400"></i>
-                        <p class="font-bold">Finance</p>
+                        <p class="font-bold text-sm">Finance</p>
                     </div>
                 </div>
             </div>
@@ -233,13 +277,13 @@
 
         <!-- Page: Marketplace -->
         <section id="page-marketplace" class="tab-content space-y-12">
-            <div class="flex justify-between items-end">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h2 class="text-4xl font-bold">Live Marketplace</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold">Live Marketplace</h2>
                     <p class="text-blue-200/60">Purchase verified datasets for AI training</p>
                 </div>
-                <div class="flex space-x-2">
-                    <input type="text" placeholder="Search datasets..." class="glass bg-white/5 px-4 py-2 rounded-lg outline-none border-white/10 focus:border-yellow-400">
+                <div class="w-full md:w-auto">
+                    <input type="text" placeholder="Search datasets..." class="w-full glass bg-white/5 px-4 py-3 rounded-xl outline-none border-white/10 focus:border-yellow-400">
                 </div>
             </div>
 
@@ -258,7 +302,7 @@
 
                 <!-- Dataset Grid -->
                 <div id="marketplace-grid" class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <!-- Cards will be injected here -->
+                    <!-- Cards injected here -->
                 </div>
             </div>
         </section>
@@ -266,24 +310,21 @@
         <!-- Page: Leaderboard -->
         <section id="page-leaderboard" class="tab-content space-y-12">
             <div class="text-center">
-                <h2 class="text-4xl font-bold">Ecosystem Leaderboard</h2>
+                <h2 class="text-3xl md:text-4xl font-bold">Ecosystem Leaderboard</h2>
                 <p class="text-blue-200/60">Top contributors shaping the future of AI</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Top Contributors -->
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-users text-yellow-400 mr-2"></i> Top Contributors</h3>
+                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-users text-yellow-400 mr-2"></i> Contributors</h3>
                     <div id="lb-contributors" class="space-y-4"></div>
                 </div>
-                <!-- Top Datasets -->
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-database text-yellow-400 mr-2"></i> Most Valued Datasets</h3>
+                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-database text-yellow-400 mr-2"></i> Hot Datasets</h3>
                     <div id="lb-datasets" class="space-y-4"></div>
                 </div>
-                <!-- Company Ranking -->
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-building text-yellow-400 mr-2"></i> Top Data Buyers</h3>
+                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-building text-yellow-400 mr-2"></i> Top Buyers</h3>
                     <div id="lb-buyers" class="space-y-4"></div>
                 </div>
             </div>
@@ -291,22 +332,22 @@
 
         <!-- Page: Dashboard (Multi-role) -->
         <section id="page-dashboard" class="tab-content space-y-12">
-            <div id="dashboard-header" class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div id="dashboard-header" class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 class="text-4xl font-bold">Welcome back, <span id="dash-username">User</span></h2>
+                    <h2 class="text-3xl md:text-4xl font-bold">Welcome back, <span id="dash-username">User</span></h2>
                     <p class="text-blue-200/60">Your <span id="dash-role" class="text-yellow-400 font-bold uppercase tracking-wider">Contributor</span> Portal</p>
                 </div>
-                <div class="flex space-x-4">
-                    <div class="glass px-6 py-3 flex items-center space-x-3">
+                <div class="w-full md:w-auto">
+                    <div class="glass px-6 py-4 flex items-center justify-between md:justify-start space-x-4">
                         <span class="text-blue-200/60 text-sm">Wallet Balance</span>
-                        <span id="dash-balance" class="text-xl font-bold text-yellow-400">0.00 DTC</span>
+                        <span id="dash-balance" class="text-xl md:text-2xl font-bold text-yellow-400">0.00 DTC</span>
                     </div>
                 </div>
             </div>
 
-            <!-- User Specific: Upload & Earnings -->
+            <!-- User Specific -->
             <div id="role-user-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 glass p-8 space-y-6">
+                <div class="lg:col-span-1 glass p-6 md:p-8 space-y-6 h-fit">
                     <h3 class="text-xl font-bold">Upload New Dataset</h3>
                     <form id="upload-form" class="space-y-4">
                         <div>
@@ -315,7 +356,7 @@
                         </div>
                         <div>
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">CATEGORY</label>
-                            <select id="up-category" class="w-full p-3 rounded-lg bg-blue-900 text-white border border-yellow-400 outline-none focus:ring-2 focus:ring-yellow-400 transition">
+                            <select id="up-category" class="w-full p-3 rounded-lg bg-blue-900 text-white border border-yellow-400/30 outline-none focus:ring-2 focus:ring-yellow-400 transition">
                                 <option value="retail" class="bg-blue-900">Retail/E-commerce</option>
                                 <option value="health" class="bg-blue-900">Health & Wellness</option>
                                 <option value="finance" class="bg-blue-900">Finance</option>
@@ -327,13 +368,13 @@
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">DESCRIPTION</label>
                             <textarea id="up-desc" rows="3" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400"></textarea>
                         </div>
-                        <button type="submit" class="w-full btn-gold py-3 rounded-xl font-bold">Initialize Minting</button>
+                        <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Initialize Minting</button>
                     </form>
                 </div>
-                <div class="lg:col-span-2 glass p-8">
+                <div class="lg:col-span-2 glass p-6 md:p-8">
                     <h3 class="text-xl font-bold mb-6">Your Contributions</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
+                    <div class="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                        <table class="w-full text-left min-w-[500px]">
                             <thead>
                                 <tr class="text-blue-200/60 text-xs border-b border-white/10">
                                     <th class="pb-4">DATASET</th>
@@ -342,28 +383,26 @@
                                     <th class="pb-4">STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody id="user-datasets-table">
-                                <!-- Dynamic rows -->
-                            </tbody>
+                            <tbody id="user-datasets-table"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Company Specific: Payments & Inventory -->
+            <!-- Company Specific -->
             <div id="role-company-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 glass p-8 space-y-6">
-                    <h3 class="text-xl font-bold">Add Liquidity (Buy DTC)</h3>
+                <div class="lg:col-span-1 glass p-6 md:p-8 space-y-6 h-fit">
+                    <h3 class="text-xl font-bold">Add Liquidity</h3>
                     <p class="text-sm text-blue-200/60">Purchase tokens via fiat or stablecoin to buy datasets.</p>
                     <div class="space-y-4">
                         <input type="number" id="pay-amount" placeholder="Amount in USD" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                        <button onclick="requestPayment()" class="w-full btn-gold py-3 rounded-xl font-bold">Request DTC Credit</button>
+                        <button onclick="requestPayment()" class="w-full btn-gold py-4 rounded-xl font-bold">Request DTC Credit</button>
                     </div>
                 </div>
-                <div class="lg:col-span-2 glass p-8">
+                <div class="lg:col-span-2 glass p-6 md:p-8">
                     <h3 class="text-xl font-bold mb-6">Purchase History</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
+                    <div class="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                        <table class="w-full text-left min-w-[500px]">
                             <thead>
                                 <tr class="text-blue-200/60 text-xs border-b border-white/10">
                                     <th class="pb-4">DATASET</th>
@@ -372,9 +411,7 @@
                                     <th class="pb-4">ACCESS</th>
                                 </tr>
                             </thead>
-                            <tbody id="company-purchases-table">
-                                <!-- Dynamic rows -->
-                            </tbody>
+                            <tbody id="company-purchases-table"></tbody>
                         </table>
                     </div>
                 </div>
@@ -385,20 +422,20 @@
 
     <!-- Footer -->
     <footer class="mt-24 border-t border-white/10 glass py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
             <div class="space-y-4 max-w-sm">
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center justify-center md:justify-start space-x-2">
                     <div class="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center font-bold text-blue-900">D</div>
                     <span class="text-xl font-bold">DataTrustCoin</span>
                 </div>
-                <p class="text-sm text-blue-200/60">The world's first decentralized marketplace where humans own their data and AI trains ethically.</p>
+                <p class="text-sm text-blue-200/60">Decentralized marketplace where humans own their data and AI trains ethically.</p>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-sm">
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Platform</p>
-                    <a href="#" class="block text-blue-200/60 hover:text-white">Marketplace</a>
+                    <a href="#" onclick="showPage('marketplace')" class="block text-blue-200/60 hover:text-white">Marketplace</a>
                     <a href="#" class="block text-blue-200/60 hover:text-white">API Docs</a>
-                    <a href="#" class="block text-blue-200/60 hover:text-white">Leaderboard</a>
+                    <a href="#" onclick="showPage('leaderboard')" class="block text-blue-200/60 hover:text-white">Leaderboard</a>
                 </div>
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Legal</p>
@@ -407,62 +444,65 @@
                 </div>
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Status</p>
-                    <div class="flex items-center text-blue-200/60">
+                    <div class="flex items-center justify-center md:justify-start text-blue-200/60">
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                         System Online
                     </div>
-                    <p class="text-xs opacity-40">v1.2.4-stable</p>
+                    <p class="text-xs opacity-40">v1.2.5-stable</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Modals -->
-    <div id="login-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
-        <div class="glass p-8 w-full max-w-md space-y-6 relative">
+    <div id="login-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
+        <div class="glass p-6 md:p-8 w-full max-w-md space-y-6 relative">
             <button onclick="hideModal('login-modal')" class="absolute top-4 right-4 text-blue-200/60 hover:text-white"><i class="fas fa-times"></i></button>
             <h2 class="text-2xl font-bold">Login to DTC</h2>
             <form id="login-form" class="space-y-4">
                 <input type="email" id="login-email" placeholder="Email Address" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
                 <input type="password" id="login-password" placeholder="Password" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
-                <button type="submit" class="w-full btn-gold py-3 rounded-xl font-bold">Authorize Entry</button>
+                <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Authorize Entry</button>
             </form>
         </div>
     </div>
 
-    <div id="register-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
-        <div class="glass p-8 w-full max-w-md space-y-6 relative">
+    <div id="register-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
+        <div class="glass p-6 md:p-8 w-full max-w-md space-y-6 relative">
             <button onclick="hideModal('register-modal')" class="absolute top-4 right-4 text-blue-200/60 hover:text-white"><i class="fas fa-times"></i></button>
             <h2 class="text-2xl font-bold">Create Account</h2>
             <form id="register-form" class="space-y-4">
                 <input type="text" id="reg-name" placeholder="Username" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
                 <input type="email" id="reg-email" placeholder="Email Address" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
                 <select id="reg-role" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
-                    <option value="user">Contributor (I have data)</option>
-                    <option value="company">AI Company (I need data)</option>
+                    <option value="user">Contributor</option>
+                    <option value="company">AI Company</option>
                 </select>
                 <input type="password" id="reg-password" placeholder="Password" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
-                <button type="submit" class="w-full btn-gold py-3 rounded-xl font-bold">Join Network</button>
+                <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Join Network</button>
             </form>
         </div>
     </div>
 
-    <!-- Alert System -->
-    <div id="notification-area" class="fixed bottom-6 right-6 z-[200] flex flex-col space-y-2"></div>
+    <div id="notification-area" class="fixed bottom-6 right-6 z-[300] flex flex-col space-y-2"></div>
 
     <script>
-        // API Configuration
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
         let user = null;
 
-        // Routing & State Management
+        function toggleMobileMenu(show) {
+            const menu = document.getElementById('mobile-menu');
+            if(show) menu.classList.add('active');
+            else menu.classList.remove('active');
+        }
+
         function showPage(pageId) {
+            toggleMobileMenu(false);
             document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
             const target = document.getElementById(`page-${pageId}`);
             if(target) target.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Refresh data based on page
             if(pageId === 'home') fetchEconomyStats();
             if(pageId === 'marketplace') fetchMarketplace();
             if(pageId === 'leaderboard') fetchLeaderboards();
@@ -476,16 +516,19 @@
             const area = document.getElementById('notification-area');
             const alert = document.createElement('div');
             const bg = type === 'error' ? 'bg-red-900/80 border-red-500' : (type === 'success' ? 'bg-green-900/80 border-green-500' : 'bg-blue-900/80 border-blue-500');
-            alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[300px] animate-bounce-in`;
+            alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[280px] md:min-w-[300px] animate-bounce-in`;
+            
+            // Critical fix for [object Object] - ensure msg is a string
+            const safeMsg = (typeof msg === 'object' && msg !== null) ? (msg.message || msg.detail || JSON.stringify(msg)) : msg;
+            
             alert.innerHTML = `
                 <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-                <span class="flex-1">${msg}</span>
+                <span class="flex-1">${safeMsg}</span>
             `;
             area.appendChild(alert);
             setTimeout(() => alert.remove(), 4000);
         }
 
-        // Authentication Logic
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
             const headers = {};
@@ -503,7 +546,7 @@
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
                 const data = await response.json();
                 console.log(`API RESPONSE [${endpoint}]:`, data);
-                if (!response.ok) throw new Error(data.detail || 'API Error');
+                if (!response.ok) throw new Error(data.detail || data.message || 'API Error');
                 return data;
             } catch (err) {
                 console.error(`API Error [${endpoint}]:`, err);
@@ -523,7 +566,7 @@
                 await initApp();
                 notify('Authenticated successfully!', 'success');
             } else {
-                notify('Authentication failed. Please check your credentials.', 'error');
+                notify('Authentication failed. Check credentials.', 'error');
             }
         }
 
@@ -540,13 +583,17 @@
                 if (userData) {
                     user = userData;
                     document.getElementById('auth-buttons').classList.add('hidden');
+                    document.getElementById('mobile-auth-section').classList.add('hidden');
                     document.getElementById('user-profile-nav').classList.remove('hidden');
+                    document.getElementById('mobile-user-section').classList.remove('hidden');
                     
                     const displayName = user.username || user.email || 'User';
                     document.getElementById('nav-username').innerText = displayName;
+                    document.getElementById('mobile-username').innerText = displayName;
                     document.getElementById('dash-username').innerText = displayName;
                     document.getElementById('dash-role').innerText = user.is_company ? 'Company' : 'Contributor';
                     document.getElementById('user-avatar').innerText = displayName[0].toUpperCase();
+                    document.getElementById('mobile-avatar').innerText = displayName[0].toUpperCase();
                     
                     if(user.is_company) {
                         document.getElementById('role-company-section').classList.remove('hidden');
@@ -563,10 +610,8 @@
             if(user) await fetchDashboardData();
         }
 
-        // Data Fetching Functions
         async function fetchEconomyStats() {
             const stats = await apiCall('/economy/stats');
-            console.log("ECONOMY STATS:", stats);
             if (stats) {
                 document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
                 document.getElementById('stat-tokens').innerText = (stats.tokens_distributed || 0).toLocaleString();
@@ -581,12 +626,11 @@
             const datasets = await apiCall('/marketplace/datasets');
             const aiRecs = await apiCall('/recommendations/ai');
 
-            // Render AI Recommendations
             const recArea = document.getElementById('ai-recommendations');
             if(aiRecs && Array.isArray(aiRecs)) {
                 recArea.innerHTML = aiRecs.map(rec => `
                     <div class="p-3 bg-white/5 rounded-lg border border-yellow-400/20 hover:border-yellow-400 transition cursor-pointer">
-                        <p class="font-bold">${rec.title}</p>
+                        <p class="font-bold">${rec.title || 'Recommended'}</p>
                         <p class="text-xs opacity-60">Match: ${rec.match_score || 0}%</p>
                     </div>
                 `).join('');
@@ -595,11 +639,10 @@
             }
 
             const list = datasets?.datasets || datasets;
-
             if (list && list.length > 0) {
                 grid.innerHTML = list.map(ds => createDatasetCard(ds)).join('');
             } else {
-                grid.innerHTML = '<p class="col-span-full text-center opacity-40 py-20">No datasets found in the marketplace</p>';
+                grid.innerHTML = '<p class="col-span-full text-center opacity-40 py-20">Marketplace is currently empty.</p>';
             }
         }
 
@@ -614,12 +657,12 @@
                             <span class="text-xs font-bold">${quality}% Quality</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold group-hover:text-yellow-400 transition">${ds.title}</h3>
-                    <p class="text-sm text-blue-200/60 flex-1">${ds.description || ds.desc || 'No description provided.'}</p>
+                    <h3 class="text-xl font-bold group-hover:text-yellow-400 transition">${ds.title || 'Untitled'}</h3>
+                    <p class="text-sm text-blue-200/60 flex-1 line-clamp-3">${ds.description || ds.desc || 'No description provided.'}</p>
                     <div class="flex items-center justify-between pt-4 border-t border-white/5">
                         <div>
                             <p class="text-[10px] text-blue-200/40 uppercase font-bold">Price</p>
-                            <p class="text-lg font-bold">${ds.price} <span class="text-xs font-normal">DTC</span></p>
+                            <p class="text-lg font-bold">${ds.price || 0} <span class="text-xs font-normal">DTC</span></p>
                             <p class="text-[10px] opacity-40">${ds.record_count || 0} records</p>
                         </div>
                         <button onclick="purchaseDataset('${ds.id || ds._id}')" class="btn-gold px-4 py-2 rounded-lg text-sm">Buy Data</button>
@@ -642,9 +685,9 @@
                         <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                             <div class="flex items-center space-x-3">
                                 <span class="text-yellow-400 font-bold w-4">#${i+1}</span>
-                                <div>
-                                    <p class="font-bold text-sm">${item.username || item.title || item.name || 'Unknown'}</p>
-                                    <p class="text-[10px] opacity-40">${item.category || ''}</p>
+                                <div class="max-w-[120px]">
+                                    <p class="font-bold text-sm truncate">${item.username || item.title || item.name || 'Unknown'}</p>
+                                    <p class="text-[10px] opacity-40 truncate">${item.category || ''}</p>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -664,7 +707,6 @@
 
         async function fetchDashboardData() {
             if(!user) return;
-            
             const wallet = await apiCall('/users/wallet');
             const history = user.is_company ? await apiCall('/purchase/my') : await apiCall('/users/datasets');
 
@@ -677,7 +719,7 @@
                 table.innerHTML = (history && history.length > 0) ? history.map(ds => `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-4">
-                            <div class="font-bold text-sm">${ds.title}</div>
+                            <div class="font-bold text-sm">${ds.title || 'Untitled'}</div>
                             <div class="text-[10px] opacity-40">${ds.record_count || 0} records</div>
                         </td>
                         <td class="py-4">
@@ -691,7 +733,7 @@
                         <td class="py-4 font-mono text-yellow-400">${(ds.earnings || 0).toFixed(2)} DTC</td>
                         <td class="py-4"><span class="px-2 py-1 bg-green-900/40 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span></td>
                     </tr>
-                `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40">No datasets yet</td></tr>';
+                `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40">No contributions yet</td></tr>';
             } else {
                 const table = document.getElementById('company-purchases-table');
                 table.innerHTML = (history && history.length > 0) ? history.map(p => `
@@ -702,23 +744,22 @@
                         </td>
                         <td class="py-4 text-xs opacity-60">${p.date ? new Date(p.date).toLocaleDateString() : 'N/A'}</td>
                         <td class="py-4 font-mono text-yellow-400">${(p.price || 0).toFixed(2)} DTC</td>
-                        <td class="py-4"><button class="text-blue-400 hover:underline text-xs">Download JSON</button></td>
+                        <td class="py-4"><button class="text-blue-400 hover:underline text-xs">Download</button></td>
                     </tr>
                 `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40">No purchases yet</td></tr>';
             }
         }
 
-        // Actions
         async function purchaseDataset(id) {
             if(!user) return showModal('login-modal');
             const res = await apiCall(`/purchase/${id}`, 'POST');
             if(res) {
-                notify('Purchase successful! Dataset added to inventory.', 'success');
+                notify('Purchase successful!', 'success');
                 await fetchDashboardData();
                 await fetchMarketplace();
                 await fetchEconomyStats();
             } else {
-                notify('Purchase failed. Check your balance.', 'error');
+                notify('Purchase failed. Check balance.', 'error');
             }
         }
 
@@ -727,12 +768,11 @@
             if(!amount) return;
             const res = await apiCall('/payments/request', 'POST', { amount: parseFloat(amount) });
             if(res) {
-                notify('Payment request initiated. Tokens will arrive shortly.', 'success');
+                notify('Liquidity request initiated!', 'success');
                 setTimeout(fetchDashboardData, 2000);
             }
         }
 
-        // Upload Form Handler using FormData
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const token = localStorage.getItem("token");
@@ -744,23 +784,18 @@
             try {
                 const res = await fetch(`${API_BASE}/datasets/upload`, {
                     method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                     body: formData
                 });
-
                 const data = await res.json();
-                console.log("UPLOAD RESPONSE:", data);
-
                 if(res.ok){
-                    notify("Dataset uploaded successfully!", "success");
+                    notify(data.message || "Upload success!", "success");
                     e.target.reset();
                     await fetchDashboardData();
                     await fetchMarketplace();
                     await fetchEconomyStats();
                 } else {
-                    throw new Error(data.detail || "Upload failed");
+                    throw new Error(data.detail || data.message || "Upload failed");
                 }
             } catch (err) {
                 notify(err.message, "error");
@@ -778,13 +813,12 @@
             };
             const res = await apiCall('/auth/register', 'POST', payload);
             if(res) {
-                notify('Account created! Please login.', 'success');
+                notify('Account created! Login to continue.', 'success');
                 hideModal('register-modal');
                 showModal('login-modal');
             }
         });
 
-        // Initialize on load
         window.onload = initApp;
     </script>
 </body>
