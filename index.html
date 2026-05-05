@@ -64,6 +64,11 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 215, 0, 0.1);
             border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
         }
 
         .gold-glow {
@@ -74,7 +79,7 @@
             background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
             color: #0A192F;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .btn-gold:hover:not(:disabled) {
@@ -82,9 +87,21 @@
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
 
+        .btn-gold:active {
+            transform: scale(0.96);
+        }
+
         .btn-gold:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+        }
+
+        button {
+            transition: all 0.2s ease;
+        }
+
+        button:active {
+            transform: scale(0.96);
         }
 
         .nav-link {
@@ -215,37 +232,57 @@
         
         <!-- Page: Home -->
         <section id="page-home" class="tab-content active space-y-16 md:space-y-24">
-            <!-- Hero -->
-            <div class="text-center space-y-6 md:space-y-8 pt-6 md:pt-10">
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-                    Next-Gen <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Data Liquidity</span>
+            <!-- Startup-Grade Hero -->
+            <div class="text-center space-y-8 pt-10">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-400/10 border border-yellow-400/20 rounded-full text-xs text-yellow-400 font-bold">
+                    <span>🚀 Live on Cloud Run</span>
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                    Own Your Data.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                        Earn From It.
+                    </span>
                 </h1>
-                <p class="text-lg md:text-xl text-blue-100/70 max-w-2xl mx-auto leading-relaxed">
-                    Turn your daily digital footprint into DTC tokens. Power the next generation of AI with ethical, verified data streams.
+
+                <p class="text-lg text-blue-200/70 max-w-xl mx-auto">
+                    The first decentralized data marketplace where individuals earn tokens
+                    and companies access ethical AI datasets.
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4 px-4 sm:px-0">
-                    <button onclick="showModal('register-modal')" class="btn-gold px-10 py-4 rounded-2xl text-lg font-bold flex items-center justify-center">
-                        <i class="fas fa-coins mr-2"></i> Start Earning
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="showModal('register-modal')" class="btn-gold px-10 py-4 rounded-xl text-lg font-bold">
+                        🚀 Start Earning
                     </button>
-                    <button onclick="showPage('marketplace')" class="glass px-10 py-4 rounded-2xl text-lg font-bold hover:bg-white/10 transition">
-                        Explore Marketplace
+
+                    <button onclick="showPage('marketplace')" class="glass px-10 py-4 rounded-xl text-lg font-bold">
+                        🔍 Explore Data
                     </button>
                 </div>
+            </div>
+
+            <!-- Trust Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm opacity-80">
+                <div>🔐 Secure Firebase Auth</div>
+                <div>⚡ Real-time Marketplace</div>
+                <div>🌍 Global Data Economy</div>
+                <div>🤖 AI-Ready Datasets</div>
             </div>
 
             <!-- Stats -->
             <div id="economy-stats" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 <div class="glass p-6 md:p-8 text-center gold-glow">
-                    <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Total Datasets</p>
-                    <h3 id="stat-datasets" class="text-3xl md:text-4xl font-bold">0</h3>
+                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Total Datasets</p>
+                    <h3 id="stat-datasets" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
                 </div>
                 <div class="glass p-6 md:p-8 text-center gold-glow">
-                    <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Circulating Supply</p>
+                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Circulating Supply</p>
                     <h3 id="stat-tokens" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
                 </div>
                 <div class="glass p-6 md:p-8 text-center gold-glow sm:col-span-2 md:col-span-1">
-                    <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Active Users</p>
-                    <h3 id="stat-users" class="text-3xl md:text-4xl font-bold">0</h3>
+                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Active Users</p>
+                    <h3 id="stat-users" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
                 </div>
             </div>
 
@@ -256,24 +293,24 @@
                     <p class="text-blue-200/60">Export and upload to earn instantly</p>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
-                        <i class="fab fa-google text-3xl mb-4 group-hover:text-yellow-400"></i>
+                    <div class="glass p-6 text-center group cursor-pointer">
+                        <i class="fab fa-google text-3xl mb-4 group-hover:text-yellow-400 transition"></i>
                         <p class="font-bold text-sm">Google Takeout</p>
                     </div>
-                    <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
-                        <i class="fas fa-heartbeat text-3xl mb-4 group-hover:text-yellow-400"></i>
+                    <div class="glass p-6 text-center group cursor-pointer">
+                        <i class="fas fa-heartbeat text-3xl mb-4 group-hover:text-yellow-400 transition"></i>
                         <p class="font-bold text-sm">Fitness Apps</p>
                     </div>
-                    <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
-                        <i class="fas fa-shopping-cart text-3xl mb-4 group-hover:text-yellow-400"></i>
+                    <div class="glass p-6 text-center group cursor-pointer">
+                        <i class="fas fa-shopping-cart text-3xl mb-4 group-hover:text-yellow-400 transition"></i>
                         <p class="font-bold text-sm">E-commerce</p>
                     </div>
-                    <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
-                        <i class="fab fa-twitter text-3xl mb-4 group-hover:text-yellow-400"></i>
+                    <div class="glass p-6 text-center group cursor-pointer">
+                        <i class="fab fa-twitter text-3xl mb-4 group-hover:text-yellow-400 transition"></i>
                         <p class="font-bold text-sm">Social Media</p>
                     </div>
-                    <div class="glass p-6 text-center hover:scale-105 transition cursor-pointer group">
-                        <i class="fas fa-university text-3xl mb-4 group-hover:text-yellow-400"></i>
+                    <div class="glass p-6 text-center group cursor-pointer">
+                        <i class="fas fa-university text-3xl mb-4 group-hover:text-yellow-400 transition"></i>
                         <p class="font-bold text-sm">Finance</p>
                     </div>
                 </div>
@@ -348,13 +385,28 @@
                     <p class="text-blue-200/60">Your <span id="dash-role" class="text-yellow-400 font-bold uppercase tracking-wider">Contributor</span> Portal</p>
                 </div>
                 <div class="flex flex-col space-y-4 w-full md:w-auto">
-                    <div class="glass px-6 py-4 flex items-center justify-between md:justify-start space-x-4">
-                        <span class="text-blue-200/60 text-sm">Wallet Balance</span>
-                        <div class="flex flex-col items-end">
-                            <span id="dash-balance" class="text-xl md:text-2xl font-bold text-yellow-400">0.00 DTC</span>
-                            <span class="text-xs text-blue-200/40">Withdraw coming soon</span>
+                    <div class="glass px-6 py-4 flex flex-col items-center justify-between md:justify-start space-y-4">
+                        <div class="flex items-center justify-between w-full space-x-4">
+                            <span class="text-blue-200/60 text-sm">Wallet Balance</span>
+                            <div class="flex flex-col items-end">
+                                <span id="dash-balance" class="text-xl md:text-2xl font-bold text-yellow-400">0.00 DTC</span>
+                                <span class="text-xs text-blue-200/40">Withdraw coming soon</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Premium Summary Grid -->
+                        <div class="grid grid-cols-2 gap-4 w-full">
+                            <div class="glass p-4 text-center bg-white/5">
+                                <p class="text-xs opacity-50">Datasets</p>
+                                <h3 id="dash-datasets-count" class="font-bold text-lg">0</h3>
+                            </div>
+                            <div class="glass p-4 text-center bg-white/5">
+                                <p class="text-xs opacity-50">Earned</p>
+                                <h3 id="dash-total-earned" class="font-bold text-lg text-yellow-400">0 DTC</h3>
+                            </div>
                         </div>
                     </div>
+                    
                     <!-- Referral Info Card -->
                     <div class="glass p-6 space-y-4">
                         <div class="flex flex-col sm:flex-row gap-6">
@@ -368,14 +420,15 @@
                             </div>
                         </div>
                         
-                        <!-- Referral Link UI -->
-                        <div class="pt-4 border-t border-white/5 space-y-3">
-                            <p class="text-sm text-blue-200/60 font-semibold">Your Referral Link</p>
-                            <div class="flex items-center space-x-2">
-                                <input id="ref-link" readonly class="flex-1 bg-white/5 p-2 rounded text-xs outline-none border border-yellow-400/20">
-                                <button onclick="copyReferral()" class="btn-gold px-4 py-2 rounded text-xs font-bold">Copy</button>
+                        <!-- Referral Link UI - Premium Style -->
+                        <div class="bg-black/30 p-4 rounded-xl border border-yellow-400/20">
+                            <p class="text-xs mb-2">Invite & Earn</p>
+                            <div class="flex items-center">
+                                <input id="ref-link" readonly class="flex-1 bg-transparent text-xs outline-none border-none p-0 text-blue-100/70 truncate mr-2">
+                                <button onclick="copyReferral()" class="text-yellow-400 text-sm font-bold whitespace-nowrap hover:scale-105 transition">
+                                    Copy
+                                </button>
                             </div>
-                            <p class="text-[10px] text-blue-200/40">Earn tokens when others join using your link</p>
                         </div>
                     </div>
                 </div>
@@ -406,7 +459,7 @@
                         </div>
                         <div>
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">DATA FILE (.JSON, .CSV)</label>
-                            <input type="file" id="up-file" accept=".csv, .json" class="w-full text-sm text-blue-200/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-400 file:text-blue-900 hover:file:bg-yellow-300">
+                            <input type="file" id="up-file" accept=".csv, .json" class="w-full text-sm text-blue-200/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-400 file:text-blue-900 hover:file:bg-yellow-300 transition">
                         </div>
                         <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Initialize Minting</button>
                     </form>
@@ -473,14 +526,14 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-sm">
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Platform</p>
-                    <a href="#" onclick="showPage('marketplace')" class="block text-blue-200/60 hover:text-white">Marketplace</a>
-                    <a href="#" class="block text-blue-200/60 hover:text-white">API Docs</a>
-                    <a href="#" onclick="showPage('leaderboard')" class="block text-blue-200/60 hover:text-white">Leaderboard</a>
+                    <a href="#" onclick="showPage('marketplace')" class="block text-blue-200/60 hover:text-white transition">Marketplace</a>
+                    <a href="#" class="block text-blue-200/60 hover:text-white transition">API Docs</a>
+                    <a href="#" onclick="showPage('leaderboard')" class="block text-blue-200/60 hover:text-white transition">Leaderboard</a>
                 </div>
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Legal</p>
-                    <a href="#" class="block text-blue-200/60 hover:text-white">Privacy Policy</a>
-                    <a href="#" class="block text-blue-200/60 hover:text-white">Terms of Use</a>
+                    <a href="#" class="block text-blue-200/60 hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="block text-blue-200/60 hover:text-white transition">Terms of Use</a>
                 </div>
                 <div class="space-y-2">
                     <p class="font-bold text-yellow-400">Status</p>
@@ -488,7 +541,7 @@
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                         System Online
                     </div>
-                    <p class="text-xs opacity-40">v1.2.7-stable</p>
+                    <p class="text-xs opacity-40">v1.2.8-stable</p>
                 </div>
             </div>
         </div>
@@ -566,11 +619,10 @@
 
         /**
          * Enhanced Notify Function
-         * Bulletproof handling of string and object messages to prevent [object Object] errors.
+         * Bulletproof assignment using innerText for safer rendering.
          */
         function notify(msg, type = 'info') {
             const area = document.getElementById('notification-area');
-            // Clear area to prevent multiple stacked boxes
             area.innerHTML = ""; 
 
             const alert = document.createElement('div');
@@ -580,24 +632,17 @@
             
             alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[280px] md:min-w-[300px] animate-bounce-in`;
             
-            // Bulletproof safe message extraction logic
-            let safeMsg = "Something went wrong";
-            if (typeof msg === "string") {
-                safeMsg = msg;
-            } else if (typeof msg === "object" && msg !== null) {
-                safeMsg = 
-                    msg?.detail?.message || 
-                    msg?.detail || 
-                    msg?.message || 
-                    msg?.error?.message || 
-                    msg?.error || 
-                    JSON.stringify(msg);
-            }
+            const safeMsg =
+                typeof msg === "object" && msg !== null
+                    ? msg?.detail?.message || msg?.detail || msg?.message || msg?.error?.message || msg?.error || JSON.stringify(msg)
+                    : msg;
             
             alert.innerHTML = `
                 <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-                <span class="flex-1">${safeMsg}</span>
+                <span class="flex-1"></span>
             `;
+            alert.querySelector("span").innerText = safeMsg; // Safe assignment
+            
             area.appendChild(alert);
             setTimeout(() => {
                 if (alert.parentNode === area) alert.remove();
@@ -620,10 +665,6 @@
             }
         }
 
-        /**
-         * Global API Call Handler
-         * Improved error handling to extract message/detail from response including nested properties.
-         */
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
             const headers = {};
@@ -641,7 +682,6 @@
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
                 const data = await response.json();
                 
-                // Enhanced check for response success including nested detail properties
                 if (!response.ok) {
                     throw new Error(
                         data?.detail?.message || 
@@ -655,7 +695,6 @@
                 return data;
             } catch (err) {
                 console.error(`API Error [${endpoint}]:`, err);
-                // Extract error message properly for toast notification
                 notify(err.message || "Something went wrong", "error");
                 return null;
             }
@@ -727,9 +766,6 @@
                 }
             }
             
-            // Production Debug Logs
-            console.log("USER DATA:", user);
-            
             await Promise.all([
                 fetchEconomyStats(),
                 fetchMarketplace(),
@@ -750,7 +786,15 @@
 
         async function fetchMarketplace() {
             const grid = document.getElementById('marketplace-grid');
-            grid.innerHTML = '<div class="col-span-full flex justify-center py-20"><div class="loader"></div></div>';
+            
+            // Startup Skeleton State
+            grid.innerHTML = `
+                <div class="col-span-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    ${Array(6).fill().map(() => `
+                        <div class="glass h-48 animate-pulse bg-white/5 border border-white/10 rounded-2xl"></div>
+                    `).join("")}
+                </div>
+            `;
             
             const datasets = await apiCall('/marketplace/datasets');
             const aiRecs = await apiCall('/recommendations/ai');
@@ -784,26 +828,34 @@
             }
         }
 
+        /**
+         * Web3 Card Style Render
+         */
         function createDatasetCard(ds) {
-            const quality = ((ds.quality_score || ds.ai_training_score || 0) * 100).toFixed(0);
             return `
-                <div class="glass p-6 flex flex-col space-y-4 hover:border-yellow-400/50 transition duration-500 group">
-                    <div class="flex justify-between items-start">
-                        <span class="text-[10px] uppercase tracking-widest font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">${ds.category || 'Data'}</span>
-                        <div class="flex space-x-1">
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <span class="text-xs font-bold">${quality}% Quality</span>
-                        </div>
+                <div class="glass p-5 rounded-2xl hover:border-yellow-400 transition group relative flex flex-col">
+                    <div class="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-widest bg-yellow-400/10 px-2 py-1 rounded text-yellow-400">
+                        ${ds.category || 'Data'}
                     </div>
-                    <h3 class="text-xl font-bold group-hover:text-yellow-400 transition">${ds.title || 'Untitled'}</h3>
-                    <p class="text-sm text-blue-200/60 flex-1 line-clamp-3">${ds.description || ds.desc || 'No description provided.'}</p>
-                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+
+                    <h3 class="text-lg font-bold mt-4 group-hover:text-yellow-400 transition">
+                        ${ds.title || 'Untitled'}
+                    </h3>
+
+                    <p class="text-xs opacity-60 mt-2 line-clamp-2">
+                        ${ds.description || ds.desc || 'No description provided.'}
+                    </p>
+
+                    <div class="flex justify-between items-end mt-auto pt-6">
                         <div>
-                            <p class="text-[10px] text-blue-200/40 uppercase font-bold">Price</p>
-                            <p class="text-lg font-bold">${ds.price || 0} <span class="text-xs font-normal">DTC</span></p>
-                            <p class="text-[10px] opacity-40">${ds.record_count || 0} records</p>
+                            <p class="text-yellow-400 font-bold text-lg">${ds.price || 0} DTC</p>
+                            <p class="text-[10px] opacity-40 uppercase tracking-tight">${ds.record_count || 0} verified records</p>
                         </div>
-                        <button onclick="purchaseDataset('${ds.id}')" class="btn-gold px-4 py-2 rounded-lg text-sm">Buy Data</button>
+
+                        <button onclick="purchaseDataset('${ds.id}')"
+                            class="px-5 py-2 bg-yellow-400 text-blue-900 rounded-xl text-sm font-bold hover:scale-105 transition active:scale-95 shadow-lg">
+                            Buy
+                        </button>
                     </div>
                 </div>
             `;
@@ -853,11 +905,14 @@
             const history = user.is_company ? await apiCall('/purchase/my') : await apiCall('/users/datasets');
 
             if(wallet) {
-                document.getElementById('dash-balance').innerText = `${(wallet.token_balance || wallet.balance || 0).toFixed(2)} DTC`;
+                const balance = (wallet.token_balance || wallet.balance || 0);
+                document.getElementById('dash-balance').innerText = `${balance.toFixed(2)} DTC`;
+                document.getElementById('dash-total-earned').innerText = `${balance.toFixed(2)} DTC`;
             }
 
             if(!user.is_company) {
                 const table = document.getElementById('user-datasets-table');
+                document.getElementById('dash-datasets-count').innerText = history ? history.length : 0;
                 table.innerHTML = (history && history.length > 0) ? history.map(ds => `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-4">
@@ -885,6 +940,7 @@
                 `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40">🚀 Upload your first dataset and start earning DTC!</td></tr>';
             } else {
                 const table = document.getElementById('company-purchases-table');
+                document.getElementById('dash-datasets-count').innerText = history ? history.length : 0;
                 table.innerHTML = (history && history.length > 0) ? history.map(p => `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-4">
@@ -927,10 +983,6 @@
             }
         }
 
-        /**
-         * Upload Dataset Function
-         * Hardened with detailed error message parsing for validation arrays.
-         */
         async function uploadDataset(e) {
             e.preventDefault();
 
@@ -939,9 +991,6 @@
             const category = document.getElementById("up-category").value;
             const file = document.getElementById("up-file").files[0];
 
-            console.log("Uploading:", { title, description, category, file });
-
-            // STRICT VALIDATION
             if (!title || !description.trim() || !category || !file) {
                 notify("Description and all fields are required!", "error");
                 return;
@@ -977,7 +1026,6 @@
                     notify(data.message || "Dataset uploaded successfully!", "success");
                     e.target.reset();
                 } else {
-                    // Specific logic for handling FastAPI validation error arrays
                     let errorMsg = "Upload failed";
                     if (Array.isArray(data.detail)) {
                         errorMsg = data.detail.map(err => err.msg).join(", ");
