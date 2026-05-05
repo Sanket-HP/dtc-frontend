@@ -122,7 +122,7 @@
 
         /* Dropdown fix */
         option {
-            background-color: #1e3a8a;
+            background-color: #0A192F;
             color: white;
         }
 
@@ -235,7 +235,7 @@
                     <h3 id="stat-datasets" class="text-3xl md:text-4xl font-bold">0</h3>
                 </div>
                 <div class="glass p-6 md:p-8 text-center gold-glow">
-                    <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Tokens Distributed</p>
+                    <p class="text-blue-200/60 uppercase text-xs font-bold tracking-widest mb-2">Circulating Supply</p>
                     <h3 id="stat-tokens" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
                 </div>
                 <div class="glass p-6 md:p-8 text-center gold-glow sm:col-span-2 md:col-span-1">
@@ -314,18 +314,23 @@
                 <p class="text-blue-200/60">Top contributors shaping the future of AI</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-users text-yellow-400 mr-2"></i> Contributors</h3>
+                    <h3 class="text-lg font-bold mb-6 flex items-center"><i class="fas fa-users text-yellow-400 mr-2"></i> Contributors</h3>
                     <div id="lb-contributors" class="space-y-4"></div>
                 </div>
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-database text-yellow-400 mr-2"></i> Hot Datasets</h3>
+                    <h3 class="text-lg font-bold mb-6 flex items-center"><i class="fas fa-database text-yellow-400 mr-2"></i> Most Valued</h3>
                     <div id="lb-datasets" class="space-y-4"></div>
                 </div>
                 <div class="glass p-6">
-                    <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-building text-yellow-400 mr-2"></i> Top Buyers</h3>
+                    <h3 class="text-lg font-bold mb-6 flex items-center"><i class="fas fa-building text-yellow-400 mr-2"></i> Top Buyers</h3>
                     <div id="lb-buyers" class="space-y-4"></div>
+                </div>
+                <!-- Referral Leaderboard -->
+                <div class="glass p-6">
+                    <h3 class="text-lg font-bold mb-6 flex items-center"><i class="fas fa-bullhorn text-yellow-400 mr-2"></i> Top Referrers</h3>
+                    <div id="lb-referrals" class="space-y-4"></div>
                 </div>
             </div>
         </section>
@@ -337,10 +342,36 @@
                     <h2 class="text-3xl md:text-4xl font-bold">Welcome back, <span id="dash-username">User</span></h2>
                     <p class="text-blue-200/60">Your <span id="dash-role" class="text-yellow-400 font-bold uppercase tracking-wider">Contributor</span> Portal</p>
                 </div>
-                <div class="w-full md:w-auto">
+                <div class="flex flex-col space-y-4 w-full md:w-auto">
                     <div class="glass px-6 py-4 flex items-center justify-between md:justify-start space-x-4">
                         <span class="text-blue-200/60 text-sm">Wallet Balance</span>
-                        <span id="dash-balance" class="text-xl md:text-2xl font-bold text-yellow-400">0.00 DTC</span>
+                        <div class="flex flex-col items-end">
+                            <span id="dash-balance" class="text-xl md:text-2xl font-bold text-yellow-400">0.00 DTC</span>
+                            <span class="text-xs text-blue-200/40">Withdraw coming soon</span>
+                        </div>
+                    </div>
+                    <!-- Referral Info Card -->
+                    <div class="glass p-6 space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="flex-1">
+                                <p class="text-xs text-blue-200/60 uppercase font-bold tracking-widest mb-1">Your Referral Code</p>
+                                <h3 id="dash-ref-code" class="text-lg font-bold text-yellow-400">N/A</h3>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-blue-200/60 uppercase font-bold tracking-widest mb-1">Referral Earnings</p>
+                                <h3 id="dash-ref-earnings" class="text-lg font-bold text-white">0.00 DTC</h3>
+                            </div>
+                        </div>
+                        
+                        <!-- Referral Link UI -->
+                        <div class="pt-4 border-t border-white/5 space-y-3">
+                            <p class="text-sm text-blue-200/60 font-semibold">Your Referral Link</p>
+                            <div class="flex items-center space-x-2">
+                                <input id="ref-link" readonly class="flex-1 bg-white/5 p-2 rounded text-xs outline-none border border-yellow-400/20">
+                                <button onclick="copyReferral()" class="btn-gold px-4 py-2 rounded text-xs font-bold">Copy</button>
+                            </div>
+                            <p class="text-[10px] text-blue-200/40">Earn tokens when others join using your link</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -352,21 +383,25 @@
                     <form id="upload-form" class="space-y-4">
                         <div>
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">DATASET TITLE</label>
-                            <input type="text" id="up-title" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
+                            <input type="text" id="up-title" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400" placeholder="e.g. My Amazon History">
                         </div>
                         <div>
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">CATEGORY</label>
-                            <select id="up-category" class="w-full p-3 rounded-lg bg-blue-900 text-white border border-yellow-400/30 outline-none focus:ring-2 focus:ring-yellow-400 transition">
-                                <option value="retail" class="bg-blue-900">Retail/E-commerce</option>
-                                <option value="health" class="bg-blue-900">Health & Wellness</option>
-                                <option value="finance" class="bg-blue-900">Finance</option>
-                                <option value="social" class="bg-blue-900">Social Interaction</option>
-                                <option value="ai" class="bg-blue-900">Artificial Intelligence</option>
+                            <select id="up-category" class="w-full p-3 rounded-lg bg-[#0A192F] text-white border border-yellow-400/40 outline-none focus:ring-2 focus:ring-yellow-400 transition">
+                                <option value="retail" class="bg-[#0A192F]">Retail/E-commerce</option>
+                                <option value="health" class="bg-[#0A192F]">Health & Wellness</option>
+                                <option value="finance" class="bg-[#0A192F]">Finance</option>
+                                <option value="social" class="bg-[#0A192F]">Social Interaction</option>
+                                <option value="ai" class="bg-[#0A192F]">Artificial Intelligence</option>
                             </select>
                         </div>
                         <div>
                             <label class="text-xs font-bold text-blue-200/60 block mb-1">DESCRIPTION</label>
-                            <textarea id="up-desc" rows="3" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400"></textarea>
+                            <textarea id="up-desc" required rows="3" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400" placeholder="Describe what data is included..."></textarea>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-blue-200/60 block mb-1">DATA FILE (.JSON, .CSV)</label>
+                            <input type="file" id="up-file" class="w-full text-sm text-blue-200/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-400 file:text-blue-900 hover:file:bg-yellow-300">
                         </div>
                         <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Initialize Minting</button>
                     </form>
@@ -380,7 +415,7 @@
                                     <th class="pb-4">DATASET</th>
                                     <th class="pb-4">QUALITY</th>
                                     <th class="pb-4">EARNINGS</th>
-                                    <th class="pb-4">STATUS</th>
+                                    <th class="pb-4">ACTIONS</th>
                                 </tr>
                             </thead>
                             <tbody id="user-datasets-table"></tbody>
@@ -448,7 +483,7 @@
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                         System Online
                     </div>
-                    <p class="text-xs opacity-40">v1.2.5-stable</p>
+                    <p class="text-xs opacity-40">v1.2.6-stable</p>
                 </div>
             </div>
         </div>
@@ -478,6 +513,9 @@
                     <option value="user">Contributor</option>
                     <option value="company">AI Company</option>
                 </select>
+                <!-- Referral Input -->
+                <input type="text" id="reg-referral" placeholder="Referral Code (optional)" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
+                
                 <input type="password" id="reg-password" placeholder="Password" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none">
                 <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold">Join Network</button>
             </form>
@@ -489,6 +527,11 @@
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
         let user = null;
+
+        function getReferralFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get("ref");
+        }
 
         function toggleMobileMenu(show) {
             const menu = document.getElementById('mobile-menu');
@@ -518,8 +561,9 @@
             const bg = type === 'error' ? 'bg-red-900/80 border-red-500' : (type === 'success' ? 'bg-green-900/80 border-green-500' : 'bg-blue-900/80 border-blue-500');
             alert.className = `glass ${bg} border p-4 rounded-xl shadow-2xl flex items-center space-x-3 min-w-[280px] md:min-w-[300px] animate-bounce-in`;
             
-            // Critical fix for [object Object] - ensure msg is a string
-            const safeMsg = (typeof msg === 'object' && msg !== null) ? (msg.message || msg.detail || JSON.stringify(msg)) : msg;
+            const safeMsg = typeof msg === 'object'
+              ? msg.detail || msg.message || JSON.stringify(msg)
+              : msg;
             
             alert.innerHTML = `
                 <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
@@ -527,6 +571,13 @@
             `;
             area.appendChild(alert);
             setTimeout(() => alert.remove(), 4000);
+        }
+
+        function copyReferral() {
+            const input = document.getElementById("ref-link");
+            input.select();
+            document.execCommand("copy");
+            notify("Referral link copied!", "success");
         }
 
         async function apiCall(endpoint, method = 'GET', body = null) {
@@ -550,6 +601,7 @@
                 return data;
             } catch (err) {
                 console.error(`API Error [${endpoint}]:`, err);
+                notify(err.message || "Something went wrong", "error");
                 return null;
             }
         }
@@ -577,6 +629,14 @@
         }
 
         async function initApp() {
+            // Auto-detect referral from URL
+            const refFromURL = getReferralFromURL();
+            if(refFromURL){
+                localStorage.setItem("referral_code", refFromURL);
+                const refInput = document.getElementById("reg-referral");
+                if(refInput) refInput.value = refFromURL;
+            }
+
             const token = localStorage.getItem('token');
             if (token) {
                 const userData = await apiCall('/auth/me');
@@ -595,6 +655,16 @@
                     document.getElementById('user-avatar').innerText = displayName[0].toUpperCase();
                     document.getElementById('mobile-avatar').innerText = displayName[0].toUpperCase();
                     
+                    // Populate Referral Info
+                    document.getElementById("dash-ref-code").innerText = user.referral_code || "N/A";
+                    document.getElementById("dash-ref-earnings").innerText = (user.referral_earnings || 0).toFixed(2) + " DTC";
+
+                    // Generate Referral Link
+                    const refCode = user.referral_code || user.username;
+                    const refLink = `${window.location.origin}${window.location.pathname}?ref=${refCode}`;
+                    const refLinkInput = document.getElementById("ref-link");
+                    if(refLinkInput) refLinkInput.value = refLink;
+
                     if(user.is_company) {
                         document.getElementById('role-company-section').classList.remove('hidden');
                         document.getElementById('role-user-section').classList.add('hidden');
@@ -614,7 +684,7 @@
             const stats = await apiCall('/economy/stats');
             if (stats) {
                 document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
-                document.getElementById('stat-tokens').innerText = (stats.tokens_distributed || 0).toLocaleString();
+                document.getElementById('stat-tokens').innerText = (stats.circulating_supply || 0).toLocaleString();
                 document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
             }
         }
@@ -665,17 +735,18 @@
                             <p class="text-lg font-bold">${ds.price || 0} <span class="text-xs font-normal">DTC</span></p>
                             <p class="text-[10px] opacity-40">${ds.record_count || 0} records</p>
                         </div>
-                        <button onclick="purchaseDataset('${ds.id || ds._id}')" class="btn-gold px-4 py-2 rounded-lg text-sm">Buy Data</button>
+                        <button onclick="purchaseDataset('${ds.id}')" class="btn-gold px-4 py-2 rounded-lg text-sm">Buy Data</button>
                     </div>
                 </div>
             `;
         }
 
         async function fetchLeaderboards() {
-            const [contribs, data, value] = await Promise.all([
+            const [contribs, data, value, referrals] = await Promise.all([
                 apiCall('/leaderboard/contributors'),
                 apiCall('/leaderboard/datasets'),
-                apiCall('/leaderboard/value')
+                apiCall('/leaderboard/value'),
+                apiCall('/leaderboard/referrals')
             ]);
 
             const renderLB = (id, items) => {
@@ -691,7 +762,9 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="font-bold text-sm text-yellow-400">${(item.tokens_earned || item.token_balance || item.price || 0).toFixed(2)} DTC</p>
+                                <p class="font-bold text-sm text-yellow-400">
+                                    ${(item.tokens_earned ?? item.token_balance ?? item.referral_earnings ?? item.price ?? item.dataset_value ?? 0).toFixed(2)} DTC
+                                </p>
                             </div>
                         </div>
                     `).join('');
@@ -703,6 +776,7 @@
             renderLB('lb-contributors', contribs);
             renderLB('lb-datasets', data);
             renderLB('lb-buyers', value);
+            renderLB('lb-referrals', referrals);
         }
 
         async function fetchDashboardData() {
@@ -725,13 +799,20 @@
                         <td class="py-4">
                             <div class="flex items-center space-x-2">
                                 <div class="w-16 h-2 bg-white/10 rounded-full overflow-hidden">
-                                    <div class="h-full bg-yellow-400" style="width:${(ds.quality_score || 0) * 100}%"></div>
+                                    <div class="h-full bg-yellow-400" style="width:${((ds.quality_score || ds.ai_training_score || 0) * 100)}%"></div>
                                 </div>
-                                <span class="text-[10px] font-bold">${((ds.quality_score || 0) * 100).toFixed(0)}%</span>
+                                <span class="text-[10px] font-bold">${((ds.quality_score || ds.ai_training_score || 0) * 100).toFixed(0)}%</span>
                             </div>
                         </td>
-                        <td class="py-4 font-mono text-yellow-400">${(ds.earnings || 0).toFixed(2)} DTC</td>
-                        <td class="py-4"><span class="px-2 py-1 bg-green-900/40 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span></td>
+                        <td class="py-4 font-mono text-yellow-400">${(ds.token_reward ?? ds.earnings ?? ds.price ?? 0).toFixed(2)} DTC</td>
+                        <td class="py-4">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2 py-1 bg-green-900/40 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span>
+                                <button onclick="deleteDataset('${ds.id}')" class="text-red-400 hover:text-red-300 text-xs transition p-1">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40">No contributions yet</td></tr>';
             } else {
@@ -755,9 +836,12 @@
             const res = await apiCall(`/purchase/${id}`, 'POST');
             if(res) {
                 notify('Purchase successful!', 'success');
-                await fetchDashboardData();
-                await fetchMarketplace();
-                await fetchEconomyStats();
+                await Promise.all([
+                    fetchDashboardData(),
+                    fetchMarketplace(),
+                    fetchEconomyStats(),
+                    fetchLeaderboards()
+                ]);
             } else {
                 notify('Purchase failed. Check balance.', 'error');
             }
@@ -773,35 +857,89 @@
             }
         }
 
-        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+        async function uploadDataset(e) {
             e.preventDefault();
-            const token = localStorage.getItem("token");
+
+            const title = document.getElementById("up-title").value;
+            const description = document.getElementById("up-desc").value;
+            const category = document.getElementById("up-category").value;
+            const file = document.getElementById("up-file").files[0];
+
+            console.log("Uploading:", { title, description, category, file });
+
+            // 🚨 STRICT VALIDATION
+            if (!title || !description.trim() || !category || !file) {
+                notify("Description and all fields are required!", "error");
+                return;
+            }
+
+            const token = localStorage.getItem('token');
             const formData = new FormData();
-            formData.append("title", document.getElementById('up-title').value);
-            formData.append("category", document.getElementById('up-category').value);
-            formData.append("description", document.getElementById('up-desc').value);
+            formData.append("title", title);
+            formData.append("description", description);
+            formData.append("category", category);
+            formData.append("file", file);
 
             try {
                 const res = await fetch(`${API_BASE}/datasets/upload`, {
                     method: "POST",
-                    headers: { Authorization: `Bearer ${token}` },
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
                     body: formData
                 });
+
                 const data = await res.json();
-                if(res.ok){
-                    notify(data.message || "Upload success!", "success");
+                console.log("UPLOAD RESPONSE:", data);
+
+                if (res.ok) {
+                    notify(data.message || "Dataset uploaded successfully!", "success");
                     e.target.reset();
-                    await fetchDashboardData();
-                    await fetchMarketplace();
-                    await fetchEconomyStats();
                 } else {
-                    throw new Error(data.detail || data.message || "Upload failed");
+                    notify(data.detail || data.message || "Upload failed", "error");
+                }
+
+                // Refresh UI components
+                await Promise.all([
+                    fetchDashboardData(),
+                    fetchMarketplace(),
+                    fetchEconomyStats(),
+                    fetchLeaderboards()
+                ]);
+
+            } catch (err) {
+                console.error(err);
+                notify("Upload error occurred", "error");
+            }
+        }
+
+        async function deleteDataset(id) {
+            if (!confirm("Are you sure you want to delete this dataset? This action cannot be undone.")) return;
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${API_BASE}/datasets/delete/${id}`, {
+                    method: "DELETE",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    notify(data.message || "Dataset deleted successfully", "success");
+                    await Promise.all([
+                        fetchDashboardData(),
+                        fetchMarketplace(),
+                        fetchEconomyStats(),
+                        fetchLeaderboards()
+                    ]);
+                } else {
+                    notify(data.detail || data.message || "Delete failed", "error");
                 }
             } catch (err) {
-                notify(err.message, "error");
+                console.error(err);
+                notify("An error occurred while deleting the dataset.", "error");
             }
-        });
+        }
 
+        document.getElementById('upload-form').addEventListener('submit', uploadDataset);
         document.getElementById('login-form').addEventListener('submit', login);
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -809,7 +947,8 @@
                 username: document.getElementById('reg-name').value,
                 email: document.getElementById('reg-email').value,
                 password: document.getElementById('reg-password').value,
-                is_company: document.getElementById('reg-role').value === 'company'
+                is_company: document.getElementById('reg-role').value === 'company',
+                referral_code: document.getElementById('reg-referral').value || localStorage.getItem("referral_code") || null
             };
             const res = await apiCall('/auth/register', 'POST', payload);
             if(res) {
