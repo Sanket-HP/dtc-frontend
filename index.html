@@ -531,6 +531,10 @@
 
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
+        const BASE_URL = window.location.hostname.includes("localhost")
+            ? window.location.origin
+            : "https://dtc-frontend-tau.vercel.app";
+        
         let user = null;
 
         function getReferralFromURL() {
@@ -582,8 +586,12 @@
         async function copyReferral() {
             const input = document.getElementById("ref-link");
             try {
-                await navigator.clipboard.writeText(input.value);
-                notify("Referral link copied!", "success");
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(input.value);
+                    notify("Referral link copied!", "success");
+                } else {
+                    throw new Error("Clipboard API unavailable");
+                }
             } catch (err) {
                 input.select();
                 document.execCommand("copy");
@@ -669,7 +677,7 @@
                     document.getElementById("dash-ref-earnings").innerText = (user.referral_earnings || 0).toFixed(2) + " DTC";
 
                     const refCode = user.referral_code || user.username;
-                    const refLink = `${window.location.origin}${window.location.pathname}?ref=${refCode}`;
+                    const refLink = `${BASE_URL}/?ref=${refCode}`;
                     const refLinkInput = document.getElementById("ref-link");
                     if(refLinkInput) refLinkInput.value = refLink;
 
