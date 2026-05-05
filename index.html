@@ -258,7 +258,7 @@
                     </span>
                 </h1>
 
-                <p class="text-lg text-blue-200/70 max-xl mx-auto">
+                <p class="text-lg text-blue-200/70 max-w-xl mx-auto">
                     The first decentralized data marketplace where individuals earn tokens
                     and companies access ethical AI datasets.
                 </p>
@@ -617,9 +617,7 @@
 
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
-        const BASE_URL = window.location.hostname.includes("localhost")
-            ? window.location.origin
-            : "https://dtc-frontend-tau.vercel.app";
+        const BASE_URL = window.location.origin;
         
         let user = null;
 
@@ -698,6 +696,10 @@
             }
         }
 
+        /**
+         * Global API Call Handler
+         * Improved error handling to extract message/detail from response including nested properties.
+         */
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
             const headers = {};
@@ -713,7 +715,13 @@
 
             try {
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
-                const data = await response.json();
+                
+                let data;
+                try {
+                    data = await response.json();
+                } catch {
+                    data = null;
+                }
                 
                 if (!response.ok) {
                     throw new Error(
@@ -865,6 +873,12 @@
          * Web3 Card Style Render
          */
         function createDatasetCard(ds) {
+            const quality = ((ds.quality_score || ds.ai_training_score || 0) * 100).toFixed(0);
+            
+            const safeDesc = typeof ds.description === "string"
+                ? ds.description
+                : JSON.stringify(ds.description || ds.desc || "").slice(0, 100);
+
             return `
                 <div class="glass p-5 rounded-2xl hover:border-yellow-400 transition group relative flex flex-col">
                     <div class="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-widest bg-yellow-400/10 px-2 py-1 rounded text-yellow-400">
@@ -876,7 +890,7 @@
                     </h3>
 
                     <p class="text-xs opacity-60 mt-2 line-clamp-2">
-                        ${ds.description || ds.desc || 'No description provided.'}
+                        ${safeDesc || 'No description provided.'}
                     </p>
 
                     <div class="flex justify-between items-end mt-auto pt-6">
@@ -953,7 +967,9 @@
                 rows.forEach(row => {
                     table += `<tr class="border-t border-yellow-400/5 transition">`;
                     columns.forEach(col => {
-                        table += `<td class="p-3 truncate max-w-[200px]">${row[col] !== undefined ? row[col] : '-'}</td>`;
+                        table += `<td class="p-3 truncate max-w-[200px]">
+                            ${typeof row[col] === "object" ? JSON.stringify(row[col]) : (row[col] ?? '-')}
+                        </td>`;
                     });
                     table += `</tr>`;
                 });
@@ -1135,7 +1151,7 @@
                 const data = await res.json();
                 
                 if (res.ok) {
-                    alert("✅ " + (data.message || "Dataset uploaded successfully!"));
+                    notify(data.message || "Dataset uploaded successfully!", "success");
                     e.target.reset();
                 } else {
                     let errorMsg = "Upload failed";
