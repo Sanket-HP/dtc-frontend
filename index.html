@@ -283,23 +283,23 @@
                 </div>
             </div>
 
-            <!-- Stats Bar -->
+            <!-- Stats Bar (REAL-TIME DATA BINDING) -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="glass p-6 text-center border-white/5 bg-white/5">
-                    <p class="text-4xl font-bold text-yellow-400 mb-1">12K+</p>
+                    <p id="stat-datasets" class="text-4xl font-bold text-yellow-400 mb-1">--</p>
                     <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">AI Datasets</p>
                 </div>
                 <div class="glass p-6 text-center border-white/5 bg-white/5">
-                    <p class="text-4xl font-bold text-yellow-400 mb-1">340+</p>
-                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">Enterprise Clients</p>
+                    <p id="stat-users" class="text-4xl font-bold text-yellow-400 mb-1">--</p>
+                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">Marketplace Users</p>
                 </div>
                 <div class="glass p-6 text-center border-white/5 bg-white/5">
-                    <p class="text-4xl font-bold text-yellow-400 mb-1">97%</p>
-                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">Trust Accuracy</p>
+                    <p id="stat-trust" class="text-4xl font-bold text-yellow-400 mb-1">--</p>
+                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">Avg Trust Score</p>
                 </div>
                 <div class="glass p-6 text-center border-white/5 bg-white/5">
-                    <p class="text-4xl font-bold text-yellow-400 mb-1">24/7</p>
-                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">AI Intelligence</p>
+                    <p id="stat-transactions" class="text-4xl font-bold text-yellow-400 mb-1">--</p>
+                    <p class="text-[10px] uppercase font-bold opacity-40 tracking-widest">Dataset Transactions</p>
                 </div>
             </div>
 
@@ -446,7 +446,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <!-- Side Sidebar -->
                 <div class="lg:col-span-1 space-y-6">
-                    <!-- Recommendations -->
+                    <!-- Recommendations (CONNECTED TO TRENDING API) -->
                     <div class="glass p-6 space-y-4">
                         <h3 class="font-bold text-yellow-400 flex items-center text-xs uppercase tracking-widest border-b border-white/5 pb-3">
                             <i class="fas fa-chart-line mr-2"></i> Trending Clusters
@@ -456,13 +456,14 @@
                         </div>
                     </div>
 
-                    <!-- LIVE ACTIVITY FEED -->
+                    <!-- LIVE ACTIVITY FEED (REAL-TIME ACTIVITY FEED) -->
                     <div class="glass p-6 border border-white/10">
                         <h3 class="font-bold text-yellow-400 mb-4 text-xs uppercase tracking-widest border-b border-white/5 pb-3">
                             ⚡ Real-time Activity
                         </h3>
                         <div id="live-activity" class="space-y-3 text-[10px]">
-                            <!-- Activities injected here -->
+                            <!-- Real-time activities injected here -->
+                            <div class="p-3 bg-white/5 rounded-lg opacity-40 text-center">Syncing Feed...</div>
                         </div>
                     </div>
                 </div>
@@ -548,7 +549,7 @@
                         <button type="submit" class="w-full btn-gold py-5 rounded-xl font-bold text-blue-900 shadow-xl transition hover:scale-105 active:scale-95">Mint & Deploy Globally</button>
                     </form>
                 </div>
-                <div class="lg:col-span-2 glass p-8 overflow-x-auto border-white/5">
+                <div class="lg:col-span-2 glass p-8 overflow-x-auto border-white/5 text-center">
                     <h3 class="text-xl font-bold mb-6 text-left uppercase tracking-tighter">Your Intelligence Assets</h3>
                     <table class="w-full text-left min-w-[500px]">
                         <thead>
@@ -590,7 +591,7 @@
                 <i class="fas fa-times text-xl"></i>
             </button>
 
-            <!-- Sidebar: AI Insights Panel -->
+            <!-- Sidebar: AI Insights Panel (CENTERPIECE FEATURE) -->
             <div class="w-full md:w-96 border-b md:border-b-0 md:border-r border-yellow-400/10 p-6 md:p-8 bg-white/5 flex flex-col space-y-8 overflow-y-auto panel-scroll shrink-0">
                 <div class="pr-10 md:pr-0">
                     <h2 class="text-2xl font-bold text-yellow-400 uppercase tracking-tighter">Intelligence Dashboard</h2>
@@ -598,7 +599,7 @@
                 </div>
 
                 <div id="ai-insight-panel" class="space-y-8">
-                    <!-- Dynamic insights injected here -->
+                    <!-- Dynamic real insights injected here -->
                 </div>
 
                 <div class="pt-8 border-t border-white/10">
@@ -620,7 +621,7 @@
             <div class="flex-1 flex flex-col min-h-0 bg-black/40 overflow-hidden">
                 <div class="p-6 md:p-10 border-b border-yellow-400/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h3 id="preview-title" class="font-bold text-2xl tracking-tight text-white uppercase italic">Analysis View</h3>
+                        <h3 id="preview-title" class="font-bold text-2xl tracking-tight text-white uppercase italic text-yellow-400">Analysis View</h3>
                         <p class="text-xs opacity-40 mt-1 uppercase font-bold tracking-widest">High-bandwidth structure preview</p>
                     </div>
                     <div id="preview-meta" class="flex items-center gap-8 text-[11px] font-mono border-l border-white/10 pl-8"></div>
@@ -634,11 +635,11 @@
 
     <!-- Modals: Auth -->
     <div id="login-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/90 backdrop-blur-lg">
-        <div class="glass p-10 w-full max-w-md space-y-8 relative border-white/10">
+        <div class="glass p-10 w-full max-w-md space-y-8 relative border-white/10 text-center">
             <button onclick="hideModal('login-modal')" class="absolute top-6 right-6 text-white/40 hover:text-white"><i class="fas fa-times"></i></button>
             <div>
-                <h2 class="text-3xl font-bold tracking-tighter">Authorize Access</h2>
-                <p class="text-sm opacity-50 mt-1">DTC Enterprise Data Infrastructure</p>
+                <h2 class="text-3xl font-bold tracking-tighter uppercase">Authorize Access</h2>
+                <p class="text-xs opacity-50 mt-2 uppercase tracking-widest font-bold">DTC Enterprise Infrastructure</p>
             </div>
             <form id="login-form" class="space-y-5">
                 <input type="email" id="login-email" placeholder="Institutional Email" required class="w-full glass bg-black/20 p-4 rounded-xl border-white/10 outline-none focus:border-yellow-400 text-sm">
@@ -649,11 +650,11 @@
     </div>
 
     <div id="register-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/90 backdrop-blur-lg">
-        <div class="glass p-10 w-full max-w-md space-y-8 relative border-white/10">
+        <div class="glass p-10 w-full max-w-md space-y-8 relative border-white/10 text-center">
             <button onclick="hideModal('register-modal')" class="absolute top-6 right-6 text-white/40 hover:text-white"><i class="fas fa-times"></i></button>
             <div>
-                <h2 class="text-3xl font-bold tracking-tighter">Join Network</h2>
-                <p class="text-sm opacity-50 mt-1">Establish Node Identity</p>
+                <h2 class="text-3xl font-bold tracking-tighter uppercase">Join Network</h2>
+                <p class="text-xs opacity-50 mt-2 uppercase tracking-widest font-bold">Establish Data Node</p>
             </div>
             <form id="register-form" class="space-y-4">
                 <input type="text" id="reg-name" placeholder="Network Handle" required class="w-full glass bg-black/20 p-4 rounded-xl border-white/10 outline-none focus:border-yellow-400 text-sm">
@@ -664,7 +665,7 @@
                 </select>
                 <input type="text" id="reg-referral" placeholder="Referral ID (Optional)" class="w-full glass bg-black/20 p-4 rounded-xl border-white/10 outline-none focus:border-yellow-400 text-sm">
                 <input type="password" id="reg-password" placeholder="Access Password" required class="w-full glass bg-black/20 p-4 rounded-xl border-white/10 outline-none focus:border-yellow-400 text-sm">
-                <button type="submit" class="w-full btn-gold py-5 rounded-xl font-bold text-blue-900 uppercase tracking-widest text-sm shadow-xl">Activate Identity</button>
+                <button type="submit" class="w-full btn-gold py-5 rounded-xl font-bold text-blue-900 uppercase tracking-widest text-sm shadow-xl">Activate Node</button>
             </form>
         </div>
     </div>
@@ -714,8 +715,8 @@
             <div class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase font-bold tracking-[0.3em] opacity-30 text-center md:text-left">
                 <span>© 2026 DataTrust Coin (DTC) — Global Intelligence Infrastructure</span>
                 <div class="flex gap-8">
-                    <span>Build v2.6.2-PRO-STABLE</span>
-                    <span class="text-green-400">Core Network Status: Optimized</span>
+                    <span>Build v2.9.0-REALTIME-BINDING</span>
+                    <span class="text-green-400">Core Network Status: Live</span>
                 </div>
             </div>
         </div>
@@ -724,6 +725,13 @@
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
         let user = null;
+
+        /** Professional Local Mapper for Dataset Names */
+        const mapper = {
+            "Gym": "Global Fitness Activity Dataset",
+            "ICC Men": "International Sports Performance Analytics",
+            "Gen ai": "LLM Training Conversations v1.2"
+        };
 
         /** UI Helpers */
         function toggleMobileMenu(show) { document.getElementById('mobile-menu').classList.toggle('active', show); }
@@ -771,24 +779,71 @@
             }
         }
 
+        /** Real-time Stats Loader */
+        async function loadRealtimeStats() {
+            try {
+                const marketplaceData = await apiCall('/marketplace/datasets');
+                const datasets = marketplaceData?.datasets || marketplaceData || [];
+
+                const leaderboardData = await apiCall('/leaderboard/contributors');
+                const contributors = leaderboardData?.contributors || leaderboardData || [];
+
+                let totalTrust = 0;
+                datasets.forEach(ds => { totalTrust += (ds.trust_score || 0); });
+                const avgTrust = datasets.length > 0 ? Math.round((totalTrust / datasets.length) * 100) : 0;
+
+                document.getElementById('stat-datasets').innerText = datasets.length.toLocaleString();
+                document.getElementById('stat-users').innerText = contributors.length.toLocaleString();
+                document.getElementById('stat-trust').innerText = `${avgTrust}%`;
+                document.getElementById('stat-transactions').innerText = datasets.reduce((sum, ds) => sum + (ds.purchase_count || 0), 0).toLocaleString();
+
+            } catch(err) {
+                console.error('Realtime stats failed', err);
+            }
+        }
+
+        /** Real-time Activity Feed Loader */
+        async function loadRealtimeActivity() {
+            try {
+                const data = await apiCall('/activity');
+                const container = document.getElementById('live-activity');
+                if(!container || !data?.activities) return;
+
+                container.innerHTML = '';
+                data.activities.forEach(act => {
+                    container.innerHTML += `
+                        <div class="p-3 bg-white/5 rounded-xl activity-item border border-white/5 opacity-70">
+                            ${act.message}
+                        </div>
+                    `;
+                });
+            } catch(err) {
+                console.error('Activity feed error:', err);
+            }
+        }
+
         /** Marketplace Logic */
         async function fetchMarketplace() {
             const grid = document.getElementById('marketplace-grid');
             grid.innerHTML = '<div class="col-span-full py-20 flex justify-center"><div class="loader"></div></div>';
             
+            // Connect to /trending for recommendations
             const [datasets, aiRecs] = await Promise.all([
                 apiCall('/marketplace/datasets'),
-                apiCall('/recommendations/ai')
+                apiCall('/marketplace/trending')
             ]);
 
             const recArea = document.getElementById('ai-recommendations');
-            if(aiRecs && Array.isArray(aiRecs)) {
-                recArea.innerHTML = aiRecs.map(rec => `
+            const recList = Array.isArray(aiRecs) ? aiRecs : (aiRecs?.results || []);
+            if(recList.length) {
+                recArea.innerHTML = recList.map(rec => `
                     <div class="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-yellow-400 transition cursor-pointer flex justify-between items-center group">
-                        <span class="font-bold truncate pr-2 text-xs uppercase tracking-tighter group-hover:text-yellow-400 transition">${rec.title || 'Trending Cluster'}</span>
-                        <span class="text-[9px] font-bold text-green-400">+${rec.match_score || 0}%</span>
+                        <span class="font-bold truncate pr-2 text-xs uppercase tracking-tighter group-hover:text-yellow-400 transition">${mapper[rec.title] || rec.title || 'Trending Asset'}</span>
+                        <span class="text-[9px] font-bold text-green-400">+${Math.round((rec.trust_score || 0.1)*100)}%</span>
                     </div>
                 `).join('');
+            } else {
+                recArea.innerHTML = '<p class="text-[10px] opacity-20 text-center py-4">No trending activity.</p>';
             }
 
             const list = Array.isArray(datasets) ? datasets : (datasets?.datasets || []);
@@ -796,17 +851,10 @@
                 <div class="col-span-full text-center py-32 bg-white/5 rounded-3xl border border-dashed border-white/10">
                     <div class="text-7xl mb-8 opacity-30">📊</div>
                     <h3 class="text-3xl font-bold mb-4 text-white uppercase tracking-tighter">Marketplace Initializing</h3>
-                    <p class="opacity-40 max-w-lg mx-auto text-sm leading-relaxed">Contribute ethical, AI-ready datasets to activate the institutional data economy and start earning DTC.</p>
+                    <p class="opacity-40 max-w-lg mx-auto text-sm leading-relaxed">Contribute ethical, AI-ready datasets to activate the data economy.</p>
                 </div>
             `;
         }
-
-        /** Professional Local Mapper for Demo Quality Names */
-        const mapper = {
-            "Gym": "Global Fitness Activity Dataset",
-            "ICC Men": "International Sports Performance Analytics",
-            "Gen ai": "LLM Training Conversations v1.2"
-        };
 
         function createDatasetCard(ds) {
             const trustScoreRaw = ds.trust_score || 0;
@@ -817,20 +865,16 @@
             return `
                 <div class="glass p-6 rounded-3xl hover:border-yellow-400 transition group flex flex-col h-full relative border-white/10 bg-white/[0.02]">
                     <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
-                        ${isHighQuality ? `
-                            <div class="bg-yellow-400 text-blue-900 text-[8px] font-bold px-3 py-1.5 rounded-lg shadow-2xl badge-pulse uppercase tracking-widest">
-                                AI READY
-                            </div>
-                        ` : ''}
+                        ${isHighQuality ? `<div class="bg-yellow-400 text-blue-900 text-[8px] font-bold px-3 py-1.5 rounded-lg shadow-2xl badge-pulse uppercase tracking-widest">AI READY</div>` : ''}
                     </div>
 
                     <span class="text-[9px] uppercase font-bold text-yellow-400 tracking-[0.2em] opacity-80">${ds.category || 'DATA ASSET'}</span>
                     <h3 class="text-xl font-bold mt-3 text-white uppercase tracking-tight leading-tight">${displayName}</h3>
                     
                     <div class="flex flex-wrap gap-2 mt-3">
-                        ${trustScoreRaw > 0.85 ? `<span class="text-[9px] bg-green-400/20 text-green-400 px-3 py-1 rounded-full font-bold uppercase tracking-wider border border-green-400/10">Verified</span>` : ''}
-                        ${trustScoreRaw > 0.7 ? `<span class="text-[9px] bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full font-bold uppercase tracking-wider border border-yellow-400/10">High Trust</span>` : ''}
-                        <span class="text-[9px] bg-blue-400/20 text-blue-400 px-3 py-1 rounded-full font-bold uppercase tracking-wider border border-blue-400/10">Enterprise Grade</span>
+                        ${trustScoreRaw > 0.85 ? `<span class="text-[9px] bg-green-400/20 text-green-400 px-3 py-1 rounded-full font-bold uppercase border border-green-400/10">Verified</span>` : ''}
+                        ${trustScoreRaw > 0.7 ? `<span class="text-[9px] bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full font-bold uppercase border border-yellow-400/10">AI Ready</span>` : ''}
+                        <span class="text-[9px] bg-blue-400/20 text-blue-400 px-3 py-1 rounded-full font-bold uppercase border border-blue-400/10">Enterprise</span>
                     </div>
 
                     <p class="text-xs opacity-50 mt-4 line-clamp-3 leading-relaxed italic border-l border-white/10 pl-4">"${ds.description || 'Institutional-grade structural dataset for next-gen model training.'}"</p>
@@ -838,23 +882,23 @@
                     <div class="mt-6 grid grid-cols-2 gap-2">
                         <div class="bg-black/40 rounded-2xl p-4 flex items-center justify-between border border-white/5">
                             <div>
-                                <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">AI Readiness</p>
+                                <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Readiness</p>
                                 <p class="text-base font-bold text-yellow-400">${roundedScore}%</p>
                             </div>
                             <div class="readiness-gauge" style="--bg-gradient: conic-gradient(from 0deg, var(--primary-gold) 0%, var(--primary-gold) ${roundedScore}%, transparent ${roundedScore}%, transparent 100%)">
                                 <span class="text-[8px] font-bold text-white">${roundedScore}</span>
                             </div>
                         </div>
-                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5">
+                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5 text-center">
                             <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Demand</p>
                             <p class="text-sm font-bold ${trustScoreRaw > 0.8 ? 'text-green-400' : 'text-yellow-400'}">${trustScoreRaw > 0.8 ? 'High' : 'Moderate'}</p>
                         </div>
-                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5">
-                            <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Class</p>
-                            <p class="text-xs font-bold text-blue-400 uppercase tracking-tighter">${trustScoreRaw > 0.85 ? 'Institutional' : 'Standard'}</p>
+                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5 text-center">
+                            <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Trust</p>
+                            <p class="text-xs font-bold text-blue-400 uppercase tracking-tighter">${trustScoreRaw > 0.85 ? 'Verified' : 'Enterprise'}</p>
                         </div>
-                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5">
-                            <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Verified Count</p>
+                        <div class="bg-black/40 rounded-2xl p-4 border border-white/5 text-center">
+                            <p class="text-[8px] uppercase opacity-30 font-bold tracking-widest text-white">Records</p>
                             <p class="text-sm font-bold text-white">${(ds.record_count || 0).toLocaleString()}</p>
                         </div>
                     </div>
@@ -922,8 +966,8 @@
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-2xl bg-yellow-400 text-blue-900 flex items-center justify-center font-bold text-lg">AI</div>
                         <div>
-                            <p class="font-bold text-yellow-400 text-base tracking-tighter">DTC Intelligence Assistant</p>
-                            <p class="text-[9px] opacity-40 uppercase font-bold tracking-[0.2em]">Marketplace Analysis Node</p>
+                            <p class="font-bold text-yellow-400 text-base tracking-tighter uppercase">DTC Intelligence Assistant</p>
+                            <p class="text-[9px] opacity-40 uppercase font-bold tracking-[0.2em]">Marketplace Analysis Engine</p>
                         </div>
                     </div>
                     <div class="text-sm leading-relaxed opacity-90 whitespace-pre-wrap font-medium text-white/90">
@@ -933,7 +977,7 @@
             `;
         }
 
-        /** Real AI Insights Panel & Preview */
+        /** Real AI Insights Panel (CENTERPIECE FEATURE) */
         async function previewDataset(id) {
             const modal = document.getElementById("preview-modal");
             const insightPanel = document.getElementById("ai-insight-panel");
@@ -945,7 +989,7 @@
             modal.classList.remove("hidden");
             document.body.style.overflow = 'hidden'; 
             content.innerHTML = '<div class="flex h-full items-center justify-center py-32"><div class="loader"></div></div>';
-            insightPanel.innerHTML = '<div class="space-y-6 py-20 text-center"><div class="loader mx-auto"></div><p class="text-[9px] opacity-40 uppercase tracking-[0.3em] mt-6">Decoding Neural Insights...</p></div>';
+            insightPanel.innerHTML = '<div class="space-y-6 py-20 text-center"><div class="loader mx-auto"></div><p class="text-[9px] opacity-40 uppercase tracking-[0.3em] mt-6">Decoding Real-Time Insights...</p></div>';
             relatedPanel.innerHTML = '<div class="h-10 bg-white/5 animate-pulse rounded-xl"></div>';
 
             const [data, insights, related] = await Promise.all([
@@ -966,7 +1010,6 @@
             const aiAnalysis = aiData.ai_analysis || {};
             const risk = aiData.risk_analysis || {};
             const summary = aiData.summary_analysis || {};
-            const stats = aiData.dataset_stats || {};
 
             insightPanel.innerHTML = `
                 <div class="space-y-3">
@@ -980,28 +1023,33 @@
                 </div>
 
                 <div class="space-y-2">
-                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Dataset Intelligence Summary</p>
-                    <p class="text-sm leading-relaxed opacity-80 text-white/90 font-medium">${summary.key_findings || 'Structural mapping confirmed. Optimal feature relevance identified for predictive modeling applications.'}</p>
+                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Quality Verification Summary</p>
+                    <p class="text-sm leading-relaxed opacity-80 text-white/90 font-medium">${summary.key_findings || 'Structural mapping confirmed. High feature relevance for predictive modeling.'}</p>
                 </div>
 
                 <div class="space-y-3">
-                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Recommended ML Pipelines</p>
+                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Recommended ML Use Cases</p>
                     <div class="flex flex-wrap gap-2">
                         ${(aiAnalysis.recommended_models || ['XGBoost', 'TensorFlow', 'PyTorch']).map(m => `<span class="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 rounded-xl text-[9px] font-bold text-yellow-400 uppercase tracking-wider">${m}</span>`).join('')}
                     </div>
                 </div>
 
+                <div class="space-y-2 text-sm">
+                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Business Value Analysis</p>
+                    <p class="opacity-80">${aiData.pricing_analysis?.commercial_relevance || 'Enterprise-scale utility detected.'}</p>
+                </div>
+
                 <div class="space-y-2">
-                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Risk Assessment Score</p>
+                    <p class="text-[10px] uppercase font-bold opacity-30 tracking-widest">Security Profile</p>
                     <div class="p-4 bg-white/5 border border-white/5 rounded-2xl">
-                        <p class="text-sm ${risk.level === 'Low' ? 'text-green-400' : 'text-yellow-400'} font-bold uppercase tracking-tighter">${risk.level || 'Standard'} Risk Profile</p>
-                        <p class="text-[10px] opacity-60 mt-1 leading-relaxed">${risk.notes || 'Verified ethical sourcing with high data consistency.'}</p>
+                        <p class="text-sm ${risk.level === 'Low' ? 'text-green-400' : 'text-yellow-400'} font-bold uppercase tracking-tighter">${risk.level || 'Standard'} Risk Score</p>
+                        <p class="text-[10px] opacity-60 mt-1 leading-relaxed">${risk.notes || 'Verified ethical sourcing.'}</p>
                     </div>
                 </div>
 
                 <div class="p-5 bg-gradient-to-br from-yellow-400/10 to-transparent border border-yellow-400/20 rounded-3xl">
-                    <p class="text-[10px] uppercase font-bold opacity-30 mb-2 tracking-widest">Commercial Potential</p>
-                    <p class="text-lg font-bold text-yellow-400 tracking-tight leading-tight">${aiData.pricing_analysis?.suggested_valuation || 'Market Verified Premium'}</p>
+                    <p class="text-[10px] uppercase font-bold opacity-30 mb-2 tracking-widest">Market Value Estimate</p>
+                    <p class="text-lg font-bold text-yellow-400 tracking-tight leading-tight">${aiData.pricing_analysis?.suggested_valuation || 'Market Verified'}</p>
                 </div>
             `;
 
@@ -1011,7 +1059,7 @@
                     <span class="truncate pr-2 font-bold uppercase tracking-tighter text-white/80 group-hover:text-yellow-400 transition">${mapper[r.metadata?.title] || r.metadata?.title || 'Similar Asset'}</span>
                     <span class="text-green-400 font-bold">${Math.round(r.similarity_score)}%</span>
                 </div>
-            `).join('') : '<p class="text-[10px] opacity-30 italic text-center py-4">No neural clusters mapped.</p>';
+            `).join('') : '<p class="text-[10px] opacity-30 italic text-center py-4">No clusters mapped.</p>';
 
             if(data.preview && data.preview.length > 0) {
                 let table = '<div class="overflow-x-auto rounded-2xl border border-white/5 shadow-2xl"><table class="w-full text-[10px] text-left border-collapse"><thead><tr class="bg-white/5 opacity-40 text-white uppercase tracking-tighter">';
@@ -1024,7 +1072,7 @@
                 });
                 table += '</tbody></table></div>';
                 content.innerHTML = table;
-            } else content.innerHTML = '<div class="flex flex-col items-center justify-center h-full py-40"><div class="text-6xl mb-6 opacity-20">🔒</div><p class="text-center opacity-40 uppercase font-bold tracking-widest text-xs">Dataset structure requires license verification.</p></div>';
+            } else content.innerHTML = '<div class="flex flex-col items-center justify-center h-full py-40"><div class="text-6xl mb-6 opacity-20">🔒</div><p class="text-center opacity-40 uppercase font-bold tracking-widest text-xs">Dataset structure encrypted.</p></div>';
 
             document.getElementById("preview-buy-btn").onclick = () => { closePreview(); purchaseDataset(id); };
         }
@@ -1065,43 +1113,34 @@
                     if(user.is_company) document.getElementById('company-analytics').classList.remove('hidden');
                 }
             }
-            fetchEconomyStats();
             
+            // ----------------------------------------------------
+            // INITIAL LOAD (REAL-TIME BINDING)
+            // ----------------------------------------------------
+            loadRealtimeStats();
+            loadRealtimeActivity();
+            fetchMarketplace();
+            fetchLeaderboards();
+            fetchEconomyStats();
+
+            // ----------------------------------------------------
+            // REFRESH CYCLES
+            // ----------------------------------------------------
+            setInterval(loadRealtimeStats, 30000);
+            setInterval(loadRealtimeActivity, 15000);
             setInterval(() => {
                 if(document.getElementById('page-marketplace').classList.contains('active')) {
                     fetchMarketplace();
                 }
             }, 30000); 
-
-            // Dynamic Live Activity
-            const activities = [
-                "Healthcare dataset purchased by FinAI Labs",
-                "Cybersecurity logs uploaded via IoT mesh",
-                "AI trust score recalibrated for Retail signals",
-                "Enterprise buyer authorized in Marketplace",
-                "Fraud detection dataset trending +18%",
-                "Mobility pattern dataset licensed by SmartCity Inc",
-                "New synthetic training data published (Readiness 98%)",
-                "International Sports Analytics licensed by MediaCorp"
-            ];
-
-            setInterval(() => {
-                const container = document.getElementById('live-activity');
-                if(!container) return;
-                const item = document.createElement('div');
-                item.className = "p-3 bg-white/5 rounded-xl activity-item border border-white/5 opacity-70";
-                item.innerText = activities[Math.floor(Math.random() * activities.length)];
-                container.prepend(item);
-                if(container.children.length > 5) container.removeChild(container.lastChild);
-            }, 6000);
         }
 
         async function fetchEconomyStats() {
             const stats = await apiCall('/economy/stats');
             if (stats) {
-                document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
-                document.getElementById('stat-tokens').innerText = (stats.circulating_supply || 0).toLocaleString();
-                document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
+                // These are legacy dashboard stats, we keep for secondary UI consistency
+                const datasetsCount = document.getElementById('stat-datasets');
+                if(datasetsCount) datasetsCount.innerText = (stats.total_datasets || 0).toLocaleString();
             }
         }
 
@@ -1139,7 +1178,7 @@
                     <td class="py-5 font-bold uppercase tracking-tighter text-white/90">${mapper[item.title || item.dataset_title] || item.title || item.dataset_title || 'Intelligence Asset'}</td>
                     <td class="py-5 text-center font-mono">${user.is_company ? new Date(item.date).toLocaleDateString() : (item.quality_score * 100).toFixed(0) + '% High Quality'}</td>
                     <td class="py-5 text-right font-bold text-yellow-400">${(item.price || item.token_reward || 0).toFixed(2)} DTC</td>
-                    <td class="py-5 text-right">${user.is_company ? '<button class="text-blue-400 font-bold hover:text-white transition uppercase text-[9px]">Secure Download</button>' : '<span class="px-3 py-1 bg-green-900/30 text-green-400 rounded-lg text-[9px] font-bold border border-green-400/10">MINTED</span>'}</td>
+                    <td class="py-5 text-right">${user.is_company ? '<button class="text-blue-400 font-bold hover:text-white transition uppercase text-[9px]">Secure Download</button>' : '<span class="px-3 py-1 bg-green-900/30 text-green-400 rounded-lg text-[9px] font-bold border border-green-400/10 uppercase">Verified</span>'}</td>
                 </tr>
             `).join('') : '<tr><td colspan="4" class="py-20 text-center opacity-30 text-[10px] uppercase font-bold tracking-widest">No marketplace telemetry recorded.</td></tr>';
         }
@@ -1190,7 +1229,7 @@
                 referral_code: document.getElementById('reg-referral').value || null
             };
             const res = await apiCall('/auth/register', 'POST', payload);
-            if(res) { notify('Network credentials accepted. Authorization sequence initialized.', 'success'); hideModal('register-modal'); showModal('login-modal'); }
+            if(res) { notify('Node Identity accepted. Proceeding to authorization sequence.', 'success'); hideModal('register-modal'); showModal('login-modal'); }
         });
 
         window.onload = initApp;
