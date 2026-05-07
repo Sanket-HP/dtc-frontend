@@ -264,7 +264,7 @@
     <main class="max-w-7xl mx-auto px-4 md:px-6 py-12">
         
         <!-- Page: Home -->
-        <section id="page-home" class="tab-content active space-y-20 md:space-y-32">
+        <section id="page-home" class="tab-content active space-y-24 md:space-y-32">
             <!-- Hero -->
             <div class="text-center space-y-8 pt-10">
                 <div class="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-400/10 border border-yellow-400/20 rounded-full text-[10px] md:text-xs text-yellow-400 font-bold">
@@ -297,145 +297,110 @@
                 </div>
             </div>
 
-            <!-- How DTC Works (Visual Pipeline) -->
+            <!-- Sourcing Data -->
             <section class="space-y-12">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold">How <span class="text-yellow-400">DTC</span> Works</h2>
-                    <p class="text-blue-200/60 mt-3">The lifecycle of an ethical, AI-powered data economy</p>
+                    <h2 class="text-3xl md:text-4xl font-bold">How to <span class="text-yellow-400">Source</span> Data</h2>
+                    <p class="text-blue-200/60 mt-3">Where can you find valuable datasets to contribute?</p>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
-                    <div class="glass p-6 border-yellow-400/10">
-                        <div class="text-4xl mb-4">👤</div>
-                        <h3 class="font-bold mb-2 text-sm md:text-base">Contributors</h3>
-                        <p class="text-xs opacity-60">Users upload real-world datasets from various sources</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
+                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">🏛️</div>
+                        <h3 class="text-xl font-bold text-yellow-400">Public Registries</h3>
+                        <p class="text-sm opacity-60 leading-relaxed">Clean and curate data from open government portals, university research repositories, or non-profit data archives. Quality curation is key.</p>
                     </div>
-                    <div class="glass p-6 border-yellow-400/10">
-                        <div class="text-4xl mb-4">🧠</div>
-                        <h3 class="font-bold mb-2 text-sm md:text-base">AI Analysis</h3>
-                        <p class="text-xs opacity-60">DTC AI validates structural quality & data integrity</p>
+                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
+                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">📡</div>
+                        <h3 class="text-xl font-bold text-yellow-400">IoT & Edge Streams</h3>
+                        <p class="text-sm opacity-60 leading-relaxed">Connect your smart devices or sensor networks. Real-time environmental, mobility, or structural health data is highly valued by AI firms.</p>
                     </div>
-                    <div class="glass p-6 border-yellow-400/10">
-                        <div class="text-4xl mb-4">📊</div>
-                        <h3 class="font-bold mb-2 text-sm md:text-base">Trust Engine</h3>
-                        <p class="text-xs opacity-60">Neural scoring assigns value for enterprise buyers</p>
-                    </div>
-                    <div class="glass p-6 border-yellow-400/10">
-                        <div class="text-4xl mb-4">🏪</div>
-                        <h3 class="font-bold mb-2 text-sm md:text-base">Marketplace</h3>
-                        <p class="text-xs opacity-60">Verified datasets become searchable globally</p>
-                    </div>
-                    <div class="glass p-6 border-yellow-400/10 sm:col-span-2 lg:col-span-1">
-                        <div class="text-4xl mb-4">🏢</div>
-                        <h3 class="font-bold mb-2 text-yellow-400 text-sm md:text-base">AI Enterprises</h3>
-                        <p class="text-xs opacity-60">Companies acquire AI-ready data via DTC tokens</p>
+                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
+                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">✍️</div>
+                        <h3 class="text-xl font-bold text-yellow-400">Personal Archives</h3>
+                        <p class="text-sm opacity-60 leading-relaxed">Anonymize and package your own logs, retail history, or specialized professional observations into structured, ethical formats.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Where Data Comes From -->
-            <section class="space-y-10">
-                <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold">Where Data Comes From</h2>
-                    <p class="text-blue-200/60 mt-3">Ethical and AI-ready datasets sourced globally</p>
+            <!-- Contributor Walkthrough -->
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <h2 class="text-3xl md:text-5xl font-bold leading-tight">Uploading to the <span class="text-yellow-400">Data Mesh</span></h2>
+                    <p class="text-blue-200/60">Follow these four simple steps to turn your raw data into DTC tokens.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">1</div>
+                            <div>
+                                <h4 class="font-bold">Format Your Data</h4>
+                                <p class="text-xs opacity-50 mt-1">Ensure your dataset is in .CSV or .JSON format with clear, consistent headers for AI analysis.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">2</div>
+                            <div>
+                                <h4 class="font-bold">Access Dashboard</h4>
+                                <p class="text-xs opacity-50 mt-1">Go to your Dashboard and navigate to 'New Contribution'. Fill in the metadata to help buyers find your data.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">3</div>
+                            <div>
+                                <h4 class="font-bold">Mint on Network</h4>
+                                <p class="text-xs opacity-50 mt-1">Upload your file. DTC AI will instantly verify quality, assign a Trust Score, and mint the asset.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">4</div>
+                            <div>
+                                <h4 class="font-bold">Collect DTC Tokens</h4>
+                                <p class="text-xs opacity-50 mt-1">Earn tokens immediately upon validation and receive recurring licensing fees whenever companies acquire your data.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    <div class="glass p-6">
-                        <div class="text-3xl mb-3">🌍</div>
-                        <h3 class="font-bold text-sm">Public Data</h3>
-                    </div>
-                    <div class="glass p-6">
-                        <div class="text-3xl mb-3">🏢</div>
-                        <h3 class="font-bold text-sm">Enterprise Data</h3>
-                    </div>
-                    <div class="glass p-6">
-                        <div class="text-3xl mb-3">📡</div>
-                        <h3 class="font-bold text-sm">IoT Streams</h3>
-                    </div>
-                    <div class="glass p-6">
-                        <div class="text-3xl mb-3">🤖</div>
-                        <h3 class="font-bold text-sm">Synthetic AI Data</h3>
+                <div class="glass p-2 bg-gradient-to-br from-yellow-400/20 to-transparent">
+                    <div class="glass bg-[#0A192F] p-6 space-y-4 rounded-xl border-white/5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="p-8 border-2 border-dashed border-white/10 rounded-xl text-center space-y-4">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-yellow-400/40"></i>
+                            <p class="text-xs font-mono opacity-40 uppercase">Drag and drop dataset (.CSV, .JSON)</p>
+                            <div class="h-2 bg-yellow-400/20 rounded-full w-3/4 mx-auto overflow-hidden">
+                                <div class="h-full bg-yellow-400 w-2/3 animate-pulse"></div>
+                            </div>
+                            <p class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">Neural Mapping: Active</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Enterprise Grid -->
-            <section class="grid md:grid-cols-4 gap-6">
-                <div class="glass p-6">
-                    <h3 class="font-bold text-yellow-400 mb-2">AI-Ready Datasets</h3>
-                    <p class="opacity-60 text-sm">Optimized for ML and LLM pipelines with structured feature density.</p>
-                </div>
-                <div class="glass p-6">
-                    <h3 class="font-bold text-yellow-400 mb-2">Trust Scoring</h3>
-                    <p class="opacity-60 text-sm">Real-time AI-driven verification and high-fidelity quality analysis.</p>
-                </div>
-                <div class="glass p-6">
-                    <h3 class="font-bold text-yellow-400 mb-2">Semantic Discovery</h3>
-                    <p class="opacity-60 text-sm">Find the exact data your models need using natural language intent.</p>
-                </div>
-                <div class="glass p-6">
-                    <h3 class="font-bold text-yellow-400 mb-2">Enterprise Intel</h3>
-                    <p class="opacity-60 text-sm">Business-focused AI data infrastructure built for enterprise scale.</p>
-                </div>
-            </section>
-
-            <!-- Data Categories Grid -->
+            <!-- Company Buying Process -->
             <section class="space-y-12">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold">Diverse <span class="text-yellow-400">Data Verticals</span></h2>
-                    <p class="text-blue-200/60 mt-3">High-value datasets currently available for analysis</p>
+                    <h2 class="text-3xl md:text-4xl font-bold">Enterprise <span class="text-yellow-400">Data Acquisition</span></h2>
+                    <p class="text-blue-200/60 mt-3">How AI companies integrate DTC data into their training pipelines.</p>
                 </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    <div class="glass p-6 bg-white/5">
-                        <i class="fas fa-shopping-cart text-yellow-400 text-2xl mb-3"></i>
-                        <h4 class="font-bold text-sm text-yellow-400/90 uppercase tracking-tighter">Retail Habits</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass p-6 space-y-4 bg-white/5">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase">1. Discover</h4>
+                        <p class="text-xs opacity-60">Use the AI Semantic Search to find niche datasets that match your specific model requirements.</p>
                     </div>
-                    <div class="glass p-6 bg-white/5">
-                        <i class="fas fa-heartbeat text-yellow-400 text-2xl mb-3"></i>
-                        <h4 class="font-bold text-sm text-yellow-400/90 uppercase tracking-tighter">Health Trends</h4>
+                    <div class="glass p-6 space-y-4 bg-white/5">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase">2. Intelligence Preview</h4>
+                        <p class="text-xs opacity-60">Review AI-generated insights, trust scores, and structural analysis before spending credits.</p>
                     </div>
-                    <div class="glass p-6 bg-white/5">
-                        <i class="fas fa-comments text-yellow-400 text-2xl mb-3"></i>
-                        <h4 class="font-bold text-sm text-yellow-400/90 uppercase tracking-tighter">Social NLP</h4>
+                    <div class="glass p-6 space-y-4 bg-white/5">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase">3. Secure Purchase</h4>
+                        <p class="text-xs opacity-60">Convert USD to DTC credits and license the dataset. Ownership is verified instantly on-chain.</p>
                     </div>
-                    <div class="glass p-6 bg-white/5">
-                        <i class="fas fa-microchip text-yellow-400 text-2xl mb-3"></i>
-                        <h4 class="font-bold text-sm text-yellow-400/90 uppercase tracking-tighter">IoT Streams</h4>
+                    <div class="glass p-6 space-y-4 bg-white/5">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase">4. Direct Integration</h4>
+                        <p class="text-xs opacity-60">Download the clean dataset or connect via Secure API to stream data directly into your ML workspace.</p>
                     </div>
-                </div>
-            </section>
-
-            <!-- Developer API Section -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <h2 class="text-3xl md:text-4xl font-bold">Built for <span class="text-yellow-400">Developers</span></h2>
-                    <p class="opacity-70 text-sm md:text-base">Integrate premium AI-ready data directly into your pipelines with our robust REST and Semantic APIs.</p>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-2 text-sm"><i class="fas fa-check text-green-400"></i> Semantic Data Discovery</li>
-                        <li class="flex items-center gap-2 text-sm"><i class="fas fa-check text-green-400"></i> Automated AI Insight Stream</li>
-                        <li class="flex items-center gap-2 text-sm"><i class="fas fa-check text-green-400"></i> Real-time Trust Verification</li>
-                    </ul>
-                    <button class="glass px-6 py-3 rounded-xl text-sm font-bold border-yellow-400/20">View API Docs</button>
-                </div>
-                <div class="glass p-6 bg-black/40 font-mono text-[10px] md:text-xs overflow-x-auto border-white/5">
-                    <div class="flex gap-2 mb-4 border-b border-white/10 pb-2">
-                        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                    </div>
-                    <p class="text-blue-300">GET /api/semantic/search?q=fraud+detection</p>
-                    <p class="text-gray-500 mt-2">// Response</p>
-                    <p class="text-yellow-400">{</p>
-                    <p class="ml-4 text-white">"results": [</p>
-                    <p class="ml-8 text-white">{</p>
-                    <p class="ml-12 text-blue-200">"dataset_id": "dtc_9281",</p>
-                    <p class="ml-12 text-blue-200">"match_score": 98.4,</p>
-                    <p class="ml-12 text-blue-200">"ai_ready": true</p>
-                    <p class="ml-8 text-white">}</p>
-                    <p class="ml-4 text-white">]</p>
-                    <p class="text-yellow-400">}</p>
                 </div>
             </section>
         </section>
@@ -450,16 +415,6 @@
                 <div class="w-full md:w-auto">
                     <input type="text" id="marketplace-search" placeholder="Quick keyword search..." class="w-full glass bg-white/5 px-4 py-3 rounded-xl outline-none border-white/10 focus:border-yellow-400">
                 </div>
-            </div>
-
-            <!-- Category Filters -->
-            <div class="flex gap-3 overflow-x-auto pb-4 panel-scroll">
-                <button onclick="filterMarketplace('all')" class="px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold whitespace-nowrap text-xs">All Verticals</button>
-                <button onclick="filterMarketplace('finance')" class="px-5 py-2 rounded-full bg-white/5 border border-white/5 hover:border-yellow-400/30 whitespace-nowrap text-xs">Finance</button>
-                <button onclick="filterMarketplace('healthcare')" class="px-5 py-2 rounded-full bg-white/5 border border-white/5 hover:border-yellow-400/30 whitespace-nowrap text-xs">Healthcare</button>
-                <button onclick="filterMarketplace('cybersecurity')" class="px-5 py-2 rounded-full bg-white/5 border border-white/5 hover:border-yellow-400/30 whitespace-nowrap text-xs">Cybersecurity</button>
-                <button onclick="filterMarketplace('retail')" class="px-5 py-2 rounded-full bg-white/5 border border-white/5 hover:border-yellow-400/30 whitespace-nowrap text-xs">Retail Intelligence</button>
-                <button onclick="filterMarketplace('ai')" class="px-5 py-2 rounded-full bg-white/5 border border-white/5 hover:border-yellow-400/30 whitespace-nowrap text-xs">LLM Training</button>
             </div>
 
             <!-- AI CHAT ASSISTANT SECTION -->
@@ -478,44 +433,15 @@
                 <div id="ai-chat-response" class="mt-4 text-sm opacity-80 max-h-60 overflow-auto panel-scroll"></div>
             </div>
 
-            <!-- AI SEMANTIC DISCOVERY SECTION -->
-            <div class="glass p-6 mb-8 space-y-4 border border-yellow-400/20">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-2xl font-bold text-yellow-400">🤖 AI Semantic Discovery</h3>
-                        <p class="text-blue-200/60 text-sm">Natural language search across the ecosystem</p>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-2 text-xs text-green-400">
-                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                        <span>AI Discovery Active</span>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row gap-4">
-                    <input type="text" id="semantic-search-input" placeholder="e.g., historical crypto transaction volume for deep learning models" class="flex-1 glass bg-white/5 px-5 py-4 rounded-xl border border-white/10 outline-none focus:border-yellow-400">
-                    <button onclick="runSemanticSearch()" class="btn-gold px-8 py-4 rounded-xl font-bold text-blue-900">Semantic Search</button>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <!-- Side Sidebar -->
                 <div class="lg:col-span-1 space-y-6">
-                    <!-- Recommendations -->
                     <div class="glass p-6 space-y-4">
                         <h3 class="font-bold text-yellow-400 flex items-center text-sm uppercase tracking-widest">
                             <i class="fas fa-chart-line mr-2"></i> Trending Datasets
                         </h3>
                         <div id="ai-recommendations" class="space-y-4 text-sm">
                             <div class="flex items-center justify-center p-4"><div class="loader"></div></div>
-                        </div>
-                    </div>
-
-                    <!-- LIVE ACTIVITY FEED -->
-                    <div class="glass p-6 border border-white/10">
-                        <h3 class="font-bold text-yellow-400 mb-4 text-xs uppercase tracking-widest">
-                            ⚡ Live Activity
-                        </h3>
-                        <div id="live-activity" class="space-y-3 text-[10px]">
-                            <!-- Activities injected here -->
                         </div>
                     </div>
                 </div>
@@ -548,40 +474,26 @@
                     <h2 class="text-3xl md:text-4xl font-bold">Welcome, <span id="dash-username">User</span></h2>
                     <p class="text-blue-200/60">Portal: <span id="dash-role" class="text-yellow-400 font-bold uppercase tracking-wider text-xs">Contributor</span></p>
                 </div>
-                <div class="glass px-6 py-4 flex flex-col space-y-4 w-full md:w-auto min-w-[250px]">
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm opacity-60">Balance</span>
-                        <span id="dash-balance" class="text-2xl font-bold text-yellow-400">0.00 DTC</span>
+                <div class="glass px-6 py-4 flex flex-col space-y-4 w-full md:w-auto min-w-[280px]">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span class="text-xs opacity-60 font-bold uppercase">Upload Rewards</span>
+                        <span id="dash-balance-upload" class="text-xl font-bold text-yellow-400">0.00 DTC</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-2">
+                        <span class="text-xs opacity-60 font-bold uppercase">Referral Earnings</span>
+                        <span id="dash-balance-ref" class="text-xl font-bold text-green-400">0.00 DTC</span>
                     </div>
                     <div id="referral-section" class="bg-black/20 p-3 rounded-lg border border-yellow-400/10">
                         <p class="text-[10px] uppercase font-bold opacity-40 mb-1">Your Referral Link</p>
                         <div class="flex items-center space-x-2">
-                            <input id="ref-link" readonly class="bg-transparent text-[10px] w-full outline-none">
-                            <button onclick="copyReferral()" class="text-yellow-400 text-[10px] font-bold uppercase">Copy</button>
+                            <input id="ref-link" readonly class="bg-transparent text-[10px] w-full outline-none text-blue-200">
+                            <button onclick="copyReferral()" class="text-yellow-400 text-[10px] font-bold uppercase hover:text-white transition">Copy</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dashboard Analytics for Companies -->
-            <div id="company-analytics" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass p-6 border-l-4 border-yellow-400">
-                    <h4 class="text-[10px] font-bold opacity-40 uppercase">Market Demand</h4>
-                    <p class="text-xl font-bold mt-1 text-yellow-400">High Growth</p>
-                    <p class="text-[10px] opacity-60 mt-2">Demand for Financial NLP data +24% this week.</p>
-                </div>
-                <div class="glass p-6 border-l-4 border-green-400">
-                    <h4 class="text-[10px] font-bold opacity-40 uppercase">ROI Analytics</h4>
-                    <p class="text-xl font-bold mt-1 text-green-400">3.8x Yield</p>
-                    <p class="text-[10px] opacity-60 mt-2">Average efficiency gain across purchased datasets.</p>
-                </div>
-                <div class="glass p-6 border-l-4 border-blue-400">
-                    <h4 class="text-[10px] font-bold opacity-40 uppercase">AI Recommendation</h4>
-                    <p class="text-xl font-bold mt-1 text-blue-400">Consumer Health</p>
-                    <p class="text-[10px] opacity-60 mt-2">New high-quality health datasets available now.</p>
-                </div>
-            </div>
-
+            <!-- Role Section -->
             <div id="role-user-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 glass p-6 space-y-6 h-fit">
                     <h3 class="text-xl font-bold">New Contribution</h3>
@@ -600,12 +512,12 @@
                         <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900">Mint & Upload</button>
                     </form>
                 </div>
-                <div class="lg:col-span-2 glass p-6 overflow-x-auto text-center">
+                <div class="lg:col-span-2 glass p-6 overflow-x-auto">
                     <h3 class="text-xl font-bold mb-6 text-left">Your Datasets</h3>
                     <table class="w-full text-left min-w-[500px]">
                         <thead>
                             <tr class="text-[10px] uppercase font-bold opacity-50 border-b border-white/10">
-                                <th class="pb-4">DATASET</th><th class="pb-4">QUALITY</th><th class="pb-4">EARNINGS</th><th class="pb-4">STATUS</th>
+                                <th class="pb-4">DATASET</th><th class="pb-4">QUALITY</th><th class="pb-4">EARNINGS</th><th class="pb-4 text-right pr-4">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody id="user-datasets-table"></tbody>
@@ -634,50 +546,84 @@
         </section>
     </main>
 
-    <!-- Modal: Preview with Real AI Insights -->
+    <!-- Footer -->
+    <footer class="mt-24 border-t border-white/10 bg-black/40">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-1 space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded flex items-center justify-center font-bold text-blue-900">D</div>
+                        <span class="text-xl font-bold">DataTrust<span class="text-yellow-400">Coin</span></span>
+                    </div>
+                    <p class="text-xs opacity-50 leading-relaxed">
+                        The world's first AI-native data liquidity protocol. Empowering individuals to monetize intelligence and enterprises to build better models.
+                    </p>
+                    <div class="flex space-x-4 opacity-40">
+                        <i class="fab fa-twitter hover:text-yellow-400 cursor-pointer transition"></i>
+                        <i class="fab fa-discord hover:text-yellow-400 cursor-pointer transition"></i>
+                        <i class="fab fa-github hover:text-yellow-400 cursor-pointer transition"></i>
+                        <i class="fab fa-telegram hover:text-yellow-400 cursor-pointer transition"></i>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Platform</h4>
+                    <ul class="space-y-4 text-xs opacity-60">
+                        <li class="hover:text-yellow-400 cursor-pointer transition" onclick="showPage('marketplace')">Marketplace</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition" onclick="showPage('leaderboard')">Leaderboard</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">AI Insight API</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Data Governance</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Resources</h4>
+                    <ul class="space-y-4 text-xs opacity-60">
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Whitepaper</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Developer Docs</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">API Reference</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Tokenomics</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Support</h4>
+                    <ul class="space-y-4 text-xs opacity-60">
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Help Center</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Community Discord</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Status Page</li>
+                        <li class="hover:text-yellow-400 cursor-pointer transition">Contact Sales</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[10px] opacity-40 uppercase tracking-widest">© 2026 DataTrustCoin Protocol. All rights reserved.</p>
+                <div class="flex space-x-8 text-[10px] opacity-40 uppercase tracking-widest">
+                    <span class="hover:text-yellow-400 cursor-pointer transition">Privacy Policy</span>
+                    <span class="hover:text-yellow-400 cursor-pointer transition">Terms of Service</span>
+                    <span class="hover:text-yellow-400 cursor-pointer transition">Cookie Policy</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Preview Modal -->
     <div id="preview-modal" class="hidden fixed inset-0 bg-black/90 z-[250] flex items-center justify-center p-2 md:p-4">
         <div class="bg-[#0A192F] w-full max-w-6xl h-full max-h-[95vh] md:max-h-[90vh] rounded-2xl shadow-2xl border border-yellow-400/20 flex flex-col md:flex-row overflow-hidden relative">
-            
-            <!-- Standard Close Button Top Right (Mobile & Desktop) -->
             <button onclick="closePreview()" class="absolute top-4 right-4 z-[260] w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-yellow-400 border border-yellow-400/10">
                 <i class="fas fa-times"></i>
             </button>
-
-            <!-- Sidebar: AI Insights Panel -->
             <div class="w-full md:w-80 border-b md:border-b-0 md:border-r border-yellow-400/10 p-4 md:p-6 bg-white/5 flex flex-col space-y-6 overflow-y-auto panel-scroll shrink-0">
-                <div class="pr-10 md:pr-0">
-                    <h2 class="text-xl font-bold text-yellow-400">AI Insights</h2>
-                    <p class="text-xs opacity-50">Real-time AI analysis</p>
-                </div>
-
-                <div id="ai-insight-panel" class="space-y-6">
-                    <!-- Real insights will be injected here -->
-                </div>
-
-                <div class="pt-6 border-t border-white/10">
-                    <p class="text-[10px] font-bold uppercase opacity-40 mb-3 tracking-widest">Related Datasets</p>
-                    <div id="related-datasets" class="space-y-2">
-                        <!-- Related datasets injected here -->
-                    </div>
-                </div>
-                
+                <h2 class="text-xl font-bold text-yellow-400">AI Insights</h2>
+                <div id="ai-insight-panel" class="space-y-6"></div>
                 <div class="mt-auto pt-6 border-t border-white/10 space-y-3">
                     <button id="preview-buy-btn" class="w-full bg-yellow-400 text-blue-900 py-3 rounded-xl font-bold hover:scale-105 transition">Unlock Full Access</button>
-                    <button onclick="closePreview()" class="w-full py-3 rounded-xl border border-white/10 text-xs font-bold hover:bg-white/5 transition flex items-center justify-center gap-2">
-                        <i class="fas fa-arrow-left"></i> Back to Marketplace
-                    </button>
+                    <button onclick="closePreview()" class="w-full py-3 rounded-xl border border-white/10 text-xs font-bold hover:bg-white/5 transition">Close Intelligence Portal</button>
                 </div>
             </div>
-
-            <!-- Content: Data Preview -->
             <div class="flex-1 flex flex-col min-h-0 bg-black/20 overflow-hidden">
                 <div class="p-4 md:p-6 border-b border-yellow-400/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <h3 id="preview-title" class="font-bold text-lg truncate w-full md:w-auto text-yellow-400">Dataset Analysis</h3>
+                    <h3 id="preview-title" class="font-bold text-lg truncate text-yellow-400">Dataset Analysis</h3>
                     <div id="preview-meta" class="flex space-x-4 md:space-x-6 text-[10px] font-mono"></div>
                 </div>
-                <div id="preview-content" class="flex-1 p-4 md:p-6 overflow-auto panel-scroll">
-                    <!-- Data table injected here -->
-                </div>
+                <div id="preview-content" class="flex-1 p-4 md:p-6 overflow-auto panel-scroll"></div>
             </div>
         </div>
     </div>
@@ -702,7 +648,7 @@
             <form id="register-form" class="space-y-4">
                 <input type="text" id="reg-name" placeholder="Username" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
                 <input type="email" id="reg-email" placeholder="Email Address" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <select id="reg-role" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
+                <select id="reg-role" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400 text-white">
                     <option value="user">Data Contributor</option>
                     <option value="company">AI Enterprise</option>
                 </select>
@@ -715,56 +661,6 @@
 
     <!-- Notifications -->
     <div id="notification-area" class="fixed bottom-6 right-6 z-[300] flex flex-col space-y-2"></div>
-
-    <footer class="mt-24 border-t border-white/10 bg-black/20">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-                <div class="space-y-4">
-                    <h3 class="text-2xl font-bold">DataTrust<span class="text-yellow-400">Coin</span></h3>
-                    <p class="text-xs opacity-60">AI-powered data intelligence infrastructure for the future of machine learning.</p>
-                    <div class="flex gap-4 mt-6 text-xl">
-                        <i class="fab fa-twitter opacity-40 hover:opacity-100 cursor-pointer"></i>
-                        <i class="fab fa-discord opacity-40 hover:opacity-100 cursor-pointer"></i>
-                        <i class="fab fa-github opacity-40 hover:opacity-100 cursor-pointer"></i>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-yellow-400 text-sm uppercase tracking-widest">Platform</h4>
-                    <ul class="space-y-2 text-xs opacity-70">
-                        <li class="hover:text-yellow-400 cursor-pointer" onclick="showPage('marketplace')">Marketplace</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">AI Discovery API</li>
-                        <li class="hover:text-yellow-400 cursor-pointer" onclick="showPage('leaderboard')">Leaderboards</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">Enterprise Portal</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-yellow-400 text-sm uppercase tracking-widest">Company</h4>
-                    <ul class="space-y-2 text-xs opacity-70">
-                        <li class="hover:text-yellow-400 cursor-pointer">About DTC</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">Security Protocol</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">AI Trust Engine</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">Data Governance</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-yellow-400 text-sm uppercase tracking-widest">Resources</h4>
-                    <ul class="space-y-2 text-xs opacity-70">
-                        <li><a href="/docs" target="_blank" class="hover:text-yellow-400">Developer Docs</a></li>
-                        <li><a href="/api-spec" target="_blank" class="hover:text-yellow-400">REST API Spec</a></li>
-                        <li class="hover:text-yellow-400 cursor-pointer">Privacy Policy</li>
-                        <li class="hover:text-yellow-400 cursor-pointer">Terms of Service</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase font-bold tracking-widest opacity-40 text-center md:text-left">
-                <span>© 2026 DataTrust Coin (DTC) — Enterprise AI Data Infrastructure</span>
-                <div class="flex gap-6">
-                    <span>v2.4.0-Enterprise-Standard</span>
-                    <span class="text-green-400">Mainnet Pulse: Active</span>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
@@ -794,7 +690,15 @@
             setTimeout(() => alert.remove(), 4000);
         }
 
-        /** Core API Handler */
+        function copyReferral() {
+            const copyText = document.getElementById("ref-link");
+            if (!copyText) return;
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            notify("Referral link copied to network clipboard.", "success");
+        }
+
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
             const headers = { 'Authorization': token ? `Bearer ${token}` : '' };
@@ -806,337 +710,169 @@
 
             try {
                 const res = await fetch(`${API_BASE}${endpoint}`, options);
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.detail || data.message || "API Error");
-                return data;
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({}));
+                    throw new Error(errorData.detail || errorData.message || `Network error: ${res.status}`);
+                }
+                return await res.json();
             } catch (err) {
-                console.error(err);
-                notify(err.message, "error");
+                console.error("API Call Error:", err);
+                // Graceful handling for 'NoneType' or internal backend errors
+                if (err.message.includes("NoneType") || err.message.includes("500")) {
+                    notify("Backend logic error detected. The server encountered a null reference.", "error");
+                } else {
+                    notify(err.message, "error");
+                }
                 return null;
             }
         }
 
-        /** Marketplace Logic */
-        async function fetchMarketplace() {
-            const grid = document.getElementById('marketplace-grid');
-            grid.innerHTML = '<div class="col-span-full py-10 flex justify-center"><div class="loader"></div></div>';
-            
-            const [datasets, aiRecs] = await Promise.all([
-                apiCall('/marketplace/datasets'),
-                apiCall('/recommendations/ai')
-            ]);
-
-            const recArea = document.getElementById('ai-recommendations');
-            if(aiRecs && Array.isArray(aiRecs)) {
-                recArea.innerHTML = aiRecs.map(rec => `
-                    <div class="p-3 bg-white/5 rounded-lg border border-yellow-400/10 hover:border-yellow-400 transition cursor-pointer flex justify-between items-center">
-                        <span class="font-bold truncate pr-2 text-xs uppercase tracking-tighter">${rec.title || 'Trending'}</span>
-                        <span class="text-[9px] font-bold text-green-400">+${rec.match_score || 0}%</span>
-                    </div>
-                `).join('');
-            }
-
-            const list = Array.isArray(datasets) ? datasets : (datasets?.datasets || []);
-            grid.innerHTML = list.length ? list.map(ds => createDatasetCard(ds)).join('') : `
-                <div class="col-span-full text-center py-20">
-                    <div class="text-6xl mb-6">📊</div>
-                    <h3 class="text-2xl font-bold mb-3 text-yellow-400">Marketplace Initializing</h3>
-                    <p class="opacity-50 max-w-md mx-auto text-sm">Contribute ethical datasets to activate the high-fidelity data economy.</p>
-                </div>
-            `;
-        }
-
-        function createDatasetCard(ds) {
-            const roundedScore = Math.round(ds.trust_score || 0);
-            const isHighQuality = roundedScore > 85;
-            
-            return `
-                <div class="glass p-5 rounded-2xl hover:border-yellow-400 transition group flex flex-col h-full relative border-white/5">
-                    <div class="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                        ${isHighQuality ? `
-                            <div class="bg-yellow-400 text-blue-900 text-[8px] font-bold px-2 py-1 rounded shadow-lg badge-pulse">
-                                AI READY
-                            </div>
-                        ` : ''}
-                    </div>
-
-                    <span class="text-[9px] uppercase font-bold text-yellow-400 tracking-widest">${ds.category || 'GENERAL DATA'}</span>
-                    <h3 class="text-lg font-bold mt-2 truncate text-white uppercase tracking-tight">${ds.title || 'Untitled Dataset'}</h3>
-                    
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        ${roundedScore > 85 ? `<span class="text-[10px] bg-green-400/20 text-green-400 px-2 py-1 rounded-full font-bold">Verified</span>` : ''}
-                        ${roundedScore > 70 ? `<span class="text-[10px] bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded-full font-bold">AI Ready</span>` : ''}
-                        <span class="text-[10px] bg-blue-400/20 text-blue-400 px-2 py-1 rounded-full font-bold">Enterprise Grade</span>
-                    </div>
-
-                    <p class="text-xs opacity-60 mt-3 line-clamp-2 leading-relaxed italic">"${ds.description || 'Verified structural dataset for model training.'}"</p>
-                    
-                    <div class="mt-4 grid grid-cols-2 gap-2">
-                        <div class="bg-white/5 rounded-xl p-3 flex items-center justify-between">
-                            <div>
-                                <p class="text-[8px] uppercase opacity-40 font-bold">AI Readiness</p>
-                                <p class="text-sm font-bold text-yellow-400">${roundedScore}%</p>
-                            </div>
-                            <div class="readiness-gauge" style="--bg-gradient: conic-gradient(from 0deg, var(--primary-gold) 0%, var(--primary-gold) ${roundedScore}%, transparent ${roundedScore}%, transparent 100%)">
-                                <span class="text-[8px] font-bold">${roundedScore}</span>
-                            </div>
-                        </div>
-                        <div class="bg-white/5 rounded-xl p-3">
-                            <p class="text-[8px] uppercase opacity-40 font-bold">Data Records</p>
-                            <p class="text-sm font-bold text-white">${(ds.record_count || 0).toLocaleString()}</p>
-                        </div>
-                        <div class="bg-white/5 rounded-xl p-3">
-                            <p class="text-[8px] uppercase opacity-40 font-bold">Market Demand</p>
-                            <p class="text-xs font-bold text-green-400">${roundedScore > 80 ? 'High Growth' : 'Standard'}</p>
-                        </div>
-                        <div class="bg-white/5 rounded-xl p-3">
-                            <p class="text-[8px] uppercase opacity-40 font-bold">Trust Class</p>
-                            <p class="text-xs font-bold text-blue-400">${roundedScore > 85 ? 'Institutional' : 'Global'}</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-auto pt-6">
-                        <p class="text-yellow-400 font-bold text-xl mb-4">${ds.price || 0} DTC <span class="text-[10px] opacity-40 text-white font-normal uppercase">per license</span></p>
-                        <div class="flex gap-2">
-                            <button onclick="previewDataset('${ds.id}')" class="flex-1 bg-yellow-400 text-blue-900 font-bold py-3 rounded-xl hover:scale-105 transition text-xs">
-                                AI Intelligence
-                            </button>
-                            <button onclick="purchaseDataset('${ds.id}')" class="flex-1 border border-yellow-400/30 text-yellow-400 font-bold py-3 rounded-xl hover:bg-yellow-400/10 transition text-xs">
-                                Acquire Dataset
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        /** AI Semantic Search */
-        async function runSemanticSearch() {
-            const query = document.getElementById("semantic-search-input").value;
-            if (!query) return notify("AI Discovery requires intent-based query.", "error");
-
-            const grid = document.getElementById("marketplace-grid");
-            grid.innerHTML = '<div class="col-span-full flex justify-center py-20"><div class="loader"></div></div>';
-
-            const result = await apiCall(`/semantic/search?q=${encodeURIComponent(query)}`);
-            if (!result || !result.results) {
-                grid.innerHTML = '<div class="col-span-full text-center py-20"><p class="opacity-40">AI Discovery found no matches.</p></div>';
-                return;
-            }
-
-            const mappedResults = result.results.map(r => ({
-                id: r.dataset_id,
-                title: r.metadata?.title,
-                category: r.metadata?.category,
-                price: r.metadata?.price,
-                trust_score: r.metadata?.trust_score,
-                similarity_score: r.similarity_score,
-                description: r.document,
-                record_count: r.metadata?.record_count || 0
-            }));
-
-            grid.innerHTML = mappedResults.map(ds => createDatasetCard(ds)).join('');
-        }
-
-        /** AI Chat Assistant Logic */
-        async function askAI() {
-            const input = document.getElementById("ai-chat-input");
-            const responseBox = document.getElementById("ai-chat-response");
-            const query = input.value;
-            if (!query) return;
-
-            responseBox.innerHTML = '<div class="loader mx-auto"></div>';
-            
-            const result = await apiCall("/ai/chat", "POST", { query });
-            if (!result) {
-                responseBox.innerHTML = '<p class="text-red-400">AI Assistant temporarily offline.</p>';
-                return;
-            }
-
-            responseBox.innerHTML = `
-                <div class="glass p-5 rounded-2xl border border-yellow-400/10 space-y-3 bg-white/5 activity-item">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-yellow-400 text-blue-900 flex items-center justify-center font-bold">AI</div>
-                        <div>
-                            <p class="font-bold text-yellow-400 text-sm">DTC Intelligence Assistant</p>
-                            <p class="text-[10px] opacity-40 uppercase font-bold tracking-widest">Global Marketplace Analysis Engine</p>
-                        </div>
-                    </div>
-                    <div class="text-sm leading-relaxed opacity-90 whitespace-pre-wrap font-medium">
-                        ${result.response}
-                    </div>
-                </div>
-            `;
-        }
-
-        /** Real AI Insights Panel & Preview */
-        async function previewDataset(id) {
-            const modal = document.getElementById("preview-modal");
-            const insightPanel = document.getElementById("ai-insight-panel");
-            const content = document.getElementById("preview-content");
-            const meta = document.getElementById("preview-meta");
-            const titleEl = document.getElementById("preview-title");
-            const relatedPanel = document.getElementById("related-datasets");
-
-            modal.classList.remove("hidden");
-            document.body.style.overflow = 'hidden'; 
-            content.innerHTML = '<div class="flex h-full items-center justify-center py-20"><div class="loader"></div></div>';
-            insightPanel.innerHTML = '<div class="space-y-4 py-10 text-center"><div class="loader mx-auto"></div><p class="text-[10px] opacity-50 uppercase tracking-widest mt-4">Running Neural Analysis...</p></div>';
-            relatedPanel.innerHTML = '<div class="h-10 bg-white/5 animate-pulse rounded"></div>';
-
-            const [data, insights, related] = await Promise.all([
-                apiCall(`/marketplace/datasets/${id}/preview`),
-                apiCall(`/semantic/insights/${id}`),
-                apiCall(`/semantic/related/${id}`).catch(() => ({ results: [] }))
-            ]);
-
-            if(!data) return closePreview();
-
-            titleEl.innerText = data.title || "Dataset Intelligence Mapping";
-            meta.innerHTML = `
-                <div class="flex flex-col"><span class="opacity-40 uppercase">Record Density</span><span>${(data.record_count || 0).toLocaleString()}</span></div>
-                <div class="flex flex-col text-yellow-400 font-bold"><span class="opacity-40 uppercase text-white font-normal">AI Readiness</span><span>${Math.round(data.trust_score || 0)}%</span></div>
-            `;
-
-            const aiData = insights?.insights || {};
-            const aiAnalysis = aiData.ai_analysis || {};
-            const risk = aiData.risk_analysis || {};
-            const summary = aiData.summary_analysis || {};
-
-            insightPanel.innerHTML = `
-                <div class="space-y-2">
-                    <p class="text-[9px] uppercase font-bold opacity-40 tracking-widest text-white">Neural Readiness</p>
-                    <div class="flex items-center space-x-3">
-                        <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-yellow-400" style="width: ${data.trust_score || 0}%"></div>
-                        </div>
-                        <span class="text-xs font-bold text-yellow-400">${Math.round(data.trust_score || 0)}%</span>
-                    </div>
-                </div>
-
-                <div class="space-y-1">
-                    <p class="text-[9px] uppercase font-bold opacity-40">Intelligence Summary</p>
-                    <p class="text-xs leading-relaxed opacity-80">${summary.key_findings || 'Structural verification complete. Data exhibits high feature relevance for predictive modeling.'}</p>
-                </div>
-
-                <div class="space-y-2">
-                    <p class="text-[9px] uppercase font-bold opacity-40">ML Pipeline compatibility</p>
-                    <div class="flex flex-wrap gap-1">
-                        ${(aiAnalysis.recommended_models || ['XGBoost', 'TensorFlow', 'PyTorch']).map(m => `<span class="px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/20 rounded text-[8px] font-bold text-yellow-400">${m}</span>`).join('')}
-                    </div>
-                </div>
-
-                <div class="space-y-1">
-                    <p class="text-[9px] uppercase font-bold opacity-40">Security & Risk</p>
-                    <p class="text-xs ${risk.level === 'Low' ? 'text-green-400' : 'text-yellow-400'} font-bold">${risk.level || 'Standard'} Profile</p>
-                    <p class="text-[10px] opacity-60 leading-tight">${risk.notes || 'Verified ethical sourcing with minimal feature sparsity.'}</p>
-                </div>
-
-                <div class="p-3 bg-yellow-400/5 border border-yellow-400/10 rounded-xl">
-                    <p class="text-[9px] uppercase font-bold opacity-40 mb-1">Valuation Intel</p>
-                    <p class="text-sm font-bold text-yellow-400">${aiData.pricing_analysis?.suggested_valuation || 'Market Verified'}</p>
-                </div>
-            `;
-
-            const relList = (related?.results || []).slice(0, 3);
-            relatedPanel.innerHTML = relList.length ? relList.map(r => `
-                <div onclick="previewDataset('${r.dataset_id}')" class="p-2 bg-white/5 rounded border border-white/5 hover:border-yellow-400 transition cursor-pointer text-[10px] flex justify-between">
-                    <span class="truncate pr-2">${r.metadata?.title || 'Related Model Data'}</span>
-                    <span class="text-green-400 font-bold">${Math.round(r.similarity_score)}%</span>
-                </div>
-            `).join('') : '<p class="text-[10px] opacity-30 italic">No similar clusters identified.</p>';
-
-            if(data.preview && data.preview.length > 0) {
-                let table = '<div class="overflow-x-auto"><table class="w-full text-[10px] text-left border-collapse"><thead><tr class="opacity-40 text-white uppercase tracking-tighter">';
-                data.columns.forEach(c => table += `<th class="p-3 border-b border-white/5 font-mono min-w-[120px]">${c}</th>`);
-                table += '</tr></thead><tbody>';
-                data.preview.forEach(row => {
-                    table += '<tr class="hover:bg-yellow-400/5 border-b border-white/5 transition">';
-                    data.columns.forEach(c => table += `<td class="p-3 truncate max-w-[180px] opacity-80">${row[c] ?? '-'}</td>`);
-                    table += '</tr>';
-                });
-                table += '</tbody></table></div>';
-                content.innerHTML = table;
-            } else content.innerHTML = '<div class="flex flex-col items-center justify-center h-full py-20"><div class="text-4xl mb-4">🔒</div><p class="text-center opacity-40 text-xs">Dataset structure requires purchase verification.</p></div>';
-
-            document.getElementById("preview-buy-btn").onclick = () => { closePreview(); purchaseDataset(id); };
-        }
-
-        function closePreview() { 
-            document.getElementById("preview-modal").classList.add("hidden"); 
-            document.body.style.overflow = 'auto'; 
-        }
-
-        function filterMarketplace(cat) {
-            const buttons = document.querySelectorAll('#page-marketplace .panel-scroll button');
-            buttons.forEach(b => {
-                b.classList.remove('bg-yellow-400', 'text-blue-900', 'font-bold');
-                b.classList.add('bg-white/5', 'text-white');
-            });
-            event.target.classList.add('bg-yellow-400', 'text-blue-900', 'font-bold');
-            event.target.classList.remove('bg-white/5');
-            
-            // Re-fetch logic can be added here
-            fetchMarketplace();
-        }
-
-        /** Auth & Lifecycle */
         async function initApp() {
             const token = localStorage.getItem('token');
             if (token) {
                 const userData = await apiCall('/auth/me');
                 if (userData) {
                     user = userData;
-                    document.getElementById('auth-buttons').classList.add('hidden');
-                    document.getElementById('mobile-auth-section').classList.add('hidden');
-                    document.getElementById('user-profile-nav').classList.remove('hidden');
-                    document.getElementById('mobile-user-section').classList.remove('hidden');
-                    document.getElementById('nav-username').innerText = user.username;
-                    document.getElementById('dash-username').innerText = user.username;
-                    document.getElementById('dash-role').innerText = user.is_company ? 'AI Enterprise' : 'Data Contributor';
-                    document.getElementById('user-avatar').innerText = user.username[0].toUpperCase();
-                    document.getElementById('ref-link').value = `${window.location.origin}/?ref=${user.referral_code || user.username}`;
-                    document.getElementById(user.is_company ? 'role-company-section' : 'role-user-section').classList.remove('hidden');
-                    if(user.is_company) document.getElementById('company-analytics').classList.remove('hidden');
+                    document.getElementById('auth-buttons')?.classList.add('hidden');
+                    document.getElementById('mobile-auth-section')?.classList.add('hidden');
+                    document.getElementById('user-profile-nav')?.classList.remove('hidden');
+                    document.getElementById('mobile-user-section')?.classList.remove('hidden');
+                    if (document.getElementById('nav-username')) document.getElementById('nav-username').innerText = user.username;
+                    if (document.getElementById('dash-username')) document.getElementById('dash-username').innerText = user.username;
+                    if (document.getElementById('dash-role')) document.getElementById('dash-role').innerText = user.is_company ? 'AI Enterprise' : 'Data Contributor';
+                    if (document.getElementById('user-avatar')) document.getElementById('user-avatar').innerText = user.username[0].toUpperCase();
+                    if (document.getElementById('ref-link')) document.getElementById('ref-link').value = `${window.location.origin}/?ref=${user.referral_code || user.username}`;
+                    
+                    const companySec = document.getElementById('role-company-section');
+                    const userSec = document.getElementById('role-user-section');
+                    if (user.is_company) {
+                        companySec?.classList.remove('hidden');
+                        userSec?.classList.add('hidden');
+                    } else {
+                        userSec?.classList.remove('hidden');
+                        companySec?.classList.add('hidden');
+                    }
                 }
             }
             fetchEconomyStats();
-            
-            // Optimized Real-time Refresh
-            setInterval(() => {
-                if(document.getElementById('page-marketplace').classList.contains('active')) {
-                    fetchMarketplace();
-                }
-            }, 30000); 
-
-            // LIVE ACTIVITY FEED
-            const activities = [
-                "Healthcare dataset purchased by FinAI Labs",
-                "Cybersecurity dataset uploaded via IoT mesh",
-                "AI trust score updated for Retail signals",
-                "Enterprise buyer authorized in Marketplace",
-                "Fraud detection dataset trending +18%",
-                "Mobility pattern dataset licensed by SmartCity Inc",
-                "New synthetic AI training data published"
-            ];
-
-            setInterval(() => {
-                const container = document.getElementById('live-activity');
-                if(!container) return;
-                const item = document.createElement('div');
-                item.className = "p-3 bg-white/5 rounded-lg activity-item border border-white/5";
-                item.innerText = activities[Math.floor(Math.random() * activities.length)];
-                container.prepend(item);
-                if(container.children.length > 5) container.removeChild(container.lastChild);
-            }, 5000);
         }
 
+        async function fetchMarketplace() {
+            const grid = document.getElementById('marketplace-grid');
+            if (!grid) return;
+            grid.innerHTML = '<div class="col-span-full py-10 flex justify-center"><div class="loader"></div></div>';
+            const res = await apiCall('/marketplace/datasets');
+            const list = Array.isArray(res) ? res : (res?.datasets || []);
+            grid.innerHTML = list.length ? list.map(ds => `
+                <div class="glass p-5 rounded-2xl hover:border-yellow-400 transition flex flex-col h-full border-white/5">
+                    <span class="text-[9px] uppercase font-bold text-yellow-400 tracking-widest">${ds.category || 'General'}</span>
+                    <h3 class="text-lg font-bold mt-2 truncate text-white uppercase">${ds.title || 'Untitled'}</h3>
+                    <p class="text-xs opacity-60 mt-3 line-clamp-2 italic">${ds.description || 'Verified structural dataset.'}</p>
+                    <div class="mt-4 flex justify-between items-center bg-white/5 p-3 rounded-xl">
+                        <span class="text-sm font-bold text-yellow-400">${ds.price} DTC</span>
+                        <span class="text-[10px] opacity-40 uppercase font-bold">${ds.record_count} Records</span>
+                    </div>
+                    <div class="mt-auto pt-6 flex gap-2">
+                        <button onclick="previewDataset('${ds.id}')" class="flex-1 bg-yellow-400 text-blue-900 font-bold py-3 rounded-xl text-xs">Preview</button>
+                        <button onclick="purchaseDataset('${ds.id}')" class="flex-1 border border-yellow-400/30 text-yellow-400 py-3 rounded-xl text-xs hover:bg-yellow-400/10">Buy</button>
+                    </div>
+                </div>
+            `).join('') : '<p class="col-span-full text-center py-20 opacity-40 uppercase tracking-widest">No Datasets Found</p>';
+        }
+
+        async function fetchDashboardData() {
+            if(!user) return;
+            const wallet = await apiCall('/users/wallet');
+            const history = user.is_company ? await apiCall('/purchase/my') : await apiCall('/users/datasets');
+            
+            if(wallet) {
+                const total = wallet.token_balance || 0;
+                const refPart = user.referral_earnings || (total * 0.1);
+                const uploadPart = total - refPart;
+                if (document.getElementById('dash-balance-upload')) document.getElementById('dash-balance-upload').innerText = `${uploadPart.toFixed(2)} DTC`;
+                if (document.getElementById('dash-balance-ref')) document.getElementById('dash-balance-ref').innerText = `${refPart.toFixed(2)} DTC`;
+            }
+            
+            const table = document.getElementById(user.is_company ? 'company-purchases-table' : 'user-datasets-table');
+            if (table) {
+                table.innerHTML = history?.length ? history.map(item => `
+                    <tr class="border-b border-white/5 text-[10px] hover:bg-white/5 transition">
+                        <td class="py-4 font-bold uppercase">${item.title || item.dataset_title || 'Dataset'}</td>
+                        <td class="py-4 font-mono">${user.is_company ? new Date(item.date).toLocaleDateString() : (item.quality_score * 100).toFixed(0) + '% Quality'}</td>
+                        <td class="py-4 text-yellow-400 font-bold">${(item.price || item.token_reward || 0).toFixed(2)} DTC</td>
+                        <td class="py-4 text-right pr-4">
+                            <div class="flex justify-end gap-2">
+                                <button onclick="previewDataset('${item.id}')" class="px-3 py-1 bg-yellow-400 text-blue-900 rounded font-bold hover:scale-105 transition">Preview</button>
+                                ${!user.is_company ? `<button onclick="deleteDataset('${item.id}')" class="px-3 py-1 bg-red-900/40 text-red-400 border border-red-500/20 rounded font-bold hover:bg-red-900 transition">Delete</button>` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40 text-xs uppercase tracking-widest">Activity History Empty</td></tr>';
+            }
+        }
+
+        async function deleteDataset(id) {
+            const res = await apiCall(`/datasets/${id}`, 'DELETE');
+            if(res) {
+                notify("Dataset removed from network indexing.", "success");
+                fetchDashboardData();
+            }
+        }
+
+        async function previewDataset(id) {
+            const modal = document.getElementById("preview-modal");
+            const insightPanel = document.getElementById("ai-insight-panel");
+            const content = document.getElementById("preview-content");
+            const meta = document.getElementById("preview-meta");
+            const titleEl = document.getElementById("preview-title");
+
+            if (!modal || !insightPanel || !content) return;
+
+            modal.classList.remove("hidden");
+            document.body.style.overflow = 'hidden'; 
+            content.innerHTML = '<div class="flex h-full items-center justify-center py-20"><div class="loader"></div></div>';
+            insightPanel.innerHTML = '<div class="loader mx-auto"></div>';
+
+            const [data, insights] = await Promise.all([
+                apiCall(`/marketplace/datasets/${id}/preview`),
+                apiCall(`/semantic/insights/${id}`)
+            ]);
+
+            if(!data) return closePreview();
+
+            titleEl.innerText = data.title || "Dataset Intelligence Mapping";
+            meta.innerHTML = `<span class="opacity-40 uppercase">Records:</span><span>${data.record_count}</span> <span class="opacity-40 uppercase ml-4">Quality:</span><span class="text-yellow-400 font-bold">${Math.round(data.trust_score)}%</span>`;
+
+            const ai = insights?.insights || {};
+            insightPanel.innerHTML = `
+                <div class="space-y-4">
+                    <p class="text-[9px] uppercase font-bold opacity-40 tracking-widest">Network Score</p>
+                    <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-yellow-400" style="width: ${data.trust_score}%"></div></div>
+                    <p class="text-xs leading-relaxed opacity-80">${ai.summary_analysis?.key_findings || 'Data mapping complete. High fidelity features detected.'}</p>
+                </div>
+            `;
+
+            if(data.preview && data.preview.length > 0) {
+                let tableHtml = '<table class="w-full text-[10px] text-left"><thead><tr class="opacity-40 text-white uppercase">';
+                data.columns.forEach(c => tableHtml += `<th class="p-3 border-b border-white/5">${c}</th>`);
+                tableHtml += '</tr></thead><tbody>';
+                data.preview.forEach(row => {
+                    tableHtml += '<tr class="border-b border-white/5">';
+                    data.columns.forEach(c => tableHtml += `<td class="p-3 opacity-80">${row[c] ?? '-'}</td>`);
+                    tableHtml += '</tr>';
+                });
+                content.innerHTML = tableHtml + '</tbody></table>';
+            } else content.innerHTML = '<p class="text-center py-20 opacity-30 text-xs">Full schema restricted to license owners.</p>';
+        }
+
+        function closePreview() { document.getElementById("preview-modal")?.classList.add("hidden"); document.body.style.overflow = 'auto'; }
+        
         async function fetchEconomyStats() {
             const stats = await apiCall('/economy/stats');
             if (stats) {
-                document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
-                document.getElementById('stat-tokens').innerText = (stats.circulating_supply || 0).toLocaleString();
-                document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
+                if (document.getElementById('stat-datasets')) document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
+                if (document.getElementById('stat-tokens')) document.getElementById('stat-tokens').innerText = (stats.circulating_supply || 0).toLocaleString();
+                if (document.getElementById('stat-users')) document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
             }
         }
 
@@ -1148,13 +884,15 @@
                 apiCall('/leaderboard/referrals').catch(() => [])
             ]);
             const render = (id, items) => {
-                document.getElementById(id).innerHTML = items?.length ? items.map((it, i) => `
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.innerHTML = items?.length ? items.map((it, i) => `
                     <div class="flex justify-between items-center text-[10px] p-2 bg-white/5 rounded border border-white/5">
                         <span class="opacity-50">#${i+1}</span>
-                        <span class="font-bold flex-1 ml-2 truncate uppercase text-white/80">${it.username || it.title || 'User'}</span>
-                        <span class="text-yellow-400 font-mono font-bold">${(it.tokens_earned || it.price || it.referral_earnings || 0).toFixed(1)}</span>
+                        <span class="font-bold flex-1 ml-2 truncate uppercase">${it.username || it.title || 'User'}</span>
+                        <span class="text-yellow-400 font-bold">${(it.tokens_earned || it.price || it.referral_earnings || 0).toFixed(1)}</span>
                     </div>
-                `).join('') : '<p class="text-[10px] opacity-30 text-center uppercase tracking-widest py-4">Ranking Syncing...</p>';
+                `).join('') : '<p class="text-[10px] opacity-30 text-center uppercase py-4">Ranking Syncing...</p>';
             };
             render('lb-contributors', contribs);
             render('lb-datasets', data);
@@ -1162,73 +900,26 @@
             render('lb-referrals', referrers);
         }
 
-        async function fetchDashboardData() {
-            if(!user) return;
-            const wallet = await apiCall('/users/wallet');
-            const history = user.is_company ? await apiCall('/purchase/my') : await apiCall('/users/datasets');
-            if(wallet) document.getElementById('dash-balance').innerText = `${(wallet.token_balance || 0).toFixed(2)} DTC`;
-            
-            const table = document.getElementById(user.is_company ? 'company-purchases-table' : 'user-datasets-table');
-            table.innerHTML = history?.length ? history.map(item => `
-                <tr class="border-b border-white/5 text-[10px] hover:bg-white/5 transition">
-                    <td class="py-4 font-bold uppercase">${item.title || item.dataset_title || 'Dataset'}</td>
-                    <td class="py-4 font-mono">${user.is_company ? new Date(item.date).toLocaleDateString() : (item.quality_score * 100).toFixed(0) + '% Quality'}</td>
-                    <td class="py-4 text-yellow-400 font-bold">${(item.price || item.token_reward || 0).toFixed(2)} DTC</td>
-                    <td class="py-4">${user.is_company ? '<button class="text-blue-400 hover:underline">Download Secure</button>' : '<span class="px-2 py-1 bg-green-900/20 text-green-400 rounded text-[8px] font-bold">MINTED</span>'}</td>
-                </tr>
-            `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40 text-xs">No marketplace activity recorded.</td></tr>';
-        }
+        async function logout() { localStorage.removeItem('token'); location.reload(); }
 
-        async function purchaseDataset(id) {
-            if(!user) return showModal('login-modal');
-            const res = await apiCall('/marketplace/purchase', 'POST', { dataset_id: id });
-            if(res) { notify('License ownership verified on network.', 'success'); fetchDashboardData(); }
-        }
-
-        async function uploadDataset(e) {
+        window.onload = initApp;
+        
+        document.getElementById('login-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector("button");
-            const originalText = btn.innerText;
-            btn.disabled = true;
-            btn.innerHTML = '<div class="loader mx-auto"></div>';
-            
+            const res = await apiCall('/auth/login', 'POST', { email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
+            if(res && res.access_token) { localStorage.setItem('token', res.access_token); hideModal('login-modal'); initApp(); }
+        });
+        
+        document.getElementById('upload-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
             const formData = new FormData();
             formData.append("title", document.getElementById("up-title").value);
             formData.append("description", document.getElementById("up-desc").value);
             formData.append("category", document.getElementById("up-category").value);
             formData.append("file", document.getElementById("up-file").files[0]);
-
             const res = await apiCall('/datasets/upload', 'POST', formData);
             if(res) { notify('Dataset minted and high-fidelity mapping complete.', 'success'); e.target.reset(); fetchDashboardData(); }
-            btn.disabled = false;
-            btn.innerText = originalText;
-        }
-
-        async function login(e) {
-            e.preventDefault();
-            const res = await apiCall('/auth/login', 'POST', { email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
-            if(res && res.access_token) { localStorage.setItem('token', res.access_token); hideModal('login-modal'); initApp(); }
-        }
-
-        async function logout() { localStorage.removeItem('token'); location.reload(); }
-
-        /** Event Listeners */
-        document.getElementById('login-form').addEventListener('submit', login);
-        document.getElementById('upload-form').addEventListener('submit', uploadDataset);
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const payload = {
-                username: document.getElementById('reg-name').value,
-                email: document.getElementById('reg-email').value,
-                password: document.getElementById('reg-password').value,
-                is_company: document.getElementById('reg-role').value === 'company',
-                referral_code: document.getElementById('reg-referral').value || null
-            };
-            const res = await apiCall('/auth/register', 'POST', payload);
-            if(res) { notify('Network credentials accepted. Authorization sequence initialized.', 'success'); hideModal('register-modal'); showModal('login-modal'); }
         });
-
-        window.onload = initApp;
     </script>
 </body>
 </html>
