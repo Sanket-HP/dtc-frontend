@@ -3,540 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataTrustCoin (DTC) | Next-Gen Data Liquidity</title>
+    <title>DataTrustCoin (DTC) | Precision AI Infrastructure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --primary-gold: #FFD700;
-            --primary-blue: #0A192F;
-            --accent-blue: #112240;
-            --glow-gold: rgba(255, 215, 0, 0.3);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary-blue);
-            color: #E6F1FF;
-            overflow-x: hidden;
-        }
-
-        /* Animated Golden Waves Background */
-        .wave-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #0A192F 70%);
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23FFD700" fill-opacity="0.05" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,181.3C672,149,768,107,864,112C960,117,1056,171,1152,181.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-repeat: repeat-x;
-            background-size: 50% 100%;
-            animation: wave-move 20s linear infinite;
-        }
-
-        .wave:nth-child(2) {
-            bottom: 10px;
-            opacity: 0.5;
-            animation: wave-move 15s linear infinite reverse;
-        }
-
-        @keyframes wave-move {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Glassmorphism Classes */
-        .glass {
-            background: rgba(17, 34, 64, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 16px;
-            transition: all 0.3s;
-        }
-
-        .glass:hover {
-            transform: translateY(-5px);
-        }
-
-        .gold-glow {
-            box-shadow: 0 0 20px var(--glow-gold);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
-            color: #0A192F;
-            font-weight: 700;
-            transition: all 0.2s ease;
-        }
-
-        .btn-gold:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .btn-gold:active {
-            transform: scale(0.96);
-        }
-
-        .btn-gold:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .nav-link {
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-gold);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .loader {
-            border: 3px solid rgba(255, 215, 0, 0.1);
-            border-top: 3px solid var(--primary-gold);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Tab System */
+        :root { --primary-gold: #FFD700; --primary-blue: #0A192F; --accent-blue: #112240; --glow-gold: rgba(255, 215, 0, 0.3); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--primary-blue); color: #E6F1FF; overflow-x: hidden; }
+        .wave-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #0A192F 70%); }
+        .wave { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23FFD700" fill-opacity="0.05" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,181.3C672,149,768,107,864,112C960,117,1056,171,1152,181.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); background-repeat: repeat-x; background-size: 50% 100%; animation: wave-move 25s linear infinite; }
+        @keyframes wave-move { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .glass { background: rgba(10, 25, 47, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 215, 0, 0.1); border-radius: 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-gold { background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); color: #0A192F; font-weight: 700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); transition: all 0.2s; }
+        .btn-gold:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); }
+        .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-link { position: relative; opacity: 0.7; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { opacity: 1; color: var(--primary-gold); }
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* Mobile Menu Transitions */
-        #mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        #mobile-menu.active {
-            transform: translateX(0);
-        }
-
-        /* Preview Modal styles */
-        #preview-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        #preview-content::-webkit-scrollbar-thumb {
-            background: #FFD700;
-            border-radius: 10px;
-        }
-
-        .badge-pulse {
-            animation: badge-glow 2s infinite;
-        }
-        @keyframes badge-glow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; text-shadow: 0 0 10px currentColor; }
-        }
-
-        /* Custom Scrollbar for Modal Panels */
-        .panel-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .panel-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .activity-item {
-            animation: slideIn 0.4s ease-out forwards;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 0.7; transform: translateY(0); }
-        }
-
-        .readiness-gauge {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: #112240;
-        }
-        .readiness-gauge::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            padding: 3px;
-            background: var(--bg-gradient);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-        }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .loader { border: 3px solid rgba(255, 215, 0, 0.1); border-top: 3px solid var(--primary-gold); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 215, 0, 0.2); border-radius: 10px; }
     </style>
 </head>
 <body class="min-h-screen">
+    <div class="wave-container"><div class="wave"></div></div>
 
-    <div class="wave-container">
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
-
-    <!-- Navigation -->
     <nav class="sticky top-0 z-50 glass border-b border-white/5 px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
                 <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center font-bold text-blue-900 text-lg md:text-xl shadow-lg">D</div>
                 <span class="text-xl md:text-2xl font-bold tracking-tight">DataTrust<span class="text-yellow-400">Coin</span></span>
             </div>
-            
             <div class="hidden lg:flex space-x-8 items-center">
-                <button onclick="showPage('home')" class="nav-link font-medium">Home</button>
-                <button onclick="showPage('marketplace')" class="nav-link font-medium">Marketplace</button>
-                <button onclick="showPage('leaderboard')" class="nav-link font-medium">Leaderboard</button>
+                <button onclick="showPage('home')" class="nav-link active font-medium" data-page="home">Home</button>
+                <button onclick="showPage('marketplace')" class="nav-link font-medium" data-page="marketplace">Marketplace</button>
+                <button onclick="showPage('leaderboard')" class="nav-link font-medium" data-page="leaderboard">Leaderboard</button>
                 <div id="auth-buttons" class="flex space-x-4 items-center">
-                    <button onclick="showModal('login-modal')" class="text-yellow-400 font-semibold hover:text-yellow-300">Login</button>
-                    <button onclick="showModal('register-modal')" class="btn-gold px-6 py-2 rounded-full text-sm text-blue-900">Join Ecosystem</button>
+                    <button onclick="showModal('login-modal')" class="text-yellow-400 font-semibold">Login</button>
+                    <button onclick="showModal('register-modal')" class="btn-gold px-6 py-2 rounded-full text-sm">Join Ecosystem</button>
                 </div>
                 <div id="user-profile-nav" class="hidden flex items-center space-x-4">
-                    <button onclick="showPage('dashboard')" class="nav-link font-medium">Dashboard</button>
-                    <div class="flex items-center space-x-2 bg-white/5 p-1 pr-4 rounded-full">
-                        <div id="user-avatar" class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center font-bold">U</div>
-                        <span id="nav-username" class="text-sm font-semibold truncate max-w-[100px]">User</span>
-                        <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 ml-2">Logout</button>
+                    <button onclick="showPage('dashboard')" class="nav-link font-medium" data-page="dashboard">Dashboard</button>
+                    <div class="flex items-center space-x-3 bg-white/5 p-1 pr-4 rounded-full border border-white/10">
+                        <div id="user-avatar" class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center font-bold text-xs">U</div>
+                        <span id="nav-username" class="text-xs font-semibold truncate max-w-[100px]">User</span>
+                        <button onclick="logout()" class="text-[10px] text-red-400 hover:text-red-300 uppercase font-bold">Logout</button>
                     </div>
                 </div>
             </div>
-
-            <button onclick="toggleMobileMenu(true)" class="lg:hidden text-2xl text-yellow-400">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button onclick="toggleMobileMenu(true)" class="lg:hidden text-2xl text-yellow-400"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- Mobile Menu Sidebar -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 z-[100] w-full max-w-sm glass border-l border-white/10 p-6 flex flex-col shadow-2xl">
-        <div class="flex justify-between items-center mb-10">
-            <span class="text-xl font-bold">Menu</span>
-            <button onclick="toggleMobileMenu(false)" class="text-2xl text-blue-200/60"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="flex flex-col space-y-6">
-            <button onclick="showPage('home')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Home</button>
-            <button onclick="showPage('marketplace')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Marketplace</button>
-            <button onclick="showPage('leaderboard')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Leaderboard</button>
-            <div id="mobile-auth-section" class="flex flex-col space-y-4 pt-4">
-                <button onclick="showModal('login-modal'); toggleMobileMenu(false);" class="text-yellow-400 font-bold text-lg">Login</button>
-                <button onclick="showModal('register-modal'); toggleMobileMenu(false);" class="btn-gold px-6 py-3 rounded-xl text-center text-blue-900">Join Ecosystem</button>
-            </div>
-            <div id="mobile-user-section" class="hidden flex flex-col space-y-6 pt-4">
-                <button onclick="showPage('dashboard')" class="text-left text-lg font-medium border-b border-white/5 pb-2">Dashboard</button>
-                <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 rounded-lg font-bold">Logout</button>
-            </div>
-        </div>
-    </div>
-
     <main class="max-w-7xl mx-auto px-4 md:px-6 py-12">
-        
-        <!-- Page: Home -->
-        <section id="page-home" class="tab-content active space-y-24 md:space-y-32">
-            <!-- Hero -->
+        <!-- Home Page -->
+        <section id="page-home" class="tab-content active space-y-24">
             <div class="text-center space-y-8 pt-10">
-                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-400/10 border border-yellow-400/20 rounded-full text-[10px] md:text-xs text-yellow-400 font-bold">
-                    <span>🚀 Live on Cloud Run</span>
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-400/10 border border-yellow-400/20 rounded-full text-[10px] md:text-xs text-yellow-400 font-bold uppercase tracking-widest">
+                    <span>🚀 Precision AI Data Mesh</span>
                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                 </div>
                 <h1 class="text-4xl md:text-7xl font-extrabold leading-tight tracking-tight">
-                    AI-Native Data<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Intelligence Infrastructure</span>
+                    Monetize Your <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Digital Intelligence</span>
                 </h1>
-                <p class="text-base md:text-lg text-blue-200/70 max-w-2xl mx-auto">Discover, analyze, verify, and acquire AI-ready datasets powered by semantic intelligence and real-time trust scoring.</p>
+                <p class="text-base md:text-lg text-blue-200/70 max-w-2xl mx-auto">Build the world's most trusted AI training datasets. Earn rewards directly to your node wallet.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button onclick="showModal('register-modal')" class="btn-gold px-10 py-4 rounded-xl text-lg font-bold text-blue-900">🚀 Start Earning</button>
-                    <button onclick="showPage('marketplace')" class="glass px-10 py-4 rounded-xl text-lg font-bold">🔍 Explore Marketplace</button>
+                    <button onclick="showModal('register-modal')" class="btn-gold px-10 py-4 rounded-xl text-lg font-bold">🚀 Start Contributing</button>
+                    <button onclick="showPage('marketplace')" class="glass px-10 py-4 rounded-xl text-lg font-bold">🔍 Marketplace</button>
                 </div>
             </div>
 
-            <div id="economy-stats" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                <div class="glass p-6 md:p-8 text-center gold-glow">
-                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Total Datasets</p>
-                    <h3 id="stat-datasets" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
+            <div id="economy-stats" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="glass p-8 text-center bg-gradient-to-b from-yellow-400/5 to-transparent border-yellow-400/10">
+                    <p class="text-[10px] uppercase font-bold opacity-40 mb-2">Total Datasets</p>
+                    <h3 id="stat-datasets" class="text-4xl font-bold text-yellow-400">0</h3>
                 </div>
-                <div class="glass p-6 md:p-8 text-center gold-glow">
-                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Circulating Supply</p>
-                    <h3 id="stat-tokens" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
+                <div class="glass p-8 text-center bg-gradient-to-b from-yellow-400/5 to-transparent border-yellow-400/10">
+                    <p class="text-[10px] uppercase font-bold opacity-40 mb-2">Circulating Supply</p>
+                    <h3 id="stat-supply" class="text-4xl font-bold text-yellow-400">0.00</h3>
                 </div>
-                <div class="glass p-6 md:p-8 text-center gold-glow sm:col-span-2 md:col-span-1">
-                    <p class="text-xs uppercase opacity-50 font-bold tracking-widest mb-2">Active Users</p>
-                    <h3 id="stat-users" class="text-3xl md:text-4xl font-bold text-yellow-400">0</h3>
+                <div class="glass p-8 text-center bg-gradient-to-b from-yellow-400/5 to-transparent border-yellow-400/10">
+                    <p class="text-[10px] uppercase font-bold opacity-40 mb-2">Global Nodes</p>
+                    <h3 id="stat-users" class="text-4xl font-bold text-yellow-400">0</h3>
                 </div>
             </div>
-
-            <!-- Sourcing Data -->
-            <section class="space-y-12">
-                <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold">How to <span class="text-yellow-400">Source</span> Data</h2>
-                    <p class="text-blue-200/60 mt-3">Where can you find valuable datasets to contribute?</p>
+            
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="glass p-8 space-y-6">
+                    <h2 class="text-2xl font-bold text-yellow-400">Where to Source Data?</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4"><div class="w-6 h-6 rounded bg-yellow-400/10 flex items-center justify-center shrink-0 text-yellow-400 text-[10px] font-bold">01</div><p class="text-sm"><strong>Public Archives:</strong> Curate and structure data from open government portals or research census logs.</p></li>
+                        <li class="flex items-start gap-4"><div class="w-6 h-6 rounded bg-yellow-400/10 flex items-center justify-center shrink-0 text-yellow-400 text-[10px] font-bold">02</div><p class="text-sm"><strong>IoT Streams:</strong> Connect sensor logs from home automation or environmental monitors.</p></li>
+                        <li class="flex items-start gap-4"><div class="w-6 h-6 rounded bg-yellow-400/10 flex items-center justify-center shrink-0 text-yellow-400 text-[10px] font-bold">03</div><p class="text-sm"><strong>Pro Experience:</strong> Package anonymized industry trends or retail logs.</p></li>
+                    </ul>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
-                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">🏛️</div>
-                        <h3 class="text-xl font-bold text-yellow-400">Public Registries</h3>
-                        <p class="text-sm opacity-60 leading-relaxed">Clean and curate data from open government portals, university research repositories, or non-profit data archives. Quality curation is key.</p>
-                    </div>
-                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
-                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">📡</div>
-                        <h3 class="text-xl font-bold text-yellow-400">IoT & Edge Streams</h3>
-                        <p class="text-sm opacity-60 leading-relaxed">Connect your smart devices or sensor networks. Real-time environmental, mobility, or structural health data is highly valued by AI firms.</p>
-                    </div>
-                    <div class="glass p-8 space-y-4 border-l-2 border-yellow-400/50">
-                        <div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center text-2xl">✍️</div>
-                        <h3 class="text-xl font-bold text-yellow-400">Personal Archives</h3>
-                        <p class="text-sm opacity-60 leading-relaxed">Anonymize and package your own logs, retail history, or specialized professional observations into structured, ethical formats.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contributor Walkthrough -->
-            <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-8">
-                    <h2 class="text-3xl md:text-5xl font-bold leading-tight">Uploading to the <span class="text-yellow-400">Data Mesh</span></h2>
-                    <p class="text-blue-200/60">Follow these four simple steps to turn your raw data into DTC tokens.</p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">1</div>
-                            <div>
-                                <h4 class="font-bold">Format Your Data</h4>
-                                <p class="text-xs opacity-50 mt-1">Ensure your dataset is in .CSV or .JSON format with clear, consistent headers for AI analysis.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">2</div>
-                            <div>
-                                <h4 class="font-bold">Access Dashboard</h4>
-                                <p class="text-xs opacity-50 mt-1">Go to your Dashboard and navigate to 'New Contribution'. Fill in the metadata to help buyers find your data.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">3</div>
-                            <div>
-                                <h4 class="font-bold">Mint on Network</h4>
-                                <p class="text-xs opacity-50 mt-1">Upload your file. DTC AI will instantly verify quality, assign a Trust Score, and mint the asset.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-bold text-yellow-400 text-sm">4</div>
-                            <div>
-                                <h4 class="font-bold">Collect DTC Tokens</h4>
-                                <p class="text-xs opacity-50 mt-1">Earn tokens immediately upon validation and receive recurring licensing fees whenever companies acquire your data.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass p-2 bg-gradient-to-br from-yellow-400/20 to-transparent">
-                    <div class="glass bg-[#0A192F] p-6 space-y-4 rounded-xl border-white/5">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
-                        <div class="p-8 border-2 border-dashed border-white/10 rounded-xl text-center space-y-4">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-yellow-400/40"></i>
-                            <p class="text-xs font-mono opacity-40 uppercase">Drag and drop dataset (.CSV, .JSON)</p>
-                            <div class="h-2 bg-yellow-400/20 rounded-full w-3/4 mx-auto overflow-hidden">
-                                <div class="h-full bg-yellow-400 w-2/3 animate-pulse"></div>
-                            </div>
-                            <p class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">Neural Mapping: Active</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Company Buying Process -->
-            <section class="space-y-12">
-                <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold">Enterprise <span class="text-yellow-400">Data Acquisition</span></h2>
-                    <p class="text-blue-200/60 mt-3">How AI companies integrate DTC data into their training pipelines.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="glass p-6 space-y-4 bg-white/5">
-                        <h4 class="font-bold text-yellow-400 text-sm uppercase">1. Discover</h4>
-                        <p class="text-xs opacity-60">Use the AI Semantic Search to find niche datasets that match your specific model requirements.</p>
-                    </div>
-                    <div class="glass p-6 space-y-4 bg-white/5">
-                        <h4 class="font-bold text-yellow-400 text-sm uppercase">2. Intelligence Preview</h4>
-                        <p class="text-xs opacity-60">Review AI-generated insights, trust scores, and structural analysis before spending credits.</p>
-                    </div>
-                    <div class="glass p-6 space-y-4 bg-white/5">
-                        <h4 class="font-bold text-yellow-400 text-sm uppercase">3. Secure Purchase</h4>
-                        <p class="text-xs opacity-60">Convert USD to DTC credits and license the dataset. Ownership is verified instantly on-chain.</p>
-                    </div>
-                    <div class="glass p-6 space-y-4 bg-white/5">
-                        <h4 class="font-bold text-yellow-400 text-sm uppercase">4. Direct Integration</h4>
-                        <p class="text-xs opacity-60">Download the clean dataset or connect via Secure API to stream data directly into your ML workspace.</p>
+                <div class="glass p-8 space-y-6">
+                    <h2 class="text-2xl font-bold text-blue-400">How to Upload?</h2>
+                    <div class="space-y-4">
+                        <div class="flex gap-4"><div class="w-6 h-6 border border-white/20 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold">1</div><p class="text-xs italic">Format data into a .CSV or .JSON structure.</p></div>
+                        <div class="flex gap-4"><div class="w-6 h-6 border border-white/20 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold">2</div><p class="text-xs italic">Go to 'Dashboard' & select 'New Contribution'.</p></div>
+                        <div class="flex gap-4"><div class="w-6 h-6 border border-white/20 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold">3</div><p class="text-xs italic">Submit for Neural Mapping and earn DTC tokens.</p></div>
                     </div>
                 </div>
             </section>
         </section>
 
-        <!-- Page: Marketplace -->
-        <section id="page-marketplace" class="tab-content space-y-12">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold">Marketplace</h2>
-                    <p class="text-blue-200/60">Discover and acquire premium datasets</p>
-                </div>
-                <div class="w-full md:w-auto">
-                    <input type="text" id="marketplace-search" placeholder="Quick keyword search..." class="w-full glass bg-white/5 px-4 py-3 rounded-xl outline-none border-white/10 focus:border-yellow-400">
-                </div>
-            </div>
-
-            <!-- AI CHAT ASSISTANT SECTION -->
-            <div class="glass p-6 border border-yellow-400/20 bg-gradient-to-r from-yellow-400/5 to-transparent">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-yellow-400 text-blue-900 flex items-center justify-center font-bold shadow-lg">AI</div>
-                    <div>
-                        <h3 class="font-bold text-yellow-400">DTC AI Assistant</h3>
-                        <p class="text-xs opacity-50">Ask AI to discover or analyze datasets</p>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input id="ai-chat-input" placeholder="Find datasets for fraud detection..." class="flex-1 glass bg-white/5 px-4 py-3 rounded-xl outline-none border-white/10 focus:border-yellow-400">
-                    <button onclick="askAI()" class="btn-gold px-6 py-3 rounded-xl font-bold text-blue-900">Ask AI Assistant</button>
-                </div>
-                <div id="ai-chat-response" class="mt-4 text-sm opacity-80 max-h-60 overflow-auto panel-scroll"></div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                <!-- Side Sidebar -->
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="glass p-6 space-y-4">
-                        <h3 class="font-bold text-yellow-400 flex items-center text-sm uppercase tracking-widest">
-                            <i class="fas fa-chart-line mr-2"></i> Trending Datasets
-                        </h3>
-                        <div id="ai-recommendations" class="space-y-4 text-sm">
-                            <div class="flex items-center justify-center p-4"><div class="loader"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dataset Grid -->
-                <div id="marketplace-grid" class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <!-- Cards injected here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Page: Leaderboard -->
-        <section id="page-leaderboard" class="tab-content space-y-12">
-            <div class="text-center">
-                <h2 class="text-3xl md:text-4xl font-bold">Ecosystem Ranking</h2>
-                <p class="text-blue-200/60">Top contributors and participants</p>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="glass p-6"><h3 class="text-lg font-bold mb-6 text-yellow-400 uppercase text-xs tracking-widest">Contributors</h3><div id="lb-contributors" class="space-y-4"></div></div>
-                <div class="glass p-6"><h3 class="text-lg font-bold mb-6 text-yellow-400 uppercase text-xs tracking-widest">Most Valued</h3><div id="lb-datasets" class="space-y-4"></div></div>
-                <div class="glass p-6"><h3 class="text-lg font-bold mb-6 text-yellow-400 uppercase text-xs tracking-widest">Top Buyers</h3><div id="lb-buyers" class="space-y-4"></div></div>
-                <div class="glass p-6"><h3 class="text-lg font-bold mb-6 text-yellow-400 uppercase text-xs tracking-widest">Top Referrers</h3><div id="lb-referrals" class="space-y-4"></div></div>
-            </div>
-        </section>
-
-        <!-- Page: Dashboard -->
+        <!-- Dashboard Page -->
         <section id="page-dashboard" class="tab-content space-y-12">
             <div id="dashboard-header" class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold">Welcome, <span id="dash-username">User</span></h2>
-                    <p class="text-blue-200/60">Portal: <span id="dash-role" class="text-yellow-400 font-bold uppercase tracking-wider text-xs">Contributor</span></p>
+                    <h2 class="text-3xl md:text-4xl font-bold">Node: <span id="dash-username" class="text-yellow-400">Explorer</span></h2>
+                    <p class="text-xs font-bold uppercase tracking-widest opacity-40 mt-1">Status: <span class="text-green-400">Synchronized</span></p>
+                    <div id="referral-box" class="mt-4 bg-white/5 border border-white/10 p-2 rounded-lg flex items-center space-x-4 max-w-sm">
+                        <span id="ref-code-display" class="text-[10px] font-mono text-blue-300 truncate">---</span>
+                        <button onclick="copyRefLink()" class="text-[10px] font-bold text-yellow-400 uppercase shrink-0 hover:text-white">Copy Link</button>
+                    </div>
                 </div>
-                <div class="glass px-6 py-4 flex flex-col space-y-4 w-full md:w-auto min-w-[280px]">
-                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                        <span class="text-xs opacity-60 font-bold uppercase">Upload Rewards</span>
-                        <span id="dash-balance-upload" class="text-xl font-bold text-yellow-400">0.00 DTC</span>
+                <div class="grid grid-cols-2 gap-4 w-full md:w-auto">
+                    <div class="glass px-6 py-4 flex flex-col justify-center min-w-[160px] border-yellow-400/20">
+                        <span class="text-[9px] font-bold opacity-40 uppercase tracking-tighter">Upload Rewards</span>
+                        <div class="flex items-end justify-between mt-1">
+                            <span id="dash-upload-balance" class="text-lg font-bold text-yellow-400">0.00 DTC</span>
+                            <button onclick="withdrawAlert()" class="text-[8px] uppercase font-bold text-white/40 hover:text-yellow-400 transition ml-2">Withdraw</button>
+                        </div>
                     </div>
-                    <div class="flex justify-between items-center pb-2">
-                        <span class="text-xs opacity-60 font-bold uppercase">Referral Earnings</span>
-                        <span id="dash-balance-ref" class="text-xl font-bold text-green-400">0.00 DTC</span>
-                    </div>
-                    <div id="referral-section" class="bg-black/20 p-3 rounded-lg border border-yellow-400/10">
-                        <p class="text-[10px] uppercase font-bold opacity-40 mb-1">Your Referral Link</p>
-                        <div class="flex items-center space-x-2">
-                            <input id="ref-link" readonly class="bg-transparent text-[10px] w-full outline-none text-blue-200">
-                            <button onclick="copyReferral()" class="text-yellow-400 text-[10px] font-bold uppercase hover:text-white transition">Copy</button>
+                    <div class="glass px-6 py-4 flex flex-col justify-center min-w-[160px] border-green-400/20">
+                        <span class="text-[9px] font-bold opacity-40 uppercase tracking-tighter">Referral Earnings</span>
+                        <div class="flex items-end justify-between mt-1">
+                            <span id="dash-ref-balance" class="text-lg font-bold text-green-400">0.00 DTC</span>
+                            <button onclick="withdrawAlert()" class="text-[8px] uppercase font-bold text-white/40 hover:text-green-400 transition ml-2">Withdraw</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Role Section -->
+            <!-- Dashboard Modules -->
             <div id="role-user-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 glass p-6 space-y-6 h-fit">
-                    <h3 class="text-xl font-bold">New Contribution</h3>
+                    <h3 class="text-xl font-bold">Mint New Dataset</h3>
                     <form id="upload-form" class="space-y-4">
-                        <input type="text" id="up-title" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400" placeholder="Dataset Title">
-                        <select id="up-category" class="w-full p-3 rounded-lg bg-[#0A192F] text-white border border-white/10 outline-none focus:border-yellow-400">
-                            <option value="retail">Retail/E-commerce</option>
-                            <option value="health">Health & Wellness</option>
+                        <input type="text" id="up-title" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400 text-sm" placeholder="Dataset Title">
+                        <select id="up-category" class="w-full p-3 rounded-lg bg-[#0A192F] text-sm border border-white/10 outline-none text-white">
+                            <option value="retail">Retail/Commerce</option>
+                            <option value="health">Health & Science</option>
                             <option value="finance">Finance</option>
-                            <option value="social">Social Interaction</option>
+                            <option value="gaming">Gaming & Esports</option>
                         </select>
-                        <textarea id="up-desc" required rows="3" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400" placeholder="Describe the data content..."></textarea>
-                        <div class="p-4 border-2 border-dashed border-white/10 rounded-xl text-center">
-                            <input type="file" id="up-file" accept=".csv, .json" class="w-full text-xs text-blue-200/60 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-white/10 file:text-white cursor-pointer">
+                        <textarea id="up-desc" required rows="3" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400 text-sm" placeholder="Dataset Context..."></textarea>
+                        <div class="border-2 border-dashed border-white/10 p-4 rounded-xl text-center">
+                            <input type="file" id="up-file" required class="w-full text-[10px] text-blue-200/60 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-white/10 file:text-white">
                         </div>
-                        <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900">Mint & Upload</button>
+                        <button type="submit" id="upload-submit-btn" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900 uppercase tracking-widest text-xs">Start Neural Mapping</button>
                     </form>
                 </div>
-                <div class="lg:col-span-2 glass p-6 overflow-x-auto">
-                    <h3 class="text-xl font-bold mb-6 text-left">Your Datasets</h3>
-                    <table class="w-full text-left min-w-[500px]">
-                        <thead>
-                            <tr class="text-[10px] uppercase font-bold opacity-50 border-b border-white/10">
-                                <th class="pb-4">DATASET</th><th class="pb-4">QUALITY</th><th class="pb-4">EARNINGS</th><th class="pb-4 text-right pr-4">ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="user-datasets-table"></tbody>
-                    </table>
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass p-6 overflow-x-auto">
+                        <h3 class="text-xl font-bold mb-6">Contributed Intelligence</h3>
+                        <table class="w-full text-left min-w-[500px]">
+                            <thead>
+                                <tr class="text-[10px] uppercase font-bold opacity-40 border-b border-white/10">
+                                    <th class="pb-4">Dataset</th><th class="pb-4">Quality</th><th class="pb-4">Reward</th><th class="pb-4 text-right pr-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-datasets-table"></tbody>
+                        </table>
+                    </div>
+                    <div class="glass p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border-r border-white/10 pr-4">
+                            <p class="text-[9px] uppercase font-bold opacity-40">Invited Users</p>
+                            <h4 id="ref-stat-count" class="text-2xl font-bold text-blue-400">0</h4>
+                        </div>
+                        <div class="border-r border-white/10 pr-4">
+                            <p class="text-[9px] uppercase font-bold opacity-40">Referral Multiplier</p>
+                            <h4 class="text-2xl font-bold text-green-400">1.15x</h4>
+                        </div>
+                        <div>
+                            <p class="text-[9px] uppercase font-bold opacity-40">Current Rank</p>
+                            <h4 id="ref-stat-rank" class="text-2xl font-bold text-yellow-400">#---</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="role-company-section" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 glass p-6 space-y-6">
-                    <h3 class="text-xl font-bold">Add Liquidity</h3>
-                    <input type="number" id="pay-amount" placeholder="USD Amount" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                    <button onclick="requestPayment()" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900">Get DTC Credits</button>
+                    <h3 class="text-xl font-bold">Add Node Credits</h3>
+                    <input type="number" id="pay-amount" placeholder="USD Amount" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none text-sm text-white">
+                    <button onclick="requestPayment()" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900 uppercase">Acquire Credits</button>
                 </div>
                 <div class="lg:col-span-2 glass p-6 overflow-x-auto">
-                    <h3 class="text-xl font-bold mb-6">Purchase History</h3>
+                    <h3 class="text-xl font-bold mb-6">Licensed AI Assets</h3>
                     <table class="w-full text-left min-w-[500px]">
                         <thead>
-                            <tr class="text-[10px] uppercase font-bold opacity-50 border-b border-white/10">
-                                <th class="pb-4">DATASET</th><th class="pb-4">DATE</th><th class="pb-4">PRICE</th><th class="pb-4">ACTION</th>
+                            <tr class="text-[10px] uppercase font-bold opacity-40 border-b border-white/10">
+                                <th class="pb-4">Dataset</th><th class="pb-4">Status</th><th class="pb-4 text-right pr-4">Access</th>
                             </tr>
                         </thead>
                         <tbody id="company-purchases-table"></tbody>
@@ -544,160 +208,106 @@
                 </div>
             </div>
         </section>
+
+        <!-- Marketplace Page -->
+        <section id="page-marketplace" class="tab-content space-y-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold">Marketplace</h2>
+                    <p class="text-blue-200/60">Institutional-grade datasets for AI training</p>
+                </div>
+                <div class="w-full md:w-auto">
+                    <input type="text" id="marketplace-search" oninput="filterMarketplace()" placeholder="Search datasets..." class="w-full glass bg-white/5 px-6 py-4 rounded-xl outline-none focus:border-yellow-400">
+                </div>
+            </div>
+            <div id="marketplace-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- Leaderboard Page -->
+        <section id="page-leaderboard" class="tab-content space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold">Network Reputation</h2>
+                <p class="text-blue-200/60">Real-time rankings across the DTC Ecosystem.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass p-6"><h3 class="font-bold mb-6 text-yellow-400 text-xs tracking-widest uppercase">Contributors</h3><div id="lb-contributors" class="space-y-4"></div></div>
+                <div class="glass p-6"><h3 class="font-bold mb-6 text-yellow-400 text-xs tracking-widest uppercase">Referrals</h3><div id="lb-referrals" class="space-y-4"></div></div>
+                <div class="glass p-6"><h3 class="font-bold mb-6 text-yellow-400 text-xs tracking-widest uppercase">Creators</h3><div id="lb-creators" class="space-y-4"></div></div>
+                <div class="glass p-6"><h3 class="font-bold mb-6 text-yellow-400 text-xs tracking-widest uppercase">Power Users</h3><div id="lb-power-users" class="space-y-4"></div></div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-24 border-t border-white/10 bg-black/40">
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div class="col-span-1 md:col-span-1 space-y-6">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded flex items-center justify-center font-bold text-blue-900">D</div>
-                        <span class="text-xl font-bold">DataTrust<span class="text-yellow-400">Coin</span></span>
-                    </div>
-                    <p class="text-xs opacity-50 leading-relaxed">
-                        The world's first AI-native data liquidity protocol. Empowering individuals to monetize intelligence and enterprises to build better models.
-                    </p>
-                    <div class="flex space-x-4 opacity-40">
-                        <i class="fab fa-twitter hover:text-yellow-400 cursor-pointer transition"></i>
-                        <i class="fab fa-discord hover:text-yellow-400 cursor-pointer transition"></i>
-                        <i class="fab fa-github hover:text-yellow-400 cursor-pointer transition"></i>
-                        <i class="fab fa-telegram hover:text-yellow-400 cursor-pointer transition"></i>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Platform</h4>
-                    <ul class="space-y-4 text-xs opacity-60">
-                        <li class="hover:text-yellow-400 cursor-pointer transition" onclick="showPage('marketplace')">Marketplace</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition" onclick="showPage('leaderboard')">Leaderboard</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">AI Insight API</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Data Governance</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Resources</h4>
-                    <ul class="space-y-4 text-xs opacity-60">
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Whitepaper</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Developer Docs</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">API Reference</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Tokenomics</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-6">Support</h4>
-                    <ul class="space-y-4 text-xs opacity-60">
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Help Center</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Community Discord</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Status Page</li>
-                        <li class="hover:text-yellow-400 cursor-pointer transition">Contact Sales</li>
-                    </ul>
-                </div>
+    <footer class="mt-24 border-t border-white/5 py-12 px-4 glass">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 bg-yellow-400 rounded flex items-center justify-center font-bold text-blue-900 text-xs">D</div>
+                <span class="text-sm font-bold uppercase tracking-widest">DataTrustCoin</span>
             </div>
-            <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-[10px] opacity-40 uppercase tracking-widest">© 2026 DataTrustCoin Protocol. All rights reserved.</p>
-                <div class="flex space-x-8 text-[10px] opacity-40 uppercase tracking-widest">
-                    <span class="hover:text-yellow-400 cursor-pointer transition">Privacy Policy</span>
-                    <span class="hover:text-yellow-400 cursor-pointer transition">Terms of Service</span>
-                    <span class="hover:text-yellow-400 cursor-pointer transition">Cookie Policy</span>
-                </div>
+            <div class="flex gap-8 text-[10px] font-bold uppercase opacity-40">
+                <a href="#" class="hover:text-yellow-400">Status</a>
+                <a href="#" class="hover:text-yellow-400">Docs</a>
+                <a href="#" class="hover:text-yellow-400">Whitepaper</a>
+                <a href="#" class="hover:text-yellow-400">Privacy</a>
             </div>
+            <p class="text-[10px] opacity-20">© 2026 DTC CORE. ALL RIGHTS RESERVED.</p>
         </div>
     </footer>
 
-    <!-- Preview Modal -->
-    <div id="preview-modal" class="hidden fixed inset-0 bg-black/90 z-[250] flex items-center justify-center p-2 md:p-4">
-        <div class="bg-[#0A192F] w-full max-w-6xl h-full max-h-[95vh] md:max-h-[90vh] rounded-2xl shadow-2xl border border-yellow-400/20 flex flex-col md:flex-row overflow-hidden relative">
-            <button onclick="closePreview()" class="absolute top-4 right-4 z-[260] w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-yellow-400 border border-yellow-400/10">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="w-full md:w-80 border-b md:border-b-0 md:border-r border-yellow-400/10 p-4 md:p-6 bg-white/5 flex flex-col space-y-6 overflow-y-auto panel-scroll shrink-0">
-                <h2 class="text-xl font-bold text-yellow-400">AI Insights</h2>
-                <div id="ai-insight-panel" class="space-y-6"></div>
-                <div class="mt-auto pt-6 border-t border-white/10 space-y-3">
-                    <button id="preview-buy-btn" class="w-full bg-yellow-400 text-blue-900 py-3 rounded-xl font-bold hover:scale-105 transition">Unlock Full Access</button>
-                    <button onclick="closePreview()" class="w-full py-3 rounded-xl border border-white/10 text-xs font-bold hover:bg-white/5 transition">Close Intelligence Portal</button>
-                </div>
+    <!-- Modals -->
+    <div id="preview-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass p-8 w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col relative border-yellow-400/20">
+            <button onclick="hideModal('preview-modal')" class="absolute top-4 right-4 text-white/40 hover:text-white"><i class="fas fa-times"></i></button>
+            <h2 id="modal-title" class="text-2xl font-bold mb-2">Dataset Intelligence Portal</h2>
+            <div id="modal-meta" class="flex flex-wrap gap-4 text-[10px] opacity-40 font-mono mb-6 uppercase tracking-wider"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-hidden">
+                <div id="modal-insights" class="lg:col-span-1 space-y-4 overflow-y-auto pr-2"></div>
+                <div id="modal-table-container" class="lg:col-span-2 overflow-auto bg-black/20 rounded-xl p-4 border border-white/5"></div>
             </div>
-            <div class="flex-1 flex flex-col min-h-0 bg-black/20 overflow-hidden">
-                <div class="p-4 md:p-6 border-b border-yellow-400/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <h3 id="preview-title" class="font-bold text-lg truncate text-yellow-400">Dataset Analysis</h3>
-                    <div id="preview-meta" class="flex space-x-4 md:space-x-6 text-[10px] font-mono"></div>
-                </div>
-                <div id="preview-content" class="flex-1 p-4 md:p-6 overflow-auto panel-scroll"></div>
+            <div class="mt-6 flex justify-end gap-4 border-t border-white/5 pt-4">
+                <button id="modal-buy-btn" class="btn-gold px-8 py-3 rounded-xl text-xs uppercase font-bold">License Intelligence</button>
+                <button onclick="hideModal('preview-modal')" class="glass px-8 py-3 rounded-xl text-xs uppercase font-bold">Close Portal</button>
             </div>
         </div>
     </div>
 
-    <!-- Modals: Auth -->
-    <div id="login-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
-        <div class="glass p-8 w-full max-w-md space-y-6 relative">
-            <button onclick="hideModal('login-modal')" class="absolute top-4 right-4 text-blue-200/40 hover:text-white"><i class="fas fa-times"></i></button>
-            <h2 class="text-2xl font-bold">Login</h2>
+    <!-- Auth Modals -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div class="glass p-8 w-full max-w-md space-y-6 relative border-yellow-400/20">
+            <button onclick="hideModal('login-modal')" class="absolute top-4 right-4 text-white/40"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold text-center">Node Auth</h2>
             <form id="login-form" class="space-y-4">
-                <input type="email" id="login-email" placeholder="Email" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <input type="password" id="login-password" placeholder="Password" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900">Authorize Access</button>
+                <input type="email" id="login-email" placeholder="Email" required class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <input type="password" id="login-password" placeholder="Password" required class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <button type="submit" id="login-submit-btn" class="w-full btn-gold py-4 rounded-xl font-bold uppercase text-blue-900">Authorize Node</button>
             </form>
         </div>
     </div>
 
-    <div id="register-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4 bg-blue-950/80 backdrop-blur-sm">
-        <div class="glass p-8 w-full max-w-md space-y-6 relative">
-            <button onclick="hideModal('register-modal')" class="absolute top-4 right-4 text-blue-200/40 hover:text-white"><i class="fas fa-times"></i></button>
-            <h2 class="text-2xl font-bold">Join DTC Network</h2>
+    <div id="register-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div class="glass p-8 w-full max-w-md space-y-6 relative border-yellow-400/20">
+            <button onclick="hideModal('register-modal')" class="absolute top-4 right-4 text-white/40"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold text-center">New Registry</h2>
             <form id="register-form" class="space-y-4">
-                <input type="text" id="reg-name" placeholder="Username" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <input type="email" id="reg-email" placeholder="Email Address" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <select id="reg-role" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400 text-white">
+                <input type="text" id="reg-name" placeholder="Username" required class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <input type="email" id="reg-email" placeholder="Email" required class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <select id="reg-role" class="w-full glass bg-[#0A192F] p-4 rounded-xl outline-none border border-white/10 text-white">
                     <option value="user">Data Contributor</option>
                     <option value="company">AI Enterprise</option>
                 </select>
-                <input type="text" id="reg-referral" placeholder="Referral Code (Optional)" class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <input type="password" id="reg-password" placeholder="Create Password" required class="w-full glass bg-white/5 p-3 rounded-lg border-white/10 outline-none focus:border-yellow-400">
-                <button type="submit" class="w-full btn-gold py-4 rounded-xl font-bold text-blue-900">Create Account</button>
+                <input type="text" id="reg-referral" placeholder="Referral Code (Optional)" class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <input type="password" id="reg-password" placeholder="Password" required class="w-full glass bg-white/5 p-4 rounded-xl outline-none border border-white/10 focus:border-yellow-400">
+                <button type="submit" id="reg-submit-btn" class="w-full btn-gold py-4 rounded-xl font-bold uppercase text-blue-900">Initialize Registry</button>
             </form>
         </div>
     </div>
 
-    <!-- Notifications -->
-    <div id="notification-area" class="fixed bottom-6 right-6 z-[300] flex flex-col space-y-2"></div>
+    <div id="notification-area" class="fixed bottom-6 right-6 z-[2000] flex flex-col space-y-2"></div>
 
     <script>
         const API_BASE = 'https://dtc-backend-850680134439.us-central1.run.app/api';
         let user = null;
-
-        /** UI Helpers */
-        function toggleMobileMenu(show) { document.getElementById('mobile-menu').classList.toggle('active', show); }
-        function showPage(pageId) {
-            toggleMobileMenu(false);
-            document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(`page-${pageId}`).classList.add('active');
-            window.scrollTo(0,0);
-            if(pageId === 'marketplace') fetchMarketplace();
-            if(pageId === 'leaderboard') fetchLeaderboards();
-            if(pageId === 'dashboard') fetchDashboardData();
-            if(pageId === 'home') fetchEconomyStats();
-        }
-        function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
-        function notify(msg, type = 'info') {
-            const area = document.getElementById('notification-area');
-            const alert = document.createElement('div');
-            const bg = type === 'error' ? 'bg-red-900/90 border-red-500' : (type === 'success' ? 'bg-green-900/90 border-green-500' : 'bg-blue-900/90 border-blue-500');
-            alert.className = `glass ${bg} border p-4 rounded-xl text-xs font-bold animate-bounce-in min-w-[250px] shadow-xl`;
-            alert.innerText = msg;
-            area.appendChild(alert);
-            setTimeout(() => alert.remove(), 4000);
-        }
-
-        function copyReferral() {
-            const copyText = document.getElementById("ref-link");
-            if (!copyText) return;
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            document.execCommand("copy");
-            notify("Referral link copied to network clipboard.", "success");
-        }
+        let marketplaceData = [];
 
         async function apiCall(endpoint, method = 'GET', body = null) {
             const token = localStorage.getItem('token');
@@ -707,218 +317,356 @@
                 headers['Content-Type'] = 'application/json';
                 options.body = JSON.stringify(body);
             } else if (body instanceof FormData) options.body = body;
-
             try {
                 const res = await fetch(`${API_BASE}${endpoint}`, options);
-                if (!res.ok) {
-                    const errorData = await res.json().catch(() => ({}));
-                    throw new Error(errorData.detail || errorData.message || `Network error: ${res.status}`);
+                
+                if (res.status === 401) {
+                    logout();
+                    return null;
                 }
-                return await res.json();
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || data.message || `Error ${res.status}`);
+                return data;
             } catch (err) {
-                console.error("API Call Error:", err);
-                // Graceful handling for 'NoneType' or internal backend errors
-                if (err.message.includes("NoneType") || err.message.includes("500")) {
-                    notify("Backend logic error detected. The server encountered a null reference.", "error");
-                } else {
-                    notify(err.message, "error");
-                }
+                notify(err.message, "error");
                 return null;
             }
         }
 
-        async function initApp() {
+        function notify(msg, type = 'info') {
+            const area = document.getElementById('notification-area');
+            const alert = document.createElement('div');
+            const bg = type === 'error' ? 'bg-red-900/90 border-red-500' : (type === 'success' ? 'bg-green-900/90 border-green-500' : 'bg-blue-900/90 border-blue-500');
+            alert.className = `glass ${bg} border p-4 rounded-xl text-xs font-bold min-w-[250px] shadow-xl`;
+            alert.innerText = msg;
+            area.appendChild(alert);
+            setTimeout(() => alert.remove(), 4000);
+        }
+
+        function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function withdrawAlert() { notify("Withdrawals are restricted to Mainnet. Currently in Private Beta.", "info"); }
+
+        async function showPage(id) {
+            document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${id}`)?.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.toggle('active', l.dataset.page === id);
+            });
+            if(id === 'marketplace') fetchMarketplace();
+            if(id === 'dashboard') fetchDashboardData();
+            if(id === 'leaderboard') fetchLeaderboards();
+            if(id === 'home') fetchEconomyStats();
+        }
+
+        async function fetchDashboardData() {
+            if(!user) return;
+            const freshUser = await apiCall('/auth/me');
+            if (freshUser) user = freshUser;
+
+            document.getElementById('dash-upload-balance').innerText = `${(user.tokens_earned || 0).toFixed(2)} DTC`;
+            document.getElementById('dash-ref-balance').innerText = `${(user.referral_earnings || 0).toFixed(2)} DTC`;
+            document.getElementById('ref-code-display').innerText = user.referral_code || user.username;
+
+            const [history, refStats] = await Promise.all([
+                user.is_company ? apiCall('/purchase/my') : apiCall('/users/datasets'),
+                apiCall('/users/referral-stats')
+            ]);
+
+            if (refStats) {
+                document.getElementById('ref-stat-count').innerText = refStats.invited_users || 0;
+                document.getElementById('ref-stat-rank').innerText = `#${refStats.rank || '---'}`;
+            }
+
+            const table = document.getElementById(user.is_company ? 'company-purchases-table' : 'user-datasets-table');
+            if(table) {
+                table.innerHTML = history?.length ? history.map(item => `
+                    <tr class="border-b border-white/5 text-[10px] hover:bg-white/5 transition">
+                        <td class="py-4 font-bold uppercase truncate max-w-[150px] text-white/90">${item.title || item.dataset_title || 'Dataset'}</td>
+                        <td class="py-4 font-mono opacity-60">${user.is_company ? 'LICENSED' : (item.quality_score * 100).toFixed(0) + '% QUALITY'}</td>
+                        <td class="py-4 text-yellow-400 font-bold">${(item.token_reward || 0).toFixed(2)} DTC</td>
+                        <td class="py-4 text-right pr-4">
+                            <div class="flex justify-end gap-2">
+                                <button onclick="previewDataset('${item.id || item.dataset_id}')" class="px-3 py-1 bg-blue-900/40 text-blue-400 border border-blue-400/20 rounded hover:bg-blue-400 hover:text-white transition text-[8px] font-bold">VIEW</button>
+                                ${!user.is_company ? `<button onclick="deleteDataset('${item.id}', this)" class="px-3 py-1 bg-red-900/40 text-red-400 border border-red-500/20 rounded hover:bg-red-400 hover:text-white transition text-[8px] font-bold">DELETE</button>` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-20 text-[10px] uppercase">Node synchronized. Empty registry.</td></tr>';
+            }
+        }
+
+        async function deleteDataset(id, btn) {
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = 'PURGING...';
+            
+            try {
+                const res = await apiCall(`/datasets/${id}`, 'DELETE');
+                if(res) { 
+                    notify(`Dataset removed. ${res.deducted_tokens?.toFixed(2) || 0} DTC adjustment logged.`, "success"); 
+                    await Promise.all([
+                        apiCall('/auth/me').then(u => user = u),
+                        fetchDashboardData(),
+                        fetchEconomyStats(),
+                        fetchMarketplace()
+                    ]);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        async function fetchMarketplace() {
+            const grid = document.getElementById('marketplace-grid');
+            grid.innerHTML = '<div class="loader mx-auto col-span-full my-20"></div>';
+            const res = await apiCall('/marketplace/datasets');
+            marketplaceData = Array.isArray(res) ? res : (res?.datasets || []);
+            renderMarketplace(marketplaceData);
+        }
+
+        function renderMarketplace(list) {
+            const grid = document.getElementById('marketplace-grid');
+            if (list.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-20 text-center glass border-dashed border-white/10 opacity-50">
+                        <i class="fas fa-database text-4xl mb-4 text-blue-400/20"></i>
+                        <p class="text-xs uppercase tracking-widest font-bold">Marketplace Sync Pending</p>
+                        <p class="text-[10px] mt-2 italic">Be the first to contribute intelligence to this cluster.</p>
+                    </div>
+                `;
+                return;
+            }
+            grid.innerHTML = list.map(ds => `
+                <div class="glass p-5 flex flex-col h-full border-white/5 hover:border-yellow-400/50">
+                    <span class="text-[9px] uppercase font-bold text-yellow-400 tracking-widest bg-yellow-400/10 px-2 py-1 rounded w-fit">${ds.category || 'General'}</span>
+                    <h3 class="text-lg font-bold mt-3 truncate uppercase text-white">${ds.title}</h3>
+                    <p class="text-xs opacity-50 line-clamp-2 mt-2 italic leading-relaxed">${ds.description || 'Verified industrial training set.'}</p>
+                    <div class="mt-4 flex justify-between items-center bg-white/5 p-4 rounded-xl">
+                        <div class="flex flex-col"><span class="text-[8px] uppercase opacity-40 font-bold">Price</span><span class="text-sm font-bold text-yellow-400">${ds.price} DTC</span></div>
+                        <div class="flex flex-col text-right"><span class="text-[8px] uppercase opacity-40 font-bold">Schema</span><span class="text-[10px] opacity-60 font-bold">${ds.record_count || 0} ROWS</span></div>
+                    </div>
+                    <div class="mt-auto pt-6 flex gap-2">
+                        <button onclick="previewDataset('${ds.id}')" class="flex-1 bg-yellow-400 text-blue-900 font-bold py-3 rounded-xl text-xs">Preview</button>
+                        <button onclick="purchaseDataset('${ds.id}', this)" class="flex-1 border border-yellow-400/30 text-yellow-400 py-3 rounded-xl text-xs hover:bg-yellow-400/10">License</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function purchaseDataset(id, btn) {
+            if(!user) return notify("Auth required to license assets.", "error");
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = 'LICENSING...';
+            
+            try {
+                const res = await apiCall('/marketplace/purchase', 'POST', { dataset_id: id });
+                if (res) {
+                    notify("Asset licensed. Neural access granted.", "success");
+                    await Promise.all([fetchDashboardData(), fetchEconomyStats()]);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        async function previewDataset(id) {
+            showModal('preview-modal');
+            const insightsEl = document.getElementById('modal-insights');
+            const tableEl = document.getElementById('modal-table-container');
+            const metaEl = document.getElementById('modal-meta');
+            const buyBtn = document.getElementById('modal-buy-btn');
+            
+            insightsEl.innerHTML = '<div class="loader mx-auto my-10 scale-75"></div>';
+            tableEl.innerHTML = '';
+            buyBtn.onclick = () => purchaseDataset(id, buyBtn);
+
+            const [preview, insights] = await Promise.all([
+                apiCall(`/marketplace/datasets/${id}/preview`),
+                apiCall(`/semantic/insights/${id}`).catch(() => null)
+            ]);
+
+            if(preview) {
+                document.getElementById('modal-title').innerText = preview.title || "Neural Data Scan";
+                metaEl.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="bg-white/10 px-2 py-0.5 rounded">ID: ${id.substring(0,8)}</span>
+                        <span class="bg-yellow-400/20 text-yellow-400 px-2 py-0.5 rounded">FIDELITY: ${Math.round(preview.trust_score || 0)}%</span>
+                        <span class="bg-blue-400/20 text-blue-400 px-2 py-0.5 rounded">CONTRIBUTOR: ${preview.contributor || 'ANONYMOUS NODE'}</span>
+                        <span class="bg-purple-400/20 text-purple-400 px-2 py-0.5 rounded">SCHEMA: ${preview.record_count} RECORDS</span>
+                    </div>
+                `;
+                
+                const summary = insights?.insights?.summary || "Fidelity verified. Low noise. Optimized for ML calibration.";
+                insightsEl.innerHTML = `
+                    <div class="glass p-4 border-yellow-400/10 space-y-4">
+                        <h4 class="text-[9px] font-bold text-yellow-400 uppercase tracking-widest">Semantic AI Insight</h4>
+                        <p class="text-xs opacity-70 leading-relaxed">${summary}</p>
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <div class="p-2 bg-white/5 rounded"><span class="text-[8px] opacity-40 block">Quality</span><span class="text-[10px] font-bold">Institutional</span></div>
+                            <div class="p-2 bg-white/5 rounded"><span class="text-[8px] opacity-40 block">Completeness</span><span class="text-[10px] font-bold">98%</span></div>
+                        </div>
+                    </div>
+                    <div class="glass p-4 border-blue-400/10">
+                         <h4 class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Review Aggregator</h4>
+                         <p class="text-[8px] opacity-30 mt-2">No commercial reviews found for this shard.</p>
+                    </div>
+                `;
+
+                if(preview.preview && preview.columns) {
+                    let table = '<table class="w-full text-left text-[10px]"><thead><tr class="opacity-40 uppercase">';
+                    preview.columns.forEach(c => table += `<th class="p-2 border-b border-white/10 whitespace-nowrap">${c.replace(/_/g, ' ')}</th>`);
+                    table += '</tr></thead><tbody>';
+                    preview.preview.forEach(r => {
+                        table += '<tr class="border-b border-white/5 hover:bg-white/5">';
+                        preview.columns.forEach(c => table += `<td class="p-2 opacity-80 whitespace-nowrap">${r[c] || '-'}</td>`);
+                        table += '</tr>';
+                    });
+                    tableEl.innerHTML = table + '</tbody></table>';
+                }
+            }
+        }
+
+        async function fetchEconomyStats() {
+            const stats = await apiCall('/economy/stats');
+            if (stats) {
+                document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
+                document.getElementById('stat-supply').innerText = (stats.circulating_supply || 0).toFixed(2);
+                document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
+            }
+        }
+
+        async function fetchLeaderboards() {
+            const loaders = `<div class="loader mx-auto scale-50"></div>`;
+            ['lb-contributors', 'lb-referrals', 'lb-creators', 'lb-power-users'].forEach(id => { document.getElementById(id).innerHTML = loaders; });
+            const [contrib, refs, creators, power] = await Promise.all([
+                apiCall('/leaderboard/contributors'), apiCall('/leaderboard/referrals'),
+                apiCall('/leaderboard/creators'), apiCall('/leaderboard/power-users')
+            ]);
+            const renderRank = (items, target) => {
+                const el = document.getElementById(target);
+                if (!items || items.length === 0) { el.innerHTML = '<p class="text-[8px] text-center opacity-20 py-4">PENDING DATA</p>'; return; }
+                el.innerHTML = items.map((u, i) => `
+                    <div class="flex items-center justify-between bg-white/5 p-2 rounded text-[10px] border border-white/5">
+                        <span class="opacity-30">#${i+1}</span><span class="font-bold truncate max-w-[80px] uppercase ml-1">${u.username}</span>
+                        <span class="text-yellow-400 font-mono ml-auto">${(u.tokens_earned || u.referral_earnings || u.dataset_count || 0).toFixed(1)}</span>
+                    </div>
+                `).join('');
+            };
+            renderRank(contrib, 'lb-contributors'); renderRank(refs, 'lb-referrals');
+            renderRank(creators, 'lb-creators'); renderRank(power, 'lb-power-users');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = 'AUTHORIZING...';
+            
+            try {
+                const res = await apiCall('/auth/login', 'POST', { email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
+                if(res && res.access_token) { 
+                    localStorage.setItem('token', res.access_token); 
+                    location.reload(); 
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'AUTHORIZE NODE';
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = 'INITIALIZING...';
+
+            const role = document.getElementById('reg-role').value;
+            const payload = { 
+                username: document.getElementById('reg-name').value.trim(), 
+                full_name: document.getElementById('reg-name').value.trim(), // Fix: mapping username to full_name
+                email: document.getElementById('reg-email').value.trim(), 
+                role: role, 
+                referral_code: document.getElementById('reg-referral').value.trim(), 
+                password: document.getElementById('reg-password').value 
+            };
+            
+            try {
+                const endpoint = (role === 'company') ? '/companies/register' : '/auth/register'; 
+                const res = await apiCall(endpoint, 'POST', payload);
+                if (res) { 
+                    notify('Registry successful. Node access granted.', 'success'); 
+                    hideModal('register-modal'); 
+                    showModal('login-modal'); 
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'INITIALIZE REGISTRY';
+            }
+        }
+
+        function copyRefLink() {
+            const link = `${window.location.origin}/?ref=${user.referral_code || user.username}`;
+            const el = document.createElement('textarea');
+            el.value = link; document.body.appendChild(el); el.select();
+            document.execCommand('copy'); document.body.removeChild(el);
+            notify("Referral link copied!", "success");
+        }
+
+        window.onload = async function() {
             const token = localStorage.getItem('token');
             if (token) {
                 const userData = await apiCall('/auth/me');
                 if (userData) {
                     user = userData;
-                    document.getElementById('auth-buttons')?.classList.add('hidden');
-                    document.getElementById('mobile-auth-section')?.classList.add('hidden');
-                    document.getElementById('user-profile-nav')?.classList.remove('hidden');
-                    document.getElementById('mobile-user-section')?.classList.remove('hidden');
-                    if (document.getElementById('nav-username')) document.getElementById('nav-username').innerText = user.username;
-                    if (document.getElementById('dash-username')) document.getElementById('dash-username').innerText = user.username;
-                    if (document.getElementById('dash-role')) document.getElementById('dash-role').innerText = user.is_company ? 'AI Enterprise' : 'Data Contributor';
-                    if (document.getElementById('user-avatar')) document.getElementById('user-avatar').innerText = user.username[0].toUpperCase();
-                    if (document.getElementById('ref-link')) document.getElementById('ref-link').value = `${window.location.origin}/?ref=${user.referral_code || user.username}`;
+                    document.getElementById('auth-buttons').classList.add('hidden');
+                    document.getElementById('user-profile-nav').classList.remove('hidden');
+                    document.getElementById('nav-username').innerText = user.username;
+                    document.getElementById('dash-username').innerText = user.username;
+                    document.getElementById('user-avatar').innerText = user.username[0].toUpperCase();
+                    if (user.is_company) document.getElementById('role-company-section').classList.remove('hidden');
+                    else document.getElementById('role-user-section').classList.remove('hidden');
                     
-                    const companySec = document.getElementById('role-company-section');
-                    const userSec = document.getElementById('role-user-section');
-                    if (user.is_company) {
-                        companySec?.classList.remove('hidden');
-                        userSec?.classList.add('hidden');
-                    } else {
-                        userSec?.classList.remove('hidden');
-                        companySec?.classList.add('hidden');
-                    }
+                    fetchDashboardData();
                 }
             }
             fetchEconomyStats();
-        }
-
-        async function fetchMarketplace() {
-            const grid = document.getElementById('marketplace-grid');
-            if (!grid) return;
-            grid.innerHTML = '<div class="col-span-full py-10 flex justify-center"><div class="loader"></div></div>';
-            const res = await apiCall('/marketplace/datasets');
-            const list = Array.isArray(res) ? res : (res?.datasets || []);
-            grid.innerHTML = list.length ? list.map(ds => `
-                <div class="glass p-5 rounded-2xl hover:border-yellow-400 transition flex flex-col h-full border-white/5">
-                    <span class="text-[9px] uppercase font-bold text-yellow-400 tracking-widest">${ds.category || 'General'}</span>
-                    <h3 class="text-lg font-bold mt-2 truncate text-white uppercase">${ds.title || 'Untitled'}</h3>
-                    <p class="text-xs opacity-60 mt-3 line-clamp-2 italic">${ds.description || 'Verified structural dataset.'}</p>
-                    <div class="mt-4 flex justify-between items-center bg-white/5 p-3 rounded-xl">
-                        <span class="text-sm font-bold text-yellow-400">${ds.price} DTC</span>
-                        <span class="text-[10px] opacity-40 uppercase font-bold">${ds.record_count} Records</span>
-                    </div>
-                    <div class="mt-auto pt-6 flex gap-2">
-                        <button onclick="previewDataset('${ds.id}')" class="flex-1 bg-yellow-400 text-blue-900 font-bold py-3 rounded-xl text-xs">Preview</button>
-                        <button onclick="purchaseDataset('${ds.id}')" class="flex-1 border border-yellow-400/30 text-yellow-400 py-3 rounded-xl text-xs hover:bg-yellow-400/10">Buy</button>
-                    </div>
-                </div>
-            `).join('') : '<p class="col-span-full text-center py-20 opacity-40 uppercase tracking-widest">No Datasets Found</p>';
-        }
-
-        async function fetchDashboardData() {
-            if(!user) return;
-            const wallet = await apiCall('/users/wallet');
-            const history = user.is_company ? await apiCall('/purchase/my') : await apiCall('/users/datasets');
-            
-            if(wallet) {
-                const total = wallet.token_balance || 0;
-                const refPart = user.referral_earnings || (total * 0.1);
-                const uploadPart = total - refPart;
-                if (document.getElementById('dash-balance-upload')) document.getElementById('dash-balance-upload').innerText = `${uploadPart.toFixed(2)} DTC`;
-                if (document.getElementById('dash-balance-ref')) document.getElementById('dash-balance-ref').innerText = `${refPart.toFixed(2)} DTC`;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('ref')) {
+                document.getElementById('reg-referral').value = params.get('ref');
+                notify("Referral cluster detected.", "success");
             }
-            
-            const table = document.getElementById(user.is_company ? 'company-purchases-table' : 'user-datasets-table');
-            if (table) {
-                table.innerHTML = history?.length ? history.map(item => `
-                    <tr class="border-b border-white/5 text-[10px] hover:bg-white/5 transition">
-                        <td class="py-4 font-bold uppercase">${item.title || item.dataset_title || 'Dataset'}</td>
-                        <td class="py-4 font-mono">${user.is_company ? new Date(item.date).toLocaleDateString() : (item.quality_score * 100).toFixed(0) + '% Quality'}</td>
-                        <td class="py-4 text-yellow-400 font-bold">${(item.price || item.token_reward || 0).toFixed(2)} DTC</td>
-                        <td class="py-4 text-right pr-4">
-                            <div class="flex justify-end gap-2">
-                                <button onclick="previewDataset('${item.id}')" class="px-3 py-1 bg-yellow-400 text-blue-900 rounded font-bold hover:scale-105 transition">Preview</button>
-                                ${!user.is_company ? `<button onclick="deleteDataset('${item.id}')" class="px-3 py-1 bg-red-900/40 text-red-400 border border-red-500/20 rounded font-bold hover:bg-red-900 transition">Delete</button>` : ''}
-                            </div>
-                        </td>
-                    </tr>
-                `).join('') : '<tr><td colspan="4" class="py-10 text-center opacity-40 text-xs uppercase tracking-widest">Activity History Empty</td></tr>';
-            }
-        }
+        };
 
-        async function deleteDataset(id) {
-            const res = await apiCall(`/datasets/${id}`, 'DELETE');
-            if(res) {
-                notify("Dataset removed from network indexing.", "success");
-                fetchDashboardData();
-            }
-        }
-
-        async function previewDataset(id) {
-            const modal = document.getElementById("preview-modal");
-            const insightPanel = document.getElementById("ai-insight-panel");
-            const content = document.getElementById("preview-content");
-            const meta = document.getElementById("preview-meta");
-            const titleEl = document.getElementById("preview-title");
-
-            if (!modal || !insightPanel || !content) return;
-
-            modal.classList.remove("hidden");
-            document.body.style.overflow = 'hidden'; 
-            content.innerHTML = '<div class="flex h-full items-center justify-center py-20"><div class="loader"></div></div>';
-            insightPanel.innerHTML = '<div class="loader mx-auto"></div>';
-
-            const [data, insights] = await Promise.all([
-                apiCall(`/marketplace/datasets/${id}/preview`),
-                apiCall(`/semantic/insights/${id}`)
-            ]);
-
-            if(!data) return closePreview();
-
-            titleEl.innerText = data.title || "Dataset Intelligence Mapping";
-            meta.innerHTML = `<span class="opacity-40 uppercase">Records:</span><span>${data.record_count}</span> <span class="opacity-40 uppercase ml-4">Quality:</span><span class="text-yellow-400 font-bold">${Math.round(data.trust_score)}%</span>`;
-
-            const ai = insights?.insights || {};
-            insightPanel.innerHTML = `
-                <div class="space-y-4">
-                    <p class="text-[9px] uppercase font-bold opacity-40 tracking-widest">Network Score</p>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-yellow-400" style="width: ${data.trust_score}%"></div></div>
-                    <p class="text-xs leading-relaxed opacity-80">${ai.summary_analysis?.key_findings || 'Data mapping complete. High fidelity features detected.'}</p>
-                </div>
-            `;
-
-            if(data.preview && data.preview.length > 0) {
-                let tableHtml = '<table class="w-full text-[10px] text-left"><thead><tr class="opacity-40 text-white uppercase">';
-                data.columns.forEach(c => tableHtml += `<th class="p-3 border-b border-white/5">${c}</th>`);
-                tableHtml += '</tr></thead><tbody>';
-                data.preview.forEach(row => {
-                    tableHtml += '<tr class="border-b border-white/5">';
-                    data.columns.forEach(c => tableHtml += `<td class="p-3 opacity-80">${row[c] ?? '-'}</td>`);
-                    tableHtml += '</tr>';
-                });
-                content.innerHTML = tableHtml + '</tbody></table>';
-            } else content.innerHTML = '<p class="text-center py-20 opacity-30 text-xs">Full schema restricted to license owners.</p>';
-        }
-
-        function closePreview() { document.getElementById("preview-modal")?.classList.add("hidden"); document.body.style.overflow = 'auto'; }
-        
-        async function fetchEconomyStats() {
-            const stats = await apiCall('/economy/stats');
-            if (stats) {
-                if (document.getElementById('stat-datasets')) document.getElementById('stat-datasets').innerText = (stats.total_datasets || 0).toLocaleString();
-                if (document.getElementById('stat-tokens')) document.getElementById('stat-tokens').innerText = (stats.circulating_supply || 0).toLocaleString();
-                if (document.getElementById('stat-users')) document.getElementById('stat-users').innerText = (stats.total_users || 0).toLocaleString();
-            }
-        }
-
-        async function fetchLeaderboards() {
-            const [contribs, data, value, referrers] = await Promise.all([
-                apiCall('/leaderboard/contributors'),
-                apiCall('/leaderboard/datasets'),
-                apiCall('/leaderboard/value'),
-                apiCall('/leaderboard/referrals').catch(() => [])
-            ]);
-            const render = (id, items) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.innerHTML = items?.length ? items.map((it, i) => `
-                    <div class="flex justify-between items-center text-[10px] p-2 bg-white/5 rounded border border-white/5">
-                        <span class="opacity-50">#${i+1}</span>
-                        <span class="font-bold flex-1 ml-2 truncate uppercase">${it.username || it.title || 'User'}</span>
-                        <span class="text-yellow-400 font-bold">${(it.tokens_earned || it.price || it.referral_earnings || 0).toFixed(1)}</span>
-                    </div>
-                `).join('') : '<p class="text-[10px] opacity-30 text-center uppercase py-4">Ranking Syncing...</p>';
-            };
-            render('lb-contributors', contribs);
-            render('lb-datasets', data);
-            render('lb-buyers', value);
-            render('lb-referrals', referrers);
-        }
-
-        async function logout() { localStorage.removeItem('token'); location.reload(); }
-
-        window.onload = initApp;
-        
-        document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+        function logout() { localStorage.removeItem('token'); location.reload(); }
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+        document.getElementById('register-form').addEventListener('submit', handleRegister);
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const res = await apiCall('/auth/login', 'POST', { email: document.getElementById('login-email').value, password: document.getElementById('login-password').value });
-            if(res && res.access_token) { localStorage.setItem('token', res.access_token); hideModal('login-modal'); initApp(); }
-        });
-        
-        document.getElementById('upload-form')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append("title", document.getElementById("up-title").value);
-            formData.append("description", document.getElementById("up-desc").value);
-            formData.append("category", document.getElementById("up-category").value);
-            formData.append("file", document.getElementById("up-file").files[0]);
-            const res = await apiCall('/datasets/upload', 'POST', formData);
-            if(res) { notify('Dataset minted and high-fidelity mapping complete.', 'success'); e.target.reset(); fetchDashboardData(); }
+            const btn = document.getElementById('upload-submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = 'MINTING...';
+            
+            try {
+                const formData = new FormData();
+                formData.append("title", document.getElementById("up-title").value);
+                formData.append("description", document.getElementById("up-desc").value);
+                formData.append("category", document.getElementById("up-category").value);
+                formData.append("file", document.getElementById("up-file").files[0]);
+                const res = await apiCall('/datasets/upload', 'POST', formData);
+                if(res) { 
+                    notify('Minting success. Rewards synced.', 'success'); 
+                    e.target.reset(); 
+                    await Promise.all([fetchDashboardData(), fetchEconomyStats(), fetchMarketplace()]);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'START NEURAL MAPPING';
+            }
         });
     </script>
 </body>
